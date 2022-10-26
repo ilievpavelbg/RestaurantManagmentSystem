@@ -28,7 +28,7 @@ namespace RestaurantOrderManagmentSystem.Core.Data
         [Required]
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
-        public Category Category { get; set; } = null!;
+        public Customer Category { get; set; } = null!;
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
 

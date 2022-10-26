@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RestaurantManagmentSystem.Core.Models;
+using RestaurantManagmentSystem.Core.Models.User;
 using RestaurantOrderManagmentSystem.Core.Data;
 
 namespace RestaurantManagmentSystem.Controllers

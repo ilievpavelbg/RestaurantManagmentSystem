@@ -23,8 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Constrains\" />
-    <Folder Include="Contracts\" />
-    <Folder Include="Servises\" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace RestaurantManagmentSystem.Core.Models
+namespace RestaurantManagmentSystem.Core.Models.User
 {
     public class LoginViewModel
     {

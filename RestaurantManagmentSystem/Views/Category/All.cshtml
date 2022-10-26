@@ -1,0 +1,26 @@
+﻿@using RestaurantOrderManagmentSystem.Core.Data
+@model IEnumerable<Category>
+
+
+@{
+    ViewBag.Title = "All Categories";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center row">
+    @foreach (var category in Model)
+    {
+        <div class="card col-4" style="width: 20rem;">
+            <div class="card-body">
+                <h5 class="card-title mt-1">@category.Name</h5>
+            </div>
+
+            <form class="input-group-sm" asp-route-categoryId="@category.Id"   asp-controller="Category" asp-action="AddToCollection" method="post">
+                <input type="submit" value="Mark as Watched" class="fs-6 btn btn-success mb-3 p-2" />
+            </form>
+        </div>
+    }
+</div>
