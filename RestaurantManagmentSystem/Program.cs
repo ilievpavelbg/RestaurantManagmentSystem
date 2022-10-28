@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RestaurantManagmentSystem.Core.Contracts;
+using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Repository;
 using RestaurantManagmentSystem.Core.Repository.Common;
 using RestaurantManagmentSystem.Core.Services;
-using RestaurantOrderManagmentSystem.Core.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +31,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<ICategory, CategoryService>();
 builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<IMenuItem, MenuItemService>();
 
 
 

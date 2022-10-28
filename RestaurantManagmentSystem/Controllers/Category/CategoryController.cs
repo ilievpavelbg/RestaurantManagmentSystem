@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Contracts;
-using RestaurantManagmentSystem.Core.Models.Category;
+using RestaurantManagmentSystem.Core.Models.Categories;
 
 namespace RestaurantManagmentSystem.Controllers.Category
 {
@@ -15,7 +15,7 @@ namespace RestaurantManagmentSystem.Controllers.Category
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("All");
         }
 
         [HttpGet]
@@ -48,7 +48,7 @@ namespace RestaurantManagmentSystem.Controllers.Category
         [HttpGet]
         public IActionResult All()
         {
-            var allCategories = categoryService.GetAllCategoriesAsync();
+            var allCategories = categoryService.GetAllCategories();
 
             return View(allCategories);
         }

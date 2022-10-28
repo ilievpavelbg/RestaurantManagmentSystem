@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using RestaurantOrderManagmentSystem.Core.Data;
+using RestaurantManagmentSystem.Core.Data;
 
 namespace RestaurantManagmentSystem.Core.Repository
 {

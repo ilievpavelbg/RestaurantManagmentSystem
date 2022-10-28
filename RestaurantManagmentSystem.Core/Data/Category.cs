@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RestaurantOrderManagmentSystem.Core.Data
+namespace RestaurantManagmentSystem.Core.Data
 {
     public class Category
     {
@@ -10,6 +10,8 @@ namespace RestaurantOrderManagmentSystem.Core.Data
         [Required]
         [StringLength(50)]
         public string Name { get; set; } = null!;
+
+        public bool IsDeleted { get; set; }
 
         public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
     }

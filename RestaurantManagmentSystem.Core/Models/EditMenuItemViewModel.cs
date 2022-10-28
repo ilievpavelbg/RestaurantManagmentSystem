@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using RestaurantManagmentSystem.Core.Data;
 
-namespace RestaurantManagmentSystem.Core.Models.MenuItem
+
+namespace RestaurantManagmentSystem.Core.Models
 {
-    public class AddMenuItemViewModel
+
+    public class EditMenuItemViewModel
     {
+        public int Id { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 5)]
         public string Name { get; set; } = null!;
@@ -27,7 +26,11 @@ namespace RestaurantManagmentSystem.Core.Models.MenuItem
         [Required]
         public bool ItemsForCooking { get; set; }
 
-        public string Category { get; set; } = null!;
+        public bool IsDeleted { get; set; }
+
+        public int CategoryId { get; set; } 
+
+        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
 
     }
 }

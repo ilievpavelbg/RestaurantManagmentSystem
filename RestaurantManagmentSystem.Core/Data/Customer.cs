@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RestaurantOrderManagmentSystem.Core.Data
+namespace RestaurantManagmentSystem.Core.Data
 {
     public class Customer
     {
@@ -15,6 +15,8 @@ namespace RestaurantOrderManagmentSystem.Core.Data
 
         [StringLength(50)]
         public string? Email { get; set; } = null!;
+
+        public bool IsDeleted { get; set; }
 
         [StringLength(50)]
         public Table? Table { get; set; } = null!;

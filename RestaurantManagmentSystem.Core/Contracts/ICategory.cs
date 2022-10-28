@@ -1,5 +1,5 @@
-﻿using RestaurantManagmentSystem.Core.Models.Category;
-using RestaurantOrderManagmentSystem.Core.Data;
+﻿using RestaurantManagmentSystem.Core.Data;
+using RestaurantManagmentSystem.Core.Models.Categories;
 
 namespace RestaurantManagmentSystem.Core.Contracts
 {
@@ -7,8 +7,7 @@ namespace RestaurantManagmentSystem.Core.Contracts
     {
         Task AddCategoryAsync(CategoryViewModel model);
         bool HasThisEntity(CategoryViewModel model);
-
-        IEnumerable<Category> GetAllCategoriesAsync();
+        IEnumerable<Category> GetAllCategories();
         //Task RemoveCategoryAsync(int Id);
         //Task UpdateCategory(int Id);
     }

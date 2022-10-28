@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RestaurantOrderManagmentSystem.Core.Data
+namespace RestaurantManagmentSystem.Core.Data
 {
     public class Product
     {
@@ -12,7 +12,7 @@ namespace RestaurantOrderManagmentSystem.Core.Data
         public string Name { get; set; } = null!;
 
         [Required]
-        [Range(0,1000)]
+        [Range(0, 1000)]
         public int Quantity { get; set; }
 
         public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();

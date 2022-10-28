@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace RestaurantOrderManagmentSystem.Core.Data
+namespace RestaurantManagmentSystem.Core.Data
 {
     public class Order
     {
@@ -17,6 +17,8 @@ namespace RestaurantOrderManagmentSystem.Core.Data
 
         [Required]
         public bool OrderStatus { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         [Required]
         [ForeignKey(nameof(ApplicationUser))]

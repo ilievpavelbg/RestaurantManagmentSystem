@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RestaurantOrderManagmentSystem.Core.Data
+namespace RestaurantManagmentSystem.Core.Data
 {
     public class ApplicationUser : IdentityUser
     {
@@ -15,7 +15,7 @@ namespace RestaurantOrderManagmentSystem.Core.Data
         public string LastName { get; set; } = null!;
 
         [Required]
-        [Column(TypeName ="date")]
+        [Column(TypeName = "date")]
         public DateTime HireDate { get; set; }
 
         [Column(TypeName = "date")]
@@ -34,5 +34,7 @@ namespace RestaurantOrderManagmentSystem.Core.Data
 
         [StringLength(50)]
         public string? Town { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

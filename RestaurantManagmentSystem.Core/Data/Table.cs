@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RestaurantOrderManagmentSystem.Core.Data
+namespace RestaurantManagmentSystem.Core.Data
 {
     public class Table
     {
@@ -12,11 +12,13 @@ namespace RestaurantOrderManagmentSystem.Core.Data
         public int Number { get; set; }
 
         [Required]
-        [Range(2,10)]
+        [Range(2, 10)]
         public int Capacity { get; set; }
 
         [Required]
         public bool IsReserved { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
 

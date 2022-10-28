@@ -1,7 +1,7 @@
 ﻿using RestaurantManagmentSystem.Core.Contracts;
-using RestaurantManagmentSystem.Core.Models.Category;
+using RestaurantManagmentSystem.Core.Data;
+using RestaurantManagmentSystem.Core.Models.Categories;
 using RestaurantManagmentSystem.Core.Repository.Common;
-using RestaurantOrderManagmentSystem.Core.Data;
 
 namespace RestaurantManagmentSystem.Core.Services
 {
@@ -21,11 +21,11 @@ namespace RestaurantManagmentSystem.Core.Services
                 Name = model.Name
             };
 
-            await repo.AddAsync(category);
+            await repo.AddAsync<Category>(category);
             await repo.SaveChangesAsync();
         }
 
-        public IEnumerable<Category> GetAllCategoriesAsync()
+        public IEnumerable<Category> GetAllCategories()
         {
             var allCat = repo.All<Category>().ToList();
 

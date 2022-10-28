@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Constrains\" />
+    <Folder Include="Models\MenuItems\" />
   </ItemGroup>
 
 </Project>

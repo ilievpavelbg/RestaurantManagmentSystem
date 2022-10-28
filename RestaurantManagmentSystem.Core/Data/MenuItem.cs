@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RestaurantOrderManagmentSystem.Core.Data
+namespace RestaurantManagmentSystem.Core.Data
 {
     public class MenuItem
     {
@@ -25,10 +25,12 @@ namespace RestaurantOrderManagmentSystem.Core.Data
         [Required]
         public bool ItemsForCooking { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [Required]
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
-        public Customer Category { get; set; } = null!;
+        public Category Category { get; set; } = null!;
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
 

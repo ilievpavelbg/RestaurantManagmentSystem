@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RestaurantManagmentSystem.Core.Models.Category
+
+namespace RestaurantManagmentSystem.Core.Models.Categories
 {
     public class CategoryViewModel
     {
