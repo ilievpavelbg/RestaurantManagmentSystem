@@ -2,12 +2,11 @@
 using RestaurantManagmentSystem.Core.Data;
 
 
-namespace RestaurantManagmentSystem.Core.Models
+namespace RestaurantManagmentSystem.Core.Models.MenuItems
 {
 
-    public class EditMenuItemViewModel
+    public class AddMenuItemViewModel
     {
-        public int Id { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 5)]
         public string Name { get; set; } = null!;
@@ -26,9 +25,7 @@ namespace RestaurantManagmentSystem.Core.Models
         [Required]
         public bool ItemsForCooking { get; set; }
 
-        public bool IsDeleted { get; set; }
-
-        public int CategoryId { get; set; } 
+        public int CategoryId { get; set; }
 
         public IEnumerable<Category> Categories { get; set; } = new List<Category>();
 

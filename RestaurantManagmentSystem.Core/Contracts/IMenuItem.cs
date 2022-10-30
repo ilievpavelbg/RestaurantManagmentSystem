@@ -1,4 +1,4 @@
-﻿using RestaurantManagmentSystem.Core.Models;
+﻿using RestaurantManagmentSystem.Core.Models.MenuItems;
 
 namespace RestaurantManagmentSystem.Core.Contracts
 {
@@ -6,8 +6,9 @@ namespace RestaurantManagmentSystem.Core.Contracts
     {
         Task AddMenuItemAsync(AddMenuItemViewModel model);
         IEnumerable<MenuItemViewModel> GetAllMenuItems();
-        Task EditMenuItemAsync(EditMenuItemViewModel model);
-        Task<EditMenuItemViewModel> EditMenuItemViewAsync(int Id);
+        Task EditPostMenuItemAsync(EditMenuItemViewModel model);
+        Task<EditMenuItemViewModel> EditGetMenuItemAsync(int Id);
          Task DeleteMenuItemAsync(int Id);
+        Task<EditMenuItemViewModel> GetByIdMenuItem(int Id);
     }
 }

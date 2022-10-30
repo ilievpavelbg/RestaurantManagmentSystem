@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using RestaurantManagmentSystem.Core.Data;
-
-
-namespace RestaurantManagmentSystem.Core.Models
+﻿namespace RestaurantManagmentSystem.Core.Models.MenuItems
 {
 
     public class MenuItemViewModel

@@ -53,6 +53,27 @@ namespace RestaurantManagmentSystem.Controllers.Category
             return View(allCategories);
         }
 
-        
+        [HttpGet]
+        public async Task<IActionResult> Edit(int Id)
+        {
+            var category = await categoryService.EditGetCategoryAsync(Id);
+
+            return View(category);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditCategoryViewModel model)
+        {
+           await categoryService.EditPostCategoryAsync(model);
+
+            return RedirectToAction("All");
+        }
+
+        public async Task<IActionResult> Delete(int Id)
+        {
+            await categoryService.DeleteCategoryAsync(Id);
+
+            return RedirectToAction("All");
+        }
     }
 }

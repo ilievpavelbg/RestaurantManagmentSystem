@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Contracts;
-using RestaurantManagmentSystem.Core.Models;
+using RestaurantManagmentSystem.Core.Models.MenuItems;
 
 namespace RestaurantManagmentSystem.Controllers
 {
@@ -35,7 +35,7 @@ namespace RestaurantManagmentSystem.Controllers
         {
             await menuItem.AddMenuItemAsync(model);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("All");
         }
 
         [HttpGet]
@@ -49,8 +49,9 @@ namespace RestaurantManagmentSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await menuItem.EditMenuItemViewAsync(id);
-            model.Categories = category.GetAllCategories();
+            var model = await menuItem.EditGetMenuItemAsync(id);
+
+            model.Categories = category.GetAllCategories(); 
 
             return View(model);
         }
@@ -58,7 +59,7 @@ namespace RestaurantManagmentSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditMenuItemViewModel model)
         {
-           await menuItem.EditMenuItemAsync(model);
+           await menuItem.EditPostMenuItemAsync(model);
 
             return RedirectToAction("All");
         }

@@ -25,6 +25,29 @@ namespace RestaurantManagmentSystem.Core.Services
             await repo.SaveChangesAsync();
         }
 
+        public async Task<EditCategoryViewModel> EditGetCategoryAsync(int Id)
+        {
+            var category = await repo.GetByIdAsync<Category>(Id);
+
+            var model = new EditCategoryViewModel()
+            {
+                Id = Id,
+                Name = category.Name
+            };
+
+            return model;
+          
+        }
+
+        public async Task EditPostCategoryAsync(EditCategoryViewModel model)
+        {
+            var category = await repo.GetByIdAsync<Category>(model.Id);
+
+            category.Name = model.Name;
+
+            await repo.SaveChangesAsync();
+        }
+
         public IEnumerable<Category> GetAllCategories()
         {
             var allCat = repo.All<Category>().ToList();
@@ -44,14 +67,15 @@ namespace RestaurantManagmentSystem.Core.Services
             return false;
         }
 
-        public Task RemoveCategoryAsync(int Id)
+        public async Task DeleteCategoryAsync(int Id)
         {
-            throw new NotImplementedException();
+            var category = await repo.GetByIdAsync<Category>(Id);
+
+            category.IsDeleted = true;
+
+            repo.Update(category);
         }
 
-        public Task UpdateCategory(int Id)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
