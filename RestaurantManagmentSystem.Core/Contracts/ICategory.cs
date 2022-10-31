@@ -11,5 +11,6 @@ namespace RestaurantManagmentSystem.Core.Contracts
         Task DeleteCategoryAsync(int Id);
         Task EditPostCategoryAsync(EditCategoryViewModel model);
         Task<EditCategoryViewModel> EditGetCategoryAsync(int Id);
+        Task<CategoryViewModel> GetCategoryById(int Id);
     }
 }

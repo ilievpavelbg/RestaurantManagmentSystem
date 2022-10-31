@@ -71,9 +71,23 @@ namespace RestaurantManagmentSystem.Controllers.Category
 
         public async Task<IActionResult> Delete(int Id)
         {
-            await categoryService.DeleteCategoryAsync(Id);
+            var category = await categoryService.GetCategoryById(Id);
 
-            return RedirectToAction("All");
+            try
+            {
+                await categoryService.DeleteCategoryAsync(Id);
+
+                TempData["Message"] = $"Succesfully deleted {category.Name}";
+
+                return RedirectToAction("All");
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = ex.Message;
+
+                return RedirectToAction("All");
+            }
+
         }
     }
 }

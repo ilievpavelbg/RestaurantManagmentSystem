@@ -9,12 +9,19 @@ namespace RestaurantManagmentSystem.Core.Services
     public class MenuItemService : IMenuItem
     {
         private readonly IRepository repo;
-
+        /// <summary>
+        /// Initialize Repo in constructor
+        /// </summary>
+        /// <param name="_repo"></param>
         public MenuItemService(IRepository _repo)
         {
             repo = _repo;
         }
-
+        /// <summary>
+        /// Adding new MenuItem to database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task AddMenuItemAsync(AddMenuItemViewModel model)
         {
             var menuItem = new MenuItem()
@@ -30,16 +37,11 @@ namespace RestaurantManagmentSystem.Core.Services
             await repo.AddAsync<MenuItem>(menuItem);
             await repo.SaveChangesAsync();
         }
-
-        public async Task DeleteMenuItemAsync(int Id)
-        {
-            var menuItem = await repo.GetByIdAsync<MenuItem>(Id);
-
-            menuItem.IsDeleted = true;
-
-            await repo.SaveChangesAsync();
-        }
-
+        /// <summary>
+        /// Get the chosed MenuItemViewModel from HHTPGet Edit, and save changes to DB
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task EditPostMenuItemAsync(EditMenuItemViewModel model)
         {
 
@@ -54,7 +56,11 @@ namespace RestaurantManagmentSystem.Core.Services
 
             await repo.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Get the selected MenuItemViewModel and render it to Edit page
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<EditMenuItemViewModel> EditGetMenuItemAsync(int Id)
         {
             var menuItem = await repo.GetByIdAsync<MenuItem>(Id);
@@ -72,7 +78,10 @@ namespace RestaurantManagmentSystem.Core.Services
 
             return model;
         }
-
+        /// <summary>
+        /// Get all menuItems
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<MenuItemViewModel> GetAllMenuItems()
         {
             var allMenuItem = repo.All<MenuItem>()
@@ -89,7 +98,11 @@ namespace RestaurantManagmentSystem.Core.Services
 
             return allMenuItem;
         }
-
+        /// <summary>
+        /// Get the MenuItem by Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<EditMenuItemViewModel> GetByIdMenuItem(int Id)
         {
             var menuItem = await repo.GetByIdAsync<MenuItem>(Id);
@@ -106,6 +119,19 @@ namespace RestaurantManagmentSystem.Core.Services
             };
 
             return model;
+        }
+        /// <summary>
+        /// Delete MenuItem as put the IsDeleted property to true, no physical detetion from DB
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task DeleteMenuItemAsync(int Id)
+        {
+            var menuItem = await repo.GetByIdAsync<MenuItem>(Id);
+
+            menuItem.IsDeleted = true;
+
+            await repo.SaveChangesAsync();
         }
     }
 }
