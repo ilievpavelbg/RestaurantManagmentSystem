@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using RestaurantManagmentSystem.Core.Constrains.MenuItem;
 using RestaurantManagmentSystem.Core.Data;
 
 
@@ -8,15 +9,15 @@ namespace RestaurantManagmentSystem.Core.Models.MenuItems
     public class AddMenuItemViewModel
     {
         [Required]
-        [StringLength(100, MinimumLength = 5)]
+        [StringLength(MenuItemConstrains.NameMaxLenght, MinimumLength = MenuItemConstrains.NameMinLenght)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [StringLength(2000, MinimumLength = 10)]
+        [StringLength(MenuItemConstrains.DescriptionMaxLenght, MinimumLength = MenuItemConstrains.DescriptionMinLenght)]
         public string Description { get; set; } = null!;
 
         [Required]
-        [Range(typeof(decimal), "0.00", "100.00")]
+        [Range(typeof(decimal), MenuItemConstrains.PriceMinLenght, MenuItemConstrains.PriceMaxLenght)]
         public decimal Price { get; set; }
 
         [Required]

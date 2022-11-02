@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RestaurantManagmentSystem.Core.Constrains.Customer;
+using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantManagmentSystem.Core.Data
 {
@@ -7,18 +8,17 @@ namespace RestaurantManagmentSystem.Core.Data
         [Key]
         public int? Id { get; set; }
 
-        [StringLength(50)]
+        [StringLength(CustomerConstrains.NameMaxLenght)]
         public string? Name { get; set; } = null!;
 
-        [StringLength(50)]
+        [StringLength(CustomerConstrains.PhoneMaxLenght)]
         public string? Phone { get; set; } = null!;
 
-        [StringLength(50)]
+        [StringLength(CustomerConstrains.EmailMaxLenght)]
         public string? Email { get; set; } = null!;
 
         public bool IsDeleted { get; set; }
 
-        [StringLength(50)]
         public Table? Table { get; set; } = null!;
     }
 }

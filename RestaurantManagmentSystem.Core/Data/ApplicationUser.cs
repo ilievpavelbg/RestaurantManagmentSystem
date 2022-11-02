@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using RestaurantManagmentSystem.Core.Constrains.User;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,11 +8,11 @@ namespace RestaurantManagmentSystem.Core.Data
     public class ApplicationUser : IdentityUser
     {
         [Required]
-        [StringLength(50)]
+        [StringLength(UserConstrains.FirstNameMaxLenght)]
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [StringLength(50)]
+        [StringLength(UserConstrains.LastNameMaxLenght)]
         public string LastName { get; set; } = null!;
 
         [Required]
@@ -22,17 +23,17 @@ namespace RestaurantManagmentSystem.Core.Data
         public DateTime? LeaveDate { get; set; }
 
         [Required]
-        [Range(typeof(decimal), "0.00", "10000.00")]
+        [Range(typeof(decimal), UserConstrains.SalaryMinLenght, UserConstrains.SalaryMinLenght)]
         public decimal Salary { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(UserConstrains.PhoneMaxLenght)]
         public string Phone { get; set; } = null!;
 
-        [StringLength(50)]
+        [StringLength(UserConstrains.AddressMaxLenght)]
         public string? Address { get; set; }
 
-        [StringLength(50)]
+        [StringLength(UserConstrains.TownMaxLenght)]
         public string? Town { get; set; }
 
         public bool IsDeleted { get; set; }

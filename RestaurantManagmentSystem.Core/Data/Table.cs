@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RestaurantManagmentSystem.Core.Constrains.Table;
+using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantManagmentSystem.Core.Data
 {
@@ -8,11 +9,11 @@ namespace RestaurantManagmentSystem.Core.Data
         public int Id { get; set; }
 
         [Required]
-        [Range(1, 10)]
+        [Range(TableConstrains.NumberMinLenght, TableConstrains.NumberMaxLenght)]
         public int Number { get; set; }
 
         [Required]
-        [Range(2, 10)]
+        [Range(TableConstrains.CapacityMinLenght, TableConstrains.CapacityMaxLenght)]
         public int Capacity { get; set; }
 
         [Required]

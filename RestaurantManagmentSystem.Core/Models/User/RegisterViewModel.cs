@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RestaurantManagmentSystem.Core.Constrains.User;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace RestaurantManagmentSystem.Core.Models.User
@@ -6,17 +7,21 @@ namespace RestaurantManagmentSystem.Core.Models.User
     public class RegisterViewModel
     {
         [Required]
-        [StringLength(20, MinimumLength = 5)]
-        public string UserName { get; set; } = null!;
+        [StringLength(UserConstrains.FirstNameMaxLenght, MinimumLength = UserConstrains.FirstNameMinLenght)]
+        public string FirstNane { get; set; } = null!;
 
         [Required]
-        [StringLength(60, MinimumLength = 10)]
+        [StringLength(UserConstrains.LastNameMaxLenght, MinimumLength = UserConstrains.LastNameMinLenght)]
+        public string LastNane { get; set; } = null!;
+
+        [Required]
+        [EmailAddress]
         public string Email { get; set; } = null!;
 
         [Required]
         [DataType(DataType.Password)]
 
-        [StringLength(20, MinimumLength = 5)]
+        [StringLength(UserConstrains.PassMaxLenght, MinimumLength = UserConstrains.PassMinLenght)]
         public string Password { get; set; } = null!;
 
         [Required]

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RestaurantManagmentSystem.Core.Constrains.MenuItem;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantManagmentSystem.Core.Data
@@ -8,15 +9,15 @@ namespace RestaurantManagmentSystem.Core.Data
         [Key]
         public int Id { get; set; }
         [Required]
-        [StringLength(100)]
+        [StringLength(MenuItemConstrains.NameMaxLenght)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [StringLength(2000)]
+        [StringLength(MenuItemConstrains.DescriptionMaxLenght)]
         public string Description { get; set; } = null!;
 
         [Required]
-        [Range(typeof(decimal), "0.00", "100.00")]
+        [Range(typeof(decimal), MenuItemConstrains.PriceMinLenght, MenuItemConstrains.PriceMaxLenght)]
         public decimal Price { get; set; }
 
         [Required]

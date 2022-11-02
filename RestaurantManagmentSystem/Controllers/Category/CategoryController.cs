@@ -7,17 +7,26 @@ namespace RestaurantManagmentSystem.Controllers.Category
     public class CategoryController : Controller
     {
         private readonly ICategory categoryService;
-
+        /// <summary>
+        /// Initialize category service
+        /// </summary>
+        /// <param name="_categoryService"></param>
         public CategoryController(ICategory _categoryService)
         {
             categoryService = _categoryService;
         }
-
+        /// <summary>
+        /// Category Index page
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             return RedirectToAction("All");
         }
-
+        /// <summary>
+        /// Add Category View
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Add()
         {
@@ -25,7 +34,11 @@ namespace RestaurantManagmentSystem.Controllers.Category
 
             return View(model);
         }
-
+        /// <summary>
+        /// Add Category to database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Add(CategoryViewModel model)
         {
@@ -44,7 +57,10 @@ namespace RestaurantManagmentSystem.Controllers.Category
 
             return RedirectToAction("All");
         }
-
+        /// <summary>
+        /// Show all categories
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult All()
         {
@@ -52,7 +68,11 @@ namespace RestaurantManagmentSystem.Controllers.Category
 
             return View(allCategories);
         }
-
+        /// <summary>
+        /// Edit Category View
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Edit(int Id)
         {
@@ -60,15 +80,28 @@ namespace RestaurantManagmentSystem.Controllers.Category
 
             return View(category);
         }
-
+        /// <summary>
+        /// Edit Category, update database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Edit(EditCategoryViewModel model)
         {
-           await categoryService.EditPostCategoryAsync(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await categoryService.EditPostCategoryAsync(model);
 
             return RedirectToAction("All");
         }
-
+        /// <summary>
+        /// Delete Category
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Delete(int Id)
         {
             var category = await categoryService.GetCategoryById(Id);
@@ -77,13 +110,13 @@ namespace RestaurantManagmentSystem.Controllers.Category
             {
                 await categoryService.DeleteCategoryAsync(Id);
 
-                TempData["Message"] = $"Succesfully deleted {category.Name}";
+                TempData["message"] = $"Succesfully deleted {category.Name}";
 
                 return RedirectToAction("All");
             }
             catch (Exception ex)
             {
-                TempData["Message"] = ex.Message;
+                TempData["message"] = ex.Message;
 
                 return RedirectToAction("All");
             }

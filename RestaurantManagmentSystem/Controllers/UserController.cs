@@ -42,7 +42,8 @@ namespace RestaurantManagmentSystem.Controllers
             var user = new ApplicationUser()
             {
                 Email = model.Email,
-                UserName = model.UserName
+                FirstName = model.FirstNane,
+                LastName = model.LastNane
             };
 
             var result = await userManager.CreateAsync(user, model.Password);

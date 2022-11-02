@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RestaurantManagmentSystem.Core.Constrains.Product;
+using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantManagmentSystem.Core.Data
 {
@@ -8,11 +9,11 @@ namespace RestaurantManagmentSystem.Core.Data
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(ProductConstrains.NameMaxLenght)]
         public string Name { get; set; } = null!;
 
         [Required]
-        [Range(0, 1000)]
+        [Range(ProductConstrains.QuantityMinLenght, ProductConstrains.QuantityMaxLenght)]
         public int Quantity { get; set; }
 
         public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RestaurantManagmentSystem.Core.Constrains.Ctegory;
+using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantManagmentSystem.Core.Data
 {
@@ -8,7 +9,7 @@ namespace RestaurantManagmentSystem.Core.Data
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(CategoryConstrains.NameMaxLenght)]
         public string Name { get; set; } = null!;
 
         public bool IsDeleted { get; set; }

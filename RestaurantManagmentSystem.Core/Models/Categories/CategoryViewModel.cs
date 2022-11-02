@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RestaurantManagmentSystem.Core.Constrains.Ctegory;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace RestaurantManagmentSystem.Core.Models.Categories
@@ -7,7 +8,7 @@ namespace RestaurantManagmentSystem.Core.Models.Categories
     {
 
         [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [StringLength(CategoryConstrains.NameMaxLenght, MinimumLength = CategoryConstrains.NameMinLenght)]
         public string Name { get; set; } = null!;
     }
 }

@@ -26,13 +26,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
-
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddTransient<ICategory, CategoryService>();
 builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<ICategory, CategoryService>();
 builder.Services.AddScoped<IMenuItem, MenuItemService>();
-
 
 
 var app = builder.Build();

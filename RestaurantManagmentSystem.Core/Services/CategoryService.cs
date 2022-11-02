@@ -108,7 +108,11 @@ namespace RestaurantManagmentSystem.Core.Services
 
             await repo.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Get category by Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<CategoryViewModel> GetCategoryById(int Id)
         {
             var category = await repo.GetByIdAsync<Category>(Id);
