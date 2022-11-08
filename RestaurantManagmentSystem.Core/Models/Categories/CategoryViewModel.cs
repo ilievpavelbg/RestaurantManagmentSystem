@@ -10,5 +10,7 @@ namespace RestaurantManagmentSystem.Core.Models.Categories
         [Required]
         [StringLength(CategoryConstrains.NameMaxLenght, MinimumLength = CategoryConstrains.NameMinLenght)]
         public string Name { get; set; } = null!;
+
+        public bool IsDeleted { get; set; }
     }
 }

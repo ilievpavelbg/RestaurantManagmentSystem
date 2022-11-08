@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using RestaurantManagmentSystem.Core.Constrains.MenuItem;
 using RestaurantManagmentSystem.Core.Data;
-
+using RestaurantManagmentSystem.Core.Models.Categories;
 
 namespace RestaurantManagmentSystem.Core.Models.MenuItems
 {
@@ -28,7 +28,7 @@ namespace RestaurantManagmentSystem.Core.Models.MenuItems
 
         public int CategoryId { get; set; }
 
-        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+        public IEnumerable<EditCategoryViewModel> Categories { get; set; } = new List<EditCategoryViewModel>();
 
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Category>
+﻿@model IEnumerable<EditCategoryViewModel>
 
 
 @{
@@ -25,9 +25,7 @@
             @{
                 int count = 1;
             }
-            @foreach (var item in Model
-            .Where(x => x.IsDeleted != true)
-            .OrderBy(x => x.Name))
+            @foreach (var item in Model)
             {
                 <tr>
                     <th>@count</th>

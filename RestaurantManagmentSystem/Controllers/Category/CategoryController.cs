@@ -28,13 +28,15 @@ namespace RestaurantManagmentSystem.Controllers.Category
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            var model = new CategoryViewModel();
+            var model = new EditCategoryViewModel();
 
-            var allCategory = categoryService.GetAllCategories();
+            var allCategory = await categoryService.GetAllCategoriesAsync();
+            var allDeletedCategory = await categoryService.GetAllDeletedCategoriesAsync();
 
-            ViewBag.data = allCategory;
+            ViewBag.ActiveCategories = allCategory;
+            ViewBag.DeletedCategories = allDeletedCategory;
 
             return View(model);
         }
@@ -67,9 +69,9 @@ namespace RestaurantManagmentSystem.Controllers.Category
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var allCategories = categoryService.GetAllCategories();
+            var allCategories = await categoryService.GetAllCategoriesAsync();
 
             return View(allCategories);
         }

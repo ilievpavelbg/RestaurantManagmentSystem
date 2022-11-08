@@ -7,7 +7,8 @@ namespace RestaurantManagmentSystem.Core.Contracts
     {
         Task AddCategoryAsync(CategoryViewModel model);
         bool HasThisEntity(CategoryViewModel model);
-        IEnumerable<Category> GetAllCategories();
+        Task<IEnumerable<EditCategoryViewModel>> GetAllCategoriesAsync();
+        Task<IEnumerable<EditCategoryViewModel>> GetAllDeletedCategoriesAsync();
         Task DeleteCategoryAsync(int Id);
         Task RestoreCategoryAsync(int Id);
         Task EditPostCategoryAsync(EditCategoryViewModel model);

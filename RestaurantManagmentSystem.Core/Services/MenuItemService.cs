@@ -67,7 +67,6 @@ namespace RestaurantManagmentSystem.Core.Services
 
             var model = new EditMenuItemViewModel()
             {
-                Id = Id,
                 Name = menuItem.Name,
                 Description = menuItem.Description,
                 Price = menuItem.Price,

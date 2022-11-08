@@ -1,4 +1,5 @@
-﻿using RestaurantManagmentSystem.Core.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Models.Categories;
 using RestaurantManagmentSystem.Core.Repository.Common;
@@ -42,7 +43,6 @@ namespace RestaurantManagmentSystem.Core.Services
 
             var model = new EditCategoryViewModel()
             {
-                Id = Id,
                 Name = category.Name
             };
 
@@ -66,9 +66,16 @@ namespace RestaurantManagmentSystem.Core.Services
         /// Get all categories
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Category> GetAllCategories()
+        public async Task<IEnumerable<EditCategoryViewModel>> GetAllCategoriesAsync()
         {
-            var allCat = repo.All<Category>().ToList();
+            var allCat = await repo.All<Category>()
+                .Where(x => x.IsDeleted == false)
+                .Select(vm => new EditCategoryViewModel
+                {
+                    Id = vm.Id,
+                    Name = vm.Name
+                })
+                .ToListAsync();
 
             return allCat;
         }
@@ -138,6 +145,23 @@ namespace RestaurantManagmentSystem.Core.Services
             category.IsDeleted = false;
 
             await repo.SaveChangesAsync();
+        }
+        /// <summary>
+        /// Get All Deleted Categories
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<EditCategoryViewModel>> GetAllDeletedCategoriesAsync()
+        {
+            var allCat = await repo.All<Category>()
+                .Where(x => x.IsDeleted == true)
+                .Select(vm => new EditCategoryViewModel
+                {
+                    Id = vm.Id,
+                    Name = vm.Name
+                })
+                .ToListAsync();
+
+            return allCat;
         }
     }
 }

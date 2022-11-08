@@ -98,10 +98,10 @@ namespace RestaurantManagmentSystem.Controllers
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<IActionResult> Delete(int Id)
-        {
-            return View ();
+        //public async Task<IActionResult> Delete(int Id)
+        //{
+        //    return View ();
 
-        }
+        //}
     }
 }

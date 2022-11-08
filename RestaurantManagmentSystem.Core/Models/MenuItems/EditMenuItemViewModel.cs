@@ -4,6 +4,5 @@
     public class EditMenuItemViewModel : AddMenuItemViewModel
     {
         public int Id { get; set; }
-        
     }
 }

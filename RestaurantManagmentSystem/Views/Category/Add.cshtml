@@ -1,4 +1,4 @@
-﻿@model CategoryViewModel
+﻿@model EditCategoryViewModel
 
 @{
     ViewData["Title"] = "Add new Category";
@@ -41,10 +41,8 @@
                     @{
                         int count = 1;
                     }
-                    @foreach (var category in (List<Category>)ViewBag.data)
+                    @foreach (var category in (IEnumerable<EditCategoryViewModel>)ViewBag.ActiveCategories)
                     {
-                        if (category.IsDeleted == false)
-                        {
                             <tr>
                                 <th>@count</th>
                                 <td>@category.Name</td>
@@ -53,7 +51,7 @@
                                     <a class="btn btn-danger" onclick="return confirm('This action will delete @category.Name. Are you sure ? ')" asp-action="Delete" asp-controller="Category" asp-route-Id="@category.Id">Delete</a>
                                 </td>
                             </tr>
-                        }
+
                         count++;
                     }
                 </tbody>
@@ -75,10 +73,8 @@
                     @{
                         int count1 = 1;
                     }
-                    @foreach (var category in (List<Category>)ViewBag.data)
+                    @foreach (var category in (IEnumerable<EditCategoryViewModel>)ViewBag.DeletedCategories)
                     {
-                        if (category.IsDeleted == true)
-                        {
                             <tr>
                                 <th>@count1</th>
                                 <td>@category.Name</td>
@@ -86,7 +82,6 @@
                                     <a class="btn btn-primary" asp-action="Restore" asp-controller="Category" asp-route-Id="@category.Id">Restore</a>
                                 </td>
                             </tr>
-                        }
                         count1++;
                     }
                 </tbody>

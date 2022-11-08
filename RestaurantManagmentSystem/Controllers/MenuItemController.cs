@@ -31,11 +31,11 @@ namespace RestaurantManagmentSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             var menu = new AddMenuItemViewModel()
             {
-                Categories = category.GetAllCategories()
+                Categories = await category.GetAllCategoriesAsync()
             };
 
             return View(menu);
@@ -79,7 +79,7 @@ namespace RestaurantManagmentSystem.Controllers
         {
             var model = await menuItem.EditGetMenuItemAsync(id);
 
-            model.Categories = category.GetAllCategories(); 
+            model.Categories = await category.GetAllCategoriesAsync(); 
 
             return View(model);
         }
