@@ -22,8 +22,8 @@ namespace RestaurantManagmentSystem.Core.Data
 
         [Required]
         [ForeignKey(nameof(ApplicationUser))]
-        public string ApplicationUserId { get; set; } = null!;
-        public ApplicationUser ApplicationUser { get; set; } = null!;
+        public string? ApplicationUserId { get; set; } = null!;
+        public ApplicationUser? ApplicationUser { get; set; } = null!;
 
         [Required]
         [ForeignKey(nameof(Table))]

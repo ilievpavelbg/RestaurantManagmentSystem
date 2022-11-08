@@ -31,6 +31,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<ICategory, CategoryService>();
 builder.Services.AddScoped<IMenuItem, MenuItemService>();
+builder.Services.AddScoped<IDepartment, DepartmentService>();
 
 
 var app = builder.Build();
@@ -38,7 +39,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    app.UseDeveloperExceptionPage();
 }
 else
 {

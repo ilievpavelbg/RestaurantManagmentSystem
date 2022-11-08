@@ -50,7 +50,7 @@ namespace RestaurantManagmentSystem.Core.Services
 
         }
         /// <summary>
-        /// Get the chosed MenuItemViewModel from HHTPGet Edit, and save changes to DB
+        /// Get the selected EditCategoryViewModel from HHTPGet Edit, and save changes to DB
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -89,7 +89,7 @@ namespace RestaurantManagmentSystem.Core.Services
             return false;
         }
         /// <summary>
-        /// Delete MenuItem as put the IsDeleted property to true, no physical detetion from DB
+        /// Delete Category as put the IsDeleted property to true, no physical detetion from DB
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
@@ -123,6 +123,21 @@ namespace RestaurantManagmentSystem.Core.Services
             };
 
             return model;
+        }
+        /// <summary>
+        /// Restore Category as put the IsDeleted property to false
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task RestoreCategoryAsync(int Id)
+        {
+            var menuItems = repo.All<MenuItem>(x => x.CategoryId == Id && x.IsDeleted == true);
+
+            var category = await repo.GetByIdAsync<Category>(Id);
+
+            category.IsDeleted = false;
+
+            await repo.SaveChangesAsync();
         }
     }
 }

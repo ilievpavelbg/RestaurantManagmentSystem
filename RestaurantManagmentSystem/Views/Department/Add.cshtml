@@ -1,0 +1,31 @@
+﻿@model DepartmentViewModel
+
+@{ 
+    ViewBag.Title = "Add new department";
+} 
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+
+<div class="row">
+        <form method="post">
+            <div class="col-4">
+                <input placeholder="Department name" asp-for="@Model.Name" class="form-control" aria-required="true" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </div>
+            <div class="col mt-2">
+                <input class="btn btn-primary" type="submit" value="Add" />
+            </div>
+        </form>
+</div>
+
+<div class="row">
+@TempData["Result"]
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

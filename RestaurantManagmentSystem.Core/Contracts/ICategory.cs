@@ -9,6 +9,7 @@ namespace RestaurantManagmentSystem.Core.Contracts
         bool HasThisEntity(CategoryViewModel model);
         IEnumerable<Category> GetAllCategories();
         Task DeleteCategoryAsync(int Id);
+        Task RestoreCategoryAsync(int Id);
         Task EditPostCategoryAsync(EditCategoryViewModel model);
         Task<EditCategoryViewModel> EditGetCategoryAsync(int Id);
         Task<CategoryViewModel> GetCategoryById(int Id);

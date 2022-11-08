@@ -1,4 +1,4 @@
-﻿namespace RestaurantManagmentSystem.Core.Constrains.Ctegory
+﻿namespace RestaurantManagmentSystem.Core.Constrains.Category
 {
     static class CategoryConstrains
     {

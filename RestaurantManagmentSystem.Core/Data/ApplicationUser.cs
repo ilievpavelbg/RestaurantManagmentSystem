@@ -37,5 +37,14 @@ namespace RestaurantManagmentSystem.Core.Data
         public string? Town { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Department))]
+        public int DepartmentId { get; set; }
+        public Department Department { get; set; } = null!;
+
+        public int? OrderId { get; set; }
+
+        public ICollection<Order>? Orders { get; set; } = new List<Order>();
     }
 }

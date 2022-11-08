@@ -1,4 +1,4 @@
-﻿using RestaurantManagmentSystem.Core.Constrains.Ctegory;
+﻿using RestaurantManagmentSystem.Core.Constrains.Category;
 using System.ComponentModel.DataAnnotations;
 
 

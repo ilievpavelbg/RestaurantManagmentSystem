@@ -32,6 +32,10 @@ namespace RestaurantManagmentSystem.Controllers.Category
         {
             var model = new CategoryViewModel();
 
+            var allCategory = categoryService.GetAllCategories();
+
+            ViewBag.data = allCategory;
+
             return View(model);
         }
         /// <summary>
@@ -55,7 +59,8 @@ namespace RestaurantManagmentSystem.Controllers.Category
 
             await categoryService.AddCategoryAsync(model);
 
-            return RedirectToAction("All");
+            //return View(model);
+            return RedirectToAction("Add");
         }
         /// <summary>
         /// Show all categories
@@ -121,6 +126,18 @@ namespace RestaurantManagmentSystem.Controllers.Category
                 return RedirectToAction("All");
             }
 
+        }
+        /// <summary>
+        /// Restore Category
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Restore(int Id)
+        {
+
+            await categoryService.RestoreCategoryAsync(Id);
+
+            return RedirectToAction("Add");
         }
     }
 }
