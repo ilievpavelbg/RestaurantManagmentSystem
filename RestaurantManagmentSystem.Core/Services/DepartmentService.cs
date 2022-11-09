@@ -1,4 +1,5 @@
-﻿using RestaurantManagmentSystem.Core.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Models.Departments;
 using RestaurantManagmentSystem.Core.Repository.Common;
@@ -38,12 +39,11 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task<EditDepartmentViewModel> EditGetDepartmentAsync(int Id)
         {
-            var dept = await repo.GetByIdAsync<Department>(Id);
+            var department = await repo.GetByIdAsync<Department>(Id);
 
             var model = new EditDepartmentViewModel()
             {
-                Id = Id,
-                Name = dept.Name
+                Name = department.Name
             };
 
             return model;
@@ -56,9 +56,9 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task EditPostDepartmentAsync(EditDepartmentViewModel model)
         {
-            var dept = await repo.GetByIdAsync<Department>(model.Id);
+            var department = await repo.GetByIdAsync<Department>(model.Id);
 
-            dept.Name = model.Name;
+            department.Name = model.Name;
 
             await repo.SaveChangesAsync();
         }
@@ -66,11 +66,34 @@ namespace RestaurantManagmentSystem.Core.Services
         /// Get all departments
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Department> GetAllDepartments()
+        public async Task<IEnumerable<EditDepartmentViewModel>> GetAllDepartmentAsync()
         {
-            var allDepts = repo.All<Department>().ToList();
+            var allDepartments = await repo.All<Department>()
+                .Where(x => x.IsDeleted == false)
+                .Select(vm => new EditDepartmentViewModel
+                {
+                    Id = vm.Id,
+                    Name = vm.Name
+                })
+                .ToListAsync();
 
-            return allDepts;
+            return allDepartments;
+        }
+        /// <summary>
+        /// Check if in databes already exixt such entity
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool HasThisEntity(DepartmentViewModel model)
+        {
+            var entity = repo.All<Department>(x => x.Name == model.Name).FirstOrDefault();
+
+            if (entity != null)
+            {
+                return true;
+            }
+
+            return false;
         }
         /// <summary>
         /// Delete Department as put the IsDeleted property to true, no physical detetion from DB
@@ -79,14 +102,12 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task DeleteDepartmentAsync(int Id)
         {
-                                   // ---------------------Check if is needed -----------------------
+            var user = repo.All<ApplicationUser>(x => x.DepartmentId == Id && x.IsDeleted == false);
 
-            //var menuItems = repo.All<MenuItem>(x => x.CategoryId == Id && x.IsDeleted == false);
-
-            //if (menuItems.Any())
-            //{
-            //    throw new ArgumentException("Have to delete all menuItems included in this category!");
-            //}
+            if (user.Any())
+            {
+                throw new ArgumentException("Have to delete all menuItems included in this category!");
+            }
 
             var department = await repo.GetByIdAsync<Department>(Id);
 
@@ -101,14 +122,46 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task<DepartmentViewModel> GetDepartmentById(int Id)
         {
-            var dept = await repo.GetByIdAsync<Department>(Id);
+            var department = await repo.GetByIdAsync<Department>(Id);
 
             var model = new DepartmentViewModel()
             {
-                Name = dept.Name
+                Name = department.Name
             };
 
             return model;
+        }
+        /// <summary>
+        /// Restore Department as put the IsDeleted property to false
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task RestoreDepartmentAsync(int Id)
+        {
+            var users = repo.All<ApplicationUser>(x => x.DepartmentId == Id && x.IsDeleted == true);
+
+            var department = await repo.GetByIdAsync<Department>(Id);
+
+            department.IsDeleted = false;
+
+            await repo.SaveChangesAsync();
+        }
+        /// <summary>
+        /// Get All Deleted Departments
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<EditDepartmentViewModel>> GetAllDeletedDepartmentAsync()
+        {
+            var allDepts = await repo.All<Department>()
+                .Where(x => x.IsDeleted == true)
+                .Select(vm => new EditDepartmentViewModel
+                {
+                    Id = vm.Id,
+                    Name = vm.Name
+                })
+                .ToListAsync();
+
+            return allDepts;
         }
     }
 }

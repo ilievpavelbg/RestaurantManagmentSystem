@@ -84,9 +84,10 @@ namespace RestaurantManagmentSystem.Core.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public bool HasThisEntity(CategoryViewModel model)
+        public bool HasThisEntity(string name)
         {
-            var entity = repo.All<Category>(x => x.Name == model.Name).FirstOrDefault();
+        
+            var entity = repo.All<Category>(x => x.Name == name).First();
 
             if (entity != null)
             {
@@ -104,12 +105,12 @@ namespace RestaurantManagmentSystem.Core.Services
         {
             var menuItems = repo.All<MenuItem>(x => x.CategoryId == Id && x.IsDeleted == false);
 
+            var category = await repo.GetByIdAsync<Category>(Id);
+
             if (menuItems.Any())
             {
-                throw new ArgumentException("Have to delete all menuItems included in this category!");
+                throw new ArgumentException($"First have to delete all MenuItems with category {category.Name}!");
             }
-            
-            var category = await repo.GetByIdAsync<Category>(Id);
 
             category.IsDeleted = true;
 

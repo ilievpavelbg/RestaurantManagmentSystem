@@ -30,13 +30,11 @@ namespace RestaurantManagmentSystem.Controllers.Category
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var model = new EditCategoryViewModel();
+            var model = new MultipleCategoryViewModel();
 
-            var allCategory = await categoryService.GetAllCategoriesAsync();
-            var allDeletedCategory = await categoryService.GetAllDeletedCategoriesAsync();
-
-            ViewBag.ActiveCategories = allCategory;
-            ViewBag.DeletedCategories = allDeletedCategory;
+            model.CategoryModel = new CategoryViewModel();
+            model.ActiveCategories = await categoryService.GetAllCategoriesAsync();
+            model.DeletedCategories = await categoryService.GetAllDeletedCategoriesAsync();
 
             return View(model);
         }
@@ -46,20 +44,22 @@ namespace RestaurantManagmentSystem.Controllers.Category
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add(CategoryViewModel model)
+        public async Task<IActionResult> Add(MultipleCategoryViewModel model)
         {
             if (!ModelState.IsValid)
             {
+
                 return View(model);
             }
 
-            if (categoryService.HasThisEntity(model))
+            if (categoryService.HasThisEntity(model.CategoryModel.Name))
             {
-                ModelState.AddModelError("", "Alredy has entity with this name !");
-                return View(model);
+                TempData["Error"] = "Alredy has entity with this name. Try with the other one !";
+
+                return RedirectToAction("Add");
             }
 
-            await categoryService.AddCategoryAsync(model);
+            await categoryService.AddCategoryAsync(model.CategoryModel);
 
             //return View(model);
             return RedirectToAction("Add");
@@ -119,13 +119,13 @@ namespace RestaurantManagmentSystem.Controllers.Category
 
                 TempData["message"] = $"Succesfully deleted {category.Name}";
 
-                return RedirectToAction("All");
+                return RedirectToAction("Add");
             }
             catch (Exception ex)
             {
                 TempData["message"] = ex.Message;
 
-                return RedirectToAction("All");
+                return RedirectToAction("Add");
             }
 
         }
