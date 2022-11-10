@@ -1,7 +1,7 @@
 ﻿@model MultipleCategoryViewModel
 
 @{
-    ViewData["Title"] = "Add new Category";
+    ViewData["Title"] = "Create new Category";
 }
 
 <h4 class="text-danger" style="text-align:center">
@@ -12,8 +12,7 @@
     <h3 style="color:red"><strong>@TempData["message"]</strong></h3>
 </div>
 
-
-<h2 class="text-center">Add Category Name</h2>
+<h2 class="text-center">@ViewBag.Title</h2>
 
 <div class="row">
     <form method="post" asp-controller="Category" asp-action="Add">
@@ -23,7 +22,7 @@
             <span asp-validation-for="CategoryModel.Name" class="text-danger"></span>
         </div>
         <div class="col mt-2">
-            <input class="btn btn-primary" type="submit" value="Add" />
+            <input class="btn btn-primary" type="submit" value="Create" />
         </div>
     </form>
 </div>

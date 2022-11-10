@@ -1,12 +1,11 @@
-﻿using RestaurantManagmentSystem.Core.Data;
-using RestaurantManagmentSystem.Core.Models.Categories;
+﻿using RestaurantManagmentSystem.Core.Models.Categories;
 
 namespace RestaurantManagmentSystem.Core.Contracts
 {
     public interface ICategory
     {
         Task AddCategoryAsync(CategoryViewModel model);
-        bool HasThisEntity(string name);
+        Task<bool> HasThisEntityAsync(string name);
         Task<IEnumerable<EditCategoryViewModel>> GetAllCategoriesAsync();
         Task<IEnumerable<EditCategoryViewModel>> GetAllDeletedCategoriesAsync();
         Task DeleteCategoryAsync(int Id);

@@ -53,7 +53,7 @@ namespace RestaurantManagmentSystem.Controllers
                 return View(model);
             }
 
-            if (departmentService.HasThisEntity(model))
+            if (departmentService.HasThisEntity(model.Name))
             {
                 ModelState.AddModelError("", "Alredy has entity with this name !");
                 return View(model);

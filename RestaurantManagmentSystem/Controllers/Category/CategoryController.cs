@@ -52,7 +52,7 @@ namespace RestaurantManagmentSystem.Controllers.Category
                 return View(model);
             }
 
-            if (categoryService.HasThisEntity(model.CategoryModel.Name))
+            if (await categoryService.HasThisEntityAsync(model.CategoryModel.Name))
             {
                 TempData["Error"] = "Alredy has entity with this name. Try with the other one !";
 
@@ -61,7 +61,6 @@ namespace RestaurantManagmentSystem.Controllers.Category
 
             await categoryService.AddCategoryAsync(model.CategoryModel);
 
-            //return View(model);
             return RedirectToAction("Add");
         }
         /// <summary>
@@ -136,7 +135,6 @@ namespace RestaurantManagmentSystem.Controllers.Category
         /// <returns></returns>
         public async Task<IActionResult> Restore(int Id)
         {
-
             await categoryService.RestoreCategoryAsync(Id);
 
             return RedirectToAction("Add");

@@ -6,7 +6,7 @@ namespace RestaurantManagmentSystem.Core.Contracts
     public interface IDepartment
     {
         Task AddDepartmentAsync(DepartmentViewModel model);
-        bool HasThisEntity(DepartmentViewModel model);
+        bool HasThisEntity(string name);
         Task<IEnumerable<EditDepartmentViewModel>> GetAllDepartmentAsync();
         Task<IEnumerable<EditDepartmentViewModel>> GetAllDeletedDepartmentAsync();
         Task DeleteDepartmentAsync(int Id);

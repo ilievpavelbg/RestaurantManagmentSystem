@@ -6,8 +6,8 @@ namespace RestaurantManagmentSystem.Controllers
 {
     public class MenuItemController : Controller
     {
-        private readonly ICategory category;
-        private readonly IMenuItem menuItem;
+        private readonly ICategory categoryServise;
+        private readonly IMenuItem menuItemService;
         /// <summary>
         /// Initialize category and manu services in constructor
         /// </summary>
@@ -15,8 +15,8 @@ namespace RestaurantManagmentSystem.Controllers
         /// <param name="_menuItem"></param>
         public MenuItemController(ICategory _category, IMenuItem _menuItem)
         {
-            category = _category;
-            menuItem = _menuItem;
+            categoryServise = _category;
+            menuItemService = _menuItem;
         }
         /// <summary>
         /// MenuItem Index page
@@ -35,7 +35,7 @@ namespace RestaurantManagmentSystem.Controllers
         {
             var menu = new AddMenuItemViewModel()
             {
-                Categories = await category.GetAllCategoriesAsync()
+                Categories = await categoryServise.GetAllCategoriesAsync()
             };
 
             return View(menu);
@@ -54,7 +54,14 @@ namespace RestaurantManagmentSystem.Controllers
                 return View(model);
             }
 
-            await menuItem.AddMenuItemAsync(model);
+            if (await menuItemService.HasThisEntityAsync(model.Name))
+            {
+                TempData["Error"] = "Alredy has entity with this name. Try with the other one !";
+
+                return RedirectToAction("Add");
+            }
+
+            await menuItemService.AddMenuItemAsync(model);
 
             return RedirectToAction("All");
         }
@@ -63,9 +70,12 @@ namespace RestaurantManagmentSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var allMemuItem = menuItem.GetAllMenuItems();
+            var allMemuItem = new MultipleMenuItemViewModel();
+
+            allMemuItem.ActiveMenuItems =  await menuItemService.GetAllMenuItemsAsync();
+            allMemuItem.DeletedMenuItems =  await menuItemService.GetAllDeletedMenuItemsAsync();
 
             return View(allMemuItem);
         }
@@ -77,9 +87,9 @@ namespace RestaurantManagmentSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await menuItem.EditGetMenuItemAsync(id);
+            var model = await menuItemService.EditGetMenuItemAsync(id);
 
-            model.Categories = await category.GetAllCategoriesAsync(); 
+            model.Categories = await categoryServise.GetAllCategoriesAsync(); 
 
             return View(model);
         }
@@ -96,7 +106,7 @@ namespace RestaurantManagmentSystem.Controllers
                 return View(model);
             }
 
-            await menuItem.EditPostMenuItemAsync(model);
+            await menuItemService.EditPostMenuItemAsync(model);
 
             return RedirectToAction("All");
         }
@@ -107,7 +117,19 @@ namespace RestaurantManagmentSystem.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Delete(int Id)
         {
-            await menuItem.DeleteMenuItemAsync(Id);
+            await menuItemService.DeleteMenuItemAsync(Id);
+
+            return RedirectToAction("All");
+        }
+
+        /// <summary>
+        /// Restore MenuItem
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Restore(int Id)
+        {
+            await menuItemService.RestoreMenuItemAsync(Id);
 
             return RedirectToAction("All");
         }

@@ -1,83 +1,81 @@
-﻿@using RestaurantManagmentSystem.Core.Models
-@model EditMenuItemViewModel
+﻿@model EditMenuItemViewModel
 
 @{
-    ViewBag.Title = "Edit MenuItem";
+    ViewBag.Title = "Add MenuItem";
 }
 
-<h2 class="text-center">@ViewBag.Title</h2>
+@*<h2 class="text-center">@ViewBag.Title</h2>
+
+<h4 class="text-danger" style="text-align:center">
+    @TempData["Error"]
+</h4>
+
+<div class="row text-center">
+    <h3 style="color:red"><strong>@TempData["message"]</strong></h3>
+</div>*@
+
 <hr />
-
-<div class="container">
-    <form method="post">
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label asp-for="@Model.ImageURL" class="control-label"></label>
-                    <input asp-for="@Model.ImageURL" class="form-control" />
-                    <span asp-validation-for="@Model.ImageURL" class="text-danger"></span>
-                    <span><img src="/Images/musaka.jpg" /></span>
-
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Name" class="control-label"></label>
+                <input asp-for="@Model.Name" class="form-control" />
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Description" class="control-label"></label>
+                <input asp-for="@Model.Description" class="form-control" />
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Price" class="control-label"></label>
+                <input asp-for="@Model.Price" class="form-control" />
+                <span asp-validation-for="@Model.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ImageURL" class="control-label"></label>
+                <input asp-for="@Model.ImageURL" class="form-control" />
+                <span asp-validation-for="@Model.ImageURL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Is For Cooking ?</label>
+                <div class="form-check">
+                    <input asp-for="@Model.ItemsForCooking" value="true" class="form-check-input" type="radio" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Yes
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input asp-for="@Model.ItemsForCooking" value="false" class="form-check-input" type="radio" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        No
+                    </label>
                 </div>
             </div>
-            <div class="col-6">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="@Model.Name" class="control-label"></label>
-                    <input asp-for="@Model.Name" class="form-control" />
-                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="@Model.Description" class="control-label"></label>
-                    <textarea class="form-control rounded-0" asp-for="@Model.Description" class="form-control"></textarea>
-                    @*<input asp-for="@Model.Description" class="form-control" />*@
-                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
-
-                </div>
-                <div class="form-group">
-                    <label asp-for="@Model.Price" class="control-label"></label>
-                    <input asp-for="@Model.Price" class="form-control" />
-                    <span asp-validation-for="@Model.Price" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Is For Cooking ?</label>
-                    <div class="form-check">
-                        <input asp-for="@Model.ItemsForCooking" value="true" class="form-check-input" type="radio" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            Yes
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input asp-for="@Model.ItemsForCooking" value="false" class="form-check-input" type="radio" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            No
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="@Model.CategoryId" class="form-label">Category</label>
-                    <select asp-for="@Model.CategoryId" class="form-control">
-                        @foreach (var categ in Model.Categories)
-                        {
-                            <option value="@categ.Id">@categ.Name</option>
-                        }
-                    </select>
-                    <span asp-validation-for="Categories" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save Changes" class="btn btn-primary" />
-                </div>
+            <div class="form-group">
+                <label asp-for="@Model.CategoryId" class="form-label">Category</label>
+                <select asp-for="@Model.CategoryId" class="form-control" aria-label="Default select example">
+                    <option selected>@Model.CategoryName</option>
+                    @foreach (var categ in Model.Categories)
+                    {
+                        <option value="@categ.Id">@categ.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Categories" class="text-danger"></span>
             </div>
-
-        </div>
-    </form>
+            <div class="form-group">
+                <input type="submit" value="Save changes" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
-
-
 
 <div class="mt-2">
     <a class="btn btn-danger" href="/MenuItem/All">Back to List</a>
 </div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

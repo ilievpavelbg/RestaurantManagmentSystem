@@ -84,9 +84,9 @@ namespace RestaurantManagmentSystem.Core.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public bool HasThisEntity(DepartmentViewModel model)
+        public bool HasThisEntity(string name)
         {
-            var entity = repo.All<Department>(x => x.Name == model.Name).FirstOrDefault();
+            var entity = repo.All<Department>(x => x.Name == name).First();
 
             if (entity != null)
             {
@@ -102,18 +102,19 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task DeleteDepartmentAsync(int Id)
         {
-            var user = repo.All<ApplicationUser>(x => x.DepartmentId == Id && x.IsDeleted == false);
+            //TODO Have to get AppUser Id and delete only conection
+            //var appUser = repo.All<ApplicationUser>(x => x.Id == Id && x.IsDeleted == false);
 
-            if (user.Any())
-            {
-                throw new ArgumentException("Have to delete all menuItems included in this category!");
-            }
+            //var category = await repo.GetByIdAsync<Category>(Id);
 
-            var department = await repo.GetByIdAsync<Department>(Id);
+            //if (appUser.Any())
+            //{
+            //    throw new ArgumentException($"First have to delete all MenuItems with category {category.Name}!");
+            //}
 
-            department.IsDeleted = true;
+            //category.IsDeleted = true;
 
-            await repo.SaveChangesAsync();
+            //await repo.SaveChangesAsync();
         }
         /// <summary>
         /// Get department by Id

@@ -5,10 +5,13 @@ namespace RestaurantManagmentSystem.Core.Contracts
     public interface IMenuItem
     {
         Task AddMenuItemAsync(AddMenuItemViewModel model);
-        IEnumerable<MenuItemViewModel> GetAllMenuItems();
+        Task<IEnumerable<EditMenuItemViewModel>> GetAllMenuItemsAsync();
+        Task<IEnumerable<EditMenuItemViewModel>> GetAllDeletedMenuItemsAsync();
         Task EditPostMenuItemAsync(EditMenuItemViewModel model);
         Task<EditMenuItemViewModel> EditGetMenuItemAsync(int Id);
          Task DeleteMenuItemAsync(int Id);
         Task<EditMenuItemViewModel> GetByIdMenuItem(int Id);
+        Task<bool> HasThisEntityAsync(string name);
+        Task RestoreMenuItemAsync(int Id);
     }
 }

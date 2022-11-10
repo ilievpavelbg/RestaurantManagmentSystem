@@ -38,10 +38,10 @@ namespace RestaurantManagmentSystem.Core.Data
 
         public bool IsDeleted { get; set; }
 
-        [Required]
+        
         [ForeignKey(nameof(Department))]
-        public int DepartmentId { get; set; }
-        public Department Department { get; set; } = null!;
+        public int? DepartmentId { get; set; }
+        public Department? Department { get; set; } = null!;
 
         public int? OrderId { get; set; }
 

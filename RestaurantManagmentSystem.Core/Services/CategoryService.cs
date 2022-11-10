@@ -84,14 +84,16 @@ namespace RestaurantManagmentSystem.Core.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public bool HasThisEntity(string name)
+        public async Task<bool> HasThisEntityAsync(string name)
         {
-        
-            var entity = repo.All<Category>(x => x.Name == name).First();
+            var entities = await GetAllCategoriesAsync();
 
-            if (entity != null)
+            foreach (var entity in entities)
             {
-                return true;
+                if (entity.Name == name)
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -139,7 +141,7 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task RestoreCategoryAsync(int Id)
         {
-            var menuItems = repo.All<MenuItem>(x => x.CategoryId == Id && x.IsDeleted == true);
+            //var menuItems = repo.All<MenuItem>(x => x.CategoryId == Id && x.IsDeleted == true);
 
             var category = await repo.GetByIdAsync<Category>(Id);
 

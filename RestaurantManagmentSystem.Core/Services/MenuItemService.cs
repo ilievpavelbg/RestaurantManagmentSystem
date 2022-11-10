@@ -1,7 +1,7 @@
-﻿using RestaurantManagmentSystem.Core.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Models.MenuItems;
-using RestaurantManagmentSystem.Core.Repository;
 using RestaurantManagmentSystem.Core.Repository.Common;
 
 namespace RestaurantManagmentSystem.Core.Services
@@ -72,7 +72,7 @@ namespace RestaurantManagmentSystem.Core.Services
                 Price = menuItem.Price,
                 ImageURL = menuItem.ImageURL,
                 CategoryId = menuItem.CategoryId,
-                ItemsForCooking = menuItem.ItemsForCooking
+                ItemsForCooking = menuItem.ItemsForCooking,
             };
 
             return model;
@@ -81,10 +81,11 @@ namespace RestaurantManagmentSystem.Core.Services
         /// Get all menuItems
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<MenuItemViewModel> GetAllMenuItems()
+        public async Task<IEnumerable<EditMenuItemViewModel>> GetAllMenuItemsAsync()
         {
-            var allMenuItem = repo.All<MenuItem>()
-                .Select(mi => new MenuItemViewModel
+            var allMenuItem = await repo.All<MenuItem>()
+                .Where(x => x.IsDeleted == false)
+                .Select(mi => new EditMenuItemViewModel
                 {
                     Id = mi.Id,
                     Name = mi.Name,
@@ -93,7 +94,7 @@ namespace RestaurantManagmentSystem.Core.Services
                     ImageURL= mi.ImageURL,
                     CategoryName = mi.Category.Name,
                     IsDeleted = mi.IsDeleted
-                }).ToList();
+                }).ToListAsync();
 
             return allMenuItem;
         }
@@ -131,6 +132,53 @@ namespace RestaurantManagmentSystem.Core.Services
             menuItem.IsDeleted = true;
 
             await repo.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Restore Category as put the IsDeleted property to false
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public async Task RestoreMenuItemAsync(int Id)
+        {
+            var menuItem = await repo.GetByIdAsync<MenuItem>(Id);
+
+            menuItem.IsDeleted = false;
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> HasThisEntityAsync(string name)
+        {
+            var entities = await GetAllMenuItemsAsync();
+
+            foreach (var entity in entities)
+            {
+                if (entity.Name == name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<IEnumerable<EditMenuItemViewModel>> GetAllDeletedMenuItemsAsync()
+        {
+            var allMenuItem = await repo.All<MenuItem>()
+                 .Where(x => x.IsDeleted == true)
+                 .Select(mi => new EditMenuItemViewModel
+                 {
+                     Id = mi.Id,
+                     Name = mi.Name,
+                     Description = mi.Description,
+                     Price = mi.Price,
+                     ImageURL = mi.ImageURL,
+                     CategoryName = mi.Category.Name,
+                     IsDeleted = mi.IsDeleted
+                 }).ToListAsync();
+
+            return allMenuItem;
         }
     }
 }
