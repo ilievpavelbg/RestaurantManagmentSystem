@@ -101,7 +101,7 @@ namespace RestaurantManagmentSystem.Controllers.Category
 
             await categoryService.EditPostCategoryAsync(model);
 
-            return RedirectToAction("All");
+            return RedirectToAction("Add");
         }
         /// <summary>
         /// Delete Category

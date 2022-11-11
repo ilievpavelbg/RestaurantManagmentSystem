@@ -63,10 +63,10 @@ namespace RestaurantManagmentSystem.Core.Services
             await repo.SaveChangesAsync();
         }
         /// <summary>
-        /// Get all departments
+        /// Get all Departments
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<EditDepartmentViewModel>> GetAllDepartmentAsync()
+        public async Task<IEnumerable<EditDepartmentViewModel>> GetAllDepartmentsAsync()
         {
             var allDepartments = await repo.All<Department>()
                 .Where(x => x.IsDeleted == false)
@@ -84,13 +84,16 @@ namespace RestaurantManagmentSystem.Core.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public bool HasThisEntity(string name)
+        public async Task<bool> HasThisEntityAsync(string name)
         {
-            var entity = repo.All<Department>(x => x.Name == name).First();
+            var entities = await GetAllDepartmentsAsync();
 
-            if (entity != null)
+            foreach (var entity in entities)
             {
-                return true;
+                if (entity.Name == name)
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -102,22 +105,21 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task DeleteDepartmentAsync(int Id)
         {
-            //TODO Have to get AppUser Id and delete only conection
-            //var appUser = repo.All<ApplicationUser>(x => x.Id == Id && x.IsDeleted == false);
+            var appUsers = repo.All<ApplicationUser>(x => x.DepartmentId == Id && x.IsDeleted == false);
 
-            //var category = await repo.GetByIdAsync<Category>(Id);
+            var department = await repo.GetByIdAsync<Department>(Id);
 
-            //if (appUser.Any())
-            //{
-            //    throw new ArgumentException($"First have to delete all MenuItems with category {category.Name}!");
-            //}
+            if (appUsers.Any())
+            {
+                throw new ArgumentException($"First have to delete all Users with department {department.Name}!");
+            }
 
-            //category.IsDeleted = true;
+            department.IsDeleted = true;
 
-            //await repo.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
         /// <summary>
-        /// Get department by Id
+        /// Get Department by Id
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
@@ -139,8 +141,7 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task RestoreDepartmentAsync(int Id)
         {
-            var users = repo.All<ApplicationUser>(x => x.DepartmentId == Id && x.IsDeleted == true);
-
+           
             var department = await repo.GetByIdAsync<Department>(Id);
 
             department.IsDeleted = false;
@@ -151,18 +152,18 @@ namespace RestaurantManagmentSystem.Core.Services
         /// Get All Deleted Departments
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<EditDepartmentViewModel>> GetAllDeletedDepartmentAsync()
+        public async Task<IEnumerable<EditDepartmentViewModel>> GetAllDeletedDepartmentsAsync()
         {
-            var allDepts = await repo.All<Department>()
+            var allDepartments = await repo.All<Department>()
                 .Where(x => x.IsDeleted == true)
-                .Select(vm => new EditDepartmentViewModel
+                .Select(vm => new EditDepartmentViewModel()
                 {
                     Id = vm.Id,
                     Name = vm.Name
                 })
                 .ToListAsync();
 
-            return allDepts;
+            return allDepartments;
         }
     }
 }

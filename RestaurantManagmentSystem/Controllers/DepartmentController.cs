@@ -30,13 +30,11 @@ namespace RestaurantManagmentSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var model = new EditDepartmentViewModel();
+            var model = new MultipleDepartmentViewModel();
 
-            var allDepartments = await departmentService.GetAllDepartmentAsync();
-            var allDeletedDepartments = await departmentService.GetAllDeletedDepartmentAsync();
-
-            ViewBag.ActiveDepartments = allDepartments;
-            ViewBag.DeletedDepartments = allDeletedDepartments;
+            model.DepartmentModel = new DepartmentViewModel();
+            model.ActiveDepartments = await departmentService.GetAllDepartmentsAsync();
+            model.DeletedDepartments = await departmentService.GetAllDeletedDepartmentsAsync();
 
             return View(model);
         }
@@ -46,32 +44,33 @@ namespace RestaurantManagmentSystem.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add(EditDepartmentViewModel model)
+        public async Task<IActionResult> Add(MultipleDepartmentViewModel model)
         {
             if (!ModelState.IsValid)
             {
+
                 return View(model);
             }
 
-            if (departmentService.HasThisEntity(model.Name))
+            if (await departmentService.HasThisEntityAsync(model.DepartmentModel.Name))
             {
-                ModelState.AddModelError("", "Alredy has entity with this name !");
-                return View(model);
+                TempData["Error"] = "Alredy has Department with this name. Try with other one !";
+
+                return RedirectToAction("Add");
             }
 
-            await departmentService.AddDepartmentAsync(model);
+            await departmentService.AddDepartmentAsync(model.DepartmentModel);
 
-            //return View(model);
             return RedirectToAction("Add");
         }
         /// <summary>
-        /// Show all departments
+        /// Show all Departments
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            var allDepartments = await departmentService.GetAllDeletedDepartmentAsync();
+            var allDepartments = await departmentService.GetAllDepartmentsAsync();
 
             return View(allDepartments);
         }
@@ -102,7 +101,7 @@ namespace RestaurantManagmentSystem.Controllers
 
             await departmentService.EditPostDepartmentAsync(model);
 
-            return RedirectToAction("All");
+            return RedirectToAction("Add");
         }
         /// <summary>
         /// Delete Department
@@ -119,13 +118,13 @@ namespace RestaurantManagmentSystem.Controllers
 
                 TempData["message"] = $"Succesfully deleted {department.Name}";
 
-                return RedirectToAction("All");
+                return RedirectToAction("Add");
             }
             catch (Exception ex)
             {
                 TempData["message"] = ex.Message;
 
-                return RedirectToAction("All");
+                return RedirectToAction("Add");
             }
 
         }
@@ -136,7 +135,6 @@ namespace RestaurantManagmentSystem.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Restore(int Id)
         {
-
             await departmentService.RestoreDepartmentAsync(Id);
 
             return RedirectToAction("Add");
