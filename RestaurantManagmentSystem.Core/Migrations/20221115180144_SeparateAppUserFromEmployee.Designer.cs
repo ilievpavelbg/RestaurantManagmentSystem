@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantManagmentSystem.Core.Repository;
 
@@ -11,9 +12,10 @@ using RestaurantManagmentSystem.Core.Repository;
 namespace RestaurantManagmentSystem.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221115180144_SeparateAppUserFromEmployee")]
+    partial class SeparateAppUserFromEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,6 +203,9 @@ namespace RestaurantManagmentSystem.Core.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -255,6 +260,8 @@ namespace RestaurantManagmentSystem.Core.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -458,6 +465,10 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("ClosedOn")
                         .HasColumnType("datetime2");
 
@@ -465,7 +476,6 @@ namespace RestaurantManagmentSystem.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EmployeeId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -478,6 +488,8 @@ namespace RestaurantManagmentSystem.Core.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("EmployeeId");
 
@@ -613,6 +625,13 @@ namespace RestaurantManagmentSystem.Core.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.ApplicationUser", b =>
+                {
+                    b.HasOne("RestaurantManagmentSystem.Core.Data.Department", null)
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("DepartmentId");
+                });
+
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Customer", b =>
                 {
                     b.HasOne("RestaurantManagmentSystem.Core.Data.Table", "Table")
@@ -629,7 +648,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
                         .HasForeignKey("RestaurantManagmentSystem.Core.Data.Employee", "ApplicationUserId");
 
                     b.HasOne("RestaurantManagmentSystem.Core.Data.Department", "Department")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("ApplicationUser");
@@ -648,11 +667,15 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Order", b =>
                 {
-                    b.HasOne("RestaurantManagmentSystem.Core.Data.Employee", "Employee")
-                        .WithMany("Orders")
-                        .HasForeignKey("EmployeeId")
+                    b.HasOne("RestaurantManagmentSystem.Core.Data.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("RestaurantManagmentSystem.Core.Data.Employee", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("RestaurantManagmentSystem.Core.Data.Table", "Table")
                         .WithMany("Orders")
@@ -660,7 +683,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Employee");
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Table");
                 });
@@ -677,7 +700,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Department", b =>
                 {
-                    b.Navigation("Employees");
+                    b.Navigation("ApplicationUsers");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Employee", b =>

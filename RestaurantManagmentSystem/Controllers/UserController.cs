@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Models.User;
 
@@ -12,12 +13,16 @@ namespace RestaurantManagmentSystem.Controllers
 
         private readonly SignInManager<ApplicationUser> signInManager;
 
+        private readonly IEmployee employeeService;
+
         public UserController(
             UserManager<ApplicationUser> _userManager,
-            SignInManager<ApplicationUser> _signInManager)
+            SignInManager<ApplicationUser> _signInManager,
+            IEmployee _employeeService)
         {
             userManager = _userManager;
             signInManager = _signInManager;
+            employeeService = _employeeService;
         }
 
         [HttpGet]
@@ -39,11 +44,27 @@ namespace RestaurantManagmentSystem.Controllers
                 return View(model);
             }
 
+            var existUser = await userManager.FindByEmailAsync(model.Email);
+
+            if (existUser != null)
+            {
+                if (existUser.Email == model.Email)
+                {
+                    ModelState.AddModelError("", "Already exist user with this email");
+
+                    return View(model);
+                }
+            }
+           
+
+
             var user = new ApplicationUser()
             {
                 Email = model.Email,
                 FirstName = model.FirstNane,
-                LastName = model.LastNane
+                LastName = model.LastNane,
+                PhoneNumber = model.PhoneNumber,
+                UserName = model.UserName
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
@@ -72,22 +93,40 @@ namespace RestaurantManagmentSystem.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
+            
             var user = await userManager.FindByNameAsync(model.UserName);
 
             if (user != null)
             {
                 var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
+                var hasEmployee = employeeService.CheckEmlploeeExistByEmail(user.Email);
+                
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("All", "Books");
+                    if (hasEmployee)
+                    {
+                        var employee = employeeService.GetEmployeeByEmail(user.Email);
+
+                        if (user.Email == employee.Email && employee != null && user.EmployeeId == null)
+                        {
+                            await employeeService.ConnectUserWithEmployee(employee, user);
+
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return LocalRedirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
                 }
             }
 

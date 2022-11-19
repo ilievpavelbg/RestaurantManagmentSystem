@@ -21,9 +21,9 @@ namespace RestaurantManagmentSystem.Core.Data
         public bool IsDeleted { get; set; }
 
         [Required]
-        [ForeignKey(nameof(ApplicationUser))]
-        public string? ApplicationUserId { get; set; } = null!;
-        public ApplicationUser? ApplicationUser { get; set; } = null!;
+        [ForeignKey(nameof(Employee))]
+        public int? EmployeeId { get; set; } = null!;
+        public Employee? Employee { get; set; } = null!;
 
         [Required]
         [ForeignKey(nameof(Table))]

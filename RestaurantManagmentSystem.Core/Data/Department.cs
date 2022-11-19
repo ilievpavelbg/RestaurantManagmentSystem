@@ -12,6 +12,6 @@ namespace RestaurantManagmentSystem.Core.Data
         [StringLength(DepartmentConstrains.NameMaxLenght)]
         public string Name { get; set; } = null!;
         public bool IsDeleted { get; set; }
-        public ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
+        public ICollection<Employee> Employees { get; set; } = new List<Employee>();
     }
 }

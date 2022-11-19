@@ -22,7 +22,7 @@ namespace RestaurantManagmentSystem.Core.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task AddCategoryAsync(CategoryViewModel model)
+        public async Task CreateCategoryAsync(CategoryViewModel model)
         {
             var category = new Category()
             {
@@ -86,17 +86,8 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task<bool> HasThisEntityAsync(string name)
         {
-            var entities = await GetAllCategoriesAsync();
-
-            foreach (var entity in entities)
-            {
-                if (entity.Name == name)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            
+            return await repo.All<Category>().AnyAsync(c => c.Name == name);
         }
         /// <summary>
         /// Delete Category as put the IsDeleted property to true, no physical detetion from DB

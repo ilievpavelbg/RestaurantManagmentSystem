@@ -1,5 +1,4 @@
-﻿@using RestaurantManagmentSystem.Core.Models.User
-@model RegisterViewModel
+﻿@model RegisterViewModel
 
 @{
     ViewData["Title"] = "Register";
@@ -15,18 +14,28 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="text-center mb-3">
                 <label asp-for="@Model.FirstNane">First Name</label>
-                <input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.FirstNane" />
+                <input class="form-control " autocomplete="on" aria-required="true" asp-for="@Model.FirstNane" />
                 <span asp-validation-for="@Model.FirstNane" class="text-danger"></span>
             </div>
             <div class="text-center mb-3">
                 <label asp-for="@Model.LastNane">Last Name</label>
-                <input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.LastNane" />
+                <input class="form-control " autocomplete="on" aria-required="true" asp-for="@Model.LastNane" />
                 <span asp-validation-for="@Model.LastNane" class="text-danger"></span>
             </div>
             <div class="text-center mb-3">
+                <label asp-for="@Model.UserName">Username</label>
+                <input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.UserName" />
+                <span asp-validation-for="@Model.UserName" class="text-danger"></span>
+            </div>
+            <div class="text-center mb-3">
                 <label asp-for="@Model.Email">Email</label>
-                <input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.Email" />
+                <input class="form-control " autocomplete="on" aria-required="true" asp-for="@Model.Email" />
                 <span asp-validation-for="@Model.Email" class="text-danger"></span>
+            </div>
+             <div class="text-center mb-3">
+                <label asp-for="@Model.PhoneNumber">Phone number</label>
+                <input class="form-control " autocomplete="username" aria-required="true" asp-for="@Model.PhoneNumber" />
+                <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="text-center mb-3">
                 <label asp-for="@Model.Password">Password</label>

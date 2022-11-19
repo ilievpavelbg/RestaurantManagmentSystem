@@ -150,17 +150,7 @@ namespace RestaurantManagmentSystem.Core.Services
 
         public async Task<bool> HasThisEntityAsync(string name)
         {
-            var entities = await GetAllMenuItemsAsync();
-
-            foreach (var entity in entities)
-            {
-                if (entity.Name == name)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return await repo.All<MenuItem>().AnyAsync(c => c.Name == name);
         }
 
         public async Task<IEnumerable<EditMenuItemViewModel>> GetAllDeletedMenuItemsAsync()

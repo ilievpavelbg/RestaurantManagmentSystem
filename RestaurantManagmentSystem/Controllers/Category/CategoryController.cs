@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Models.Categories;
 
 namespace RestaurantManagmentSystem.Controllers.Category
 {
+    [Authorize(Roles = "Administrator")]
     public class CategoryController : Controller
     {
         private readonly ICategory categoryService;
@@ -48,7 +50,6 @@ namespace RestaurantManagmentSystem.Controllers.Category
         {
             if (!ModelState.IsValid)
             {
-
                 return View(model);
             }
 
@@ -59,7 +60,7 @@ namespace RestaurantManagmentSystem.Controllers.Category
                 return RedirectToAction("Add");
             }
 
-            await categoryService.AddCategoryAsync(model.CategoryModel);
+            await categoryService.CreateCategoryAsync(model.CategoryModel);
 
             return RedirectToAction("Add");
         }

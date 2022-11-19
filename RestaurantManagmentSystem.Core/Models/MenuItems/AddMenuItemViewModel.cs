@@ -1,4 +1,5 @@
-﻿using RestaurantManagmentSystem.Core.Constrains.MenuItem;
+﻿using Microsoft.AspNetCore.Http;
+using RestaurantManagmentSystem.Core.Constrains.MenuItem;
 using RestaurantManagmentSystem.Core.Models.Categories;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,7 +20,6 @@ namespace RestaurantManagmentSystem.Core.Models.MenuItems
         [Range(typeof(decimal), MenuItemConstrains.PriceMinLenght, MenuItemConstrains.PriceMaxLenght)]
         public decimal Price { get; set; }
 
-        [Required]
         public string ImageURL { get; set; } = null!;
 
         [Required]

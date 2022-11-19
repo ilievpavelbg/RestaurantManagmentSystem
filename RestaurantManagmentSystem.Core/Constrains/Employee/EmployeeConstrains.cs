@@ -1,6 +1,6 @@
-﻿namespace RestaurantManagmentSystem.Core.Constrains.User
+﻿namespace RestaurantManagmentSystem.Core.Constrains.Employee
 {
-    static class UserConstrains
+    public class EmployeeConstrains
     {
         public const int FirstNameMaxLenght = 50;
         public const int FirstNameMinLenght = 3;
@@ -14,7 +14,5 @@
         public const int AddressMinLenght = 5;
         public const int TownMaxLenght = 50;
         public const int TownMinLenght = 3;
-        public const int PassMaxLenght = 50;
-        public const int PassMinLenght = 5;
     }
 }

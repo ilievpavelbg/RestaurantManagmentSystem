@@ -86,17 +86,7 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task<bool> HasThisEntityAsync(string name)
         {
-            var entities = await GetAllDepartmentsAsync();
-
-            foreach (var entity in entities)
-            {
-                if (entity.Name == name)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return await repo.All<Department>().AnyAsync(c => c.Name == name);
         }
         /// <summary>
         /// Delete Department as put the IsDeleted property to true, no physical detetion from DB
@@ -105,7 +95,7 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task DeleteDepartmentAsync(int Id)
         {
-            var appUsers = repo.All<ApplicationUser>(x => x.DepartmentId == Id && x.IsDeleted == false);
+            var appUsers = repo.All<Employee>(x => x.DepartmentId == Id && x.IsDeleted == false);
 
             var department = await repo.GetByIdAsync<Department>(Id);
 

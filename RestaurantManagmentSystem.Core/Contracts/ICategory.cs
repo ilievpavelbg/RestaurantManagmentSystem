@@ -4,7 +4,7 @@ namespace RestaurantManagmentSystem.Core.Contracts
 {
     public interface ICategory
     {
-        Task AddCategoryAsync(CategoryViewModel model);
+        Task CreateCategoryAsync(CategoryViewModel model);
         Task<bool> HasThisEntityAsync(string name);
         Task<IEnumerable<EditCategoryViewModel>> GetAllCategoriesAsync();
         Task<IEnumerable<EditCategoryViewModel>> GetAllDeletedCategoriesAsync();

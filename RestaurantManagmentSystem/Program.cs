@@ -23,6 +23,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.Password.RequireUppercase = false;
     options.User.RequireUniqueEmail = false;
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
@@ -32,7 +33,12 @@ builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<ICategory, CategoryService>();
 builder.Services.AddScoped<IMenuItem, MenuItemService>();
 builder.Services.AddScoped<IDepartment, DepartmentService>();
+builder.Services.AddScoped<IEmployee, EmployeeService>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/User/Login";
+});
 
 var app = builder.Build();
 
