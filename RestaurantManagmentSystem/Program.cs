@@ -34,10 +34,12 @@ builder.Services.AddScoped<ICategory, CategoryService>();
 builder.Services.AddScoped<IMenuItem, MenuItemService>();
 builder.Services.AddScoped<IDepartment, DepartmentService>();
 builder.Services.AddScoped<IEmployee, EmployeeService>();
+builder.Services.AddScoped<IRole, RoleService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/User/Login";
+    options.Cookie.HttpOnly = true;
 });
 
 var app = builder.Build();

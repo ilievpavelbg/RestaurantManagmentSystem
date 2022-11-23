@@ -7,8 +7,9 @@ namespace RestaurantManagmentSystem.Core.Contracts
     public interface IEmployee
     {
         Task CreateUserAsync(EmployeeViewModel model);
-        bool CheckEmlploeeExistByEmail(string email);
-        BecomeEmployee GetEmployeeByEmail(string email);
-        Task ConnectUserWithEmployee(BecomeEmployee modelEmployee, ApplicationUser user);
+        Task<IEnumerable<AllEmployeeViewModel>> GetAllEmployeesAsync();
+        Task<bool> EsistEmployeeByEmailAsync(string email);
+        Task<BecomeEmployee> GetEmployeeByEmailAsync(string email);
+        Task ConnectUserWithEmployeeAsync(BecomeEmployee modelEmployee, ApplicationUser user);
     }
 }

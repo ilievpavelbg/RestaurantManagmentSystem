@@ -1,13 +1,14 @@
 ﻿@model string
+
 @{
-    ViewData["Title"] = "CREATE ROLE";
+    ViewData["Title"] = "Create Role";
 }
 
-<h1 class="bg-info text-white">Create a Role</h1>
+<h1 class="text-center">@ViewData["Title"]</h1>
 
-<a asp-action="Index" class="btn btn-secondary">Back</a>
 
-<div asp-validation-summary="All" class="text-danger"></div>
+
+@*<div asp-validation-summary="All" class="text-danger"></div>
 
 <form asp-action="Create" method="post">
     <div class="form-group">
@@ -15,4 +16,31 @@
         <input name="name" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
-</form>
+</form>*@
+
+
+
+
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form asp-action="Create" method="post">
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="text-center mb-3">
+                <label for="name">Name:</label>
+                <input name="name" class="form-control" />
+            </div>
+            <div class="text-center">
+                <button id="registerSubmit" type="submit" class="btn btn-primary">Create Role</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-warning">Back</a>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

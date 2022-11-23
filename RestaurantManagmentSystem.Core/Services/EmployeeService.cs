@@ -1,4 +1,5 @@
-﻿using RestaurantManagmentSystem.Core.Contracts;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Models.ApplicationUser;
 using RestaurantManagmentSystem.Core.Models.Employee;
@@ -21,8 +22,6 @@ namespace RestaurantManagmentSystem.Core.Services
 
             DateTime.TryParseExact(model.HireDate, "yyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
 
-            
-
             var newUser = new Employee()
             {
                 FirstName = model.FirstName,
@@ -41,15 +40,14 @@ namespace RestaurantManagmentSystem.Core.Services
 
         }
 
-        public bool CheckEmlploeeExistByEmail(string email)
+        public async Task<bool> EsistEmployeeByEmailAsync(string email)
         {
-            return  repo.All<Employee>().Any(x => x.Email == email) ? true : false ;
-
+            return await repo.All<Employee>().AnyAsync(x => x.Email == email) ? true : false ;
         }
 
-        public BecomeEmployee GetEmployeeByEmail(string email)
+        public async Task<BecomeEmployee> GetEmployeeByEmailAsync(string email)
         {
-            var employee = repo.All<Employee>().First(x => x.Email == email);
+            var employee = await repo.All<Employee>().FirstAsync(x => x.Email == email);
 
             var model = new BecomeEmployee()
             {
@@ -63,7 +61,7 @@ namespace RestaurantManagmentSystem.Core.Services
         }
 
 
-        public async Task ConnectUserWithEmployee(BecomeEmployee modelEmployee, ApplicationUser user)
+        public async Task ConnectUserWithEmployeeAsync(BecomeEmployee modelEmployee, ApplicationUser user)
         {
             var employee = repo.All<Employee>().First(x => x.Email == user.Email);
 
@@ -75,6 +73,25 @@ namespace RestaurantManagmentSystem.Core.Services
 
             await repo.SaveChangesAsync();
 
+        }
+
+        public async Task<IEnumerable<AllEmployeeViewModel>> GetAllEmployeesAsync()
+        {
+            var employees =
+                await repo.All<Employee>()
+                .Where(x => x.ApplicationUserId != null)
+                .Select(e => new AllEmployeeViewModel()
+                {
+                    Id = e.Id,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    UserName = e.ApplicationUser.UserName,
+                    DepartmentId = e.DepartmentId,
+                    AppUserId = e.ApplicationUserId
+
+                }).ToListAsync();
+
+            return employees;
         }
     }
 }
