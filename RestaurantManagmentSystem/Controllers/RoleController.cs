@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
@@ -7,12 +8,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantManagmentSystem.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class RoleController : Controller
     {
         private IRole roleService;
         private RoleManager<IdentityRole> roleManager;
         private UserManager<ApplicationUser> userManager;
 
+        /// <summary>
+        /// Initialize Role Manager and User Manager
+        /// </summary>
+        /// <param name="_roleManager"></param>
+        /// <param name="_userManager"></param>
+        /// <param name="_roleService"></param>
         public RoleController(RoleManager<IdentityRole> _roleManager,
             UserManager<ApplicationUser> _userManager,
             IRole _roleService)
@@ -22,6 +30,10 @@ namespace RestaurantManagmentSystem.Controllers
             roleService = _roleService;
         }
 
+        /// <summary>
+        /// Get All Roles
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -30,6 +42,11 @@ namespace RestaurantManagmentSystem.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Get all user and their roles
+        /// </summary>
+        /// <returns></returns>
+        
         [HttpGet]
         public async Task<IActionResult> UserRole()
         {
@@ -62,9 +79,15 @@ namespace RestaurantManagmentSystem.Controllers
             return usersRoles;
         }
 
+
         [HttpGet]
         public IActionResult Create() => View();
 
+        /// <summary>
+        /// Create Role
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Create([Required] string name)
         {
@@ -85,6 +108,11 @@ namespace RestaurantManagmentSystem.Controllers
             return View(name);
         }
 
+        /// <summary>
+        /// Delete role
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -106,7 +134,51 @@ namespace RestaurantManagmentSystem.Controllers
             }
             else
                 ModelState.AddModelError("", "No role found");
+
             return View("Index", roleManager.Roles);
+        }
+
+        /// <summary>
+        /// Add or remove user from role
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Edit(string userId)
+        {
+            var model = await roleService.EditUserRoleAsync(userId);
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Add or remove user from role
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserUpdateRolesViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Something went wrong. Try again !");
+
+                return View("Edit");
+            }
+
+            try
+            {
+                await roleService.EditPostUserRoleAsync(model);
+
+                return RedirectToAction("UserRole");
+            }
+            catch (Exception ex)
+            {
+
+                ModelState.AddModelError("", ex.Message);
+
+                return View(ex.Message);
+            }
+            
         }
 
         private void Errors(IdentityResult result)
