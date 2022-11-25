@@ -102,6 +102,8 @@ namespace RestaurantManagmentSystem.Controllers
             
             var user = await userManager.FindByNameAsync(model.UserName);
 
+            var userRole = await userManager.GetRolesAsync(user);
+
             if (user != null)
             {
                 var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
@@ -126,6 +128,11 @@ namespace RestaurantManagmentSystem.Controllers
                         return LocalRedirect(returnUrl);
                     }
 
+                    if (userRole.Contains("Waiter"))
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Waiters" });
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -139,7 +146,7 @@ namespace RestaurantManagmentSystem.Controllers
         {
             await signInManager.SignOutAsync();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = "default" });
         }
     }
 }
