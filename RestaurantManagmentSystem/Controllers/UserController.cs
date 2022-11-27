@@ -130,7 +130,12 @@ namespace RestaurantManagmentSystem.Controllers
 
                     if (userRole.Contains("Waiter"))
                     {
-                        return RedirectToAction("Index", "Home", new { area = "Waiters" });
+                        return RedirectToAction("Index", "Home", new { area = "Waiter" });
+                    }
+
+                    if (userRole.Contains("Chef"))
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Chef" });
                     }
 
                     return RedirectToAction("Index", "Home");

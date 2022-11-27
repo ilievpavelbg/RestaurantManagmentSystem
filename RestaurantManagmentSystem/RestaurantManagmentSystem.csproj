@@ -62,8 +62,4 @@
     <ProjectReference Include="..\RestaurantManagmentSystem.Core\RestaurantManagmentSystem.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Waiters\Data\" />
-  </ItemGroup>
-
 </Project>
