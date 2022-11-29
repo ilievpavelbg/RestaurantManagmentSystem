@@ -32,11 +32,12 @@ namespace RestaurantManagmentSystem.Controllers.Category
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var model = new MultipleCategoryViewModel();
-
-            model.CategoryModel = new CategoryViewModel();
-            model.ActiveCategories = await categoryService.GetAllCategoriesAsync();
-            model.DeletedCategories = await categoryService.GetAllDeletedCategoriesAsync();
+            var model = new MultipleCategoryViewModel
+            {
+                CategoryModel = new CategoryViewModel(),
+                ActiveCategories = await categoryService.GetAllCategoriesAsync(),
+                DeletedCategories = await categoryService.GetAllDeletedCategoriesAsync()
+            };
 
             return View(model);
         }
@@ -83,9 +84,21 @@ namespace RestaurantManagmentSystem.Controllers.Category
         [HttpGet]
         public async Task<IActionResult> Edit(int Id)
         {
-            var category = await categoryService.EditGetCategoryAsync(Id);
+            try
+            {
+                var category = await categoryService.EditGetCategoryAsync(Id);
 
-            return View(category);
+                return View(category);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return RedirectToAction("Add");
+            }
+            
+
+            
         }
         /// <summary>
         /// Edit Category, update database

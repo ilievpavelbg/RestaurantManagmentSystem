@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Models.ApplicationUser;
+using RestaurantManagmentSystem.Core.Models.Employee;
 
 namespace RestaurantManagmentSystem.Controllers
 {
@@ -17,11 +18,20 @@ namespace RestaurantManagmentSystem.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> All()
+        {
+            var employees = await employeeService.GetAllEmployeesAsync();
+
+            return View(employees);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var model = new EmployeeViewModel();
-
-            model.Departments = await departmentService.GetAllDepartmentsAsync();
+            var model = new EmployeeViewModel
+            {
+                Departments = await departmentService.GetAllDepartmentsAsync()
+            };
 
             return View(model);
         }
@@ -41,11 +51,12 @@ namespace RestaurantManagmentSystem.Controllers
             return RedirectToAction("All");
         }
 
-        [HttpGet]
-        public IActionResult All()
+        public async Task<IActionResult> Details(int Id)
         {
+            var employee = await employeeService.GetEmployeeByIdAsync(Id);
 
-            return View();
+            return View(employee);
         }
+
     }
 }

@@ -17,17 +17,16 @@ namespace RestaurantManagmentSystem.Core.Services
         }
         public async Task CreateUserAsync(EmployeeViewModel model)
         {
+            var date = model.HireDate;
 
-            DateTime date ;
-
-            DateTime.TryParseExact(model.HireDate, "yyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+            var myDate = DateTime.ParseExact(date, "d", CultureInfo.InvariantCulture);
 
             var newUser = new Employee()
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                HireDate = date,
+                HireDate = myDate,
                 Salary = model.Salary,
                 Phone = model.Phone,
                 Address = model.Address,
@@ -40,9 +39,9 @@ namespace RestaurantManagmentSystem.Core.Services
 
         }
 
-        public async Task<bool> EsistEmployeeByEmailAsync(string email)
+        public async Task<bool> ExistEmployeeByEmailAsync(string email)
         {
-            return await repo.All<Employee>().AnyAsync(x => x.Email == email) ? true : false ;
+            return await repo.All<Employee>().AnyAsync(x => x.Email == email);
         }
 
         public async Task<BecomeEmployee> GetEmployeeByEmailAsync(string email)
@@ -92,6 +91,30 @@ namespace RestaurantManagmentSystem.Core.Services
                 }).ToListAsync();
 
             return employees;
+        }
+
+        public async Task<EmployeeDetailsViewModel> GetEmployeeByIdAsync(int Id)
+        {
+            var employee = await repo.GetByIdAsync<Employee>(Id);
+
+            var department = employee.DepartmentId != null ? employee.DepartmentId : 0;
+
+            var dept = await repo.GetByIdAsync<Department>(department);
+
+            var model = new EmployeeDetailsViewModel()
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Email = employee.Email,
+                HireDate = employee.HireDate.ToString("d"),
+                Phone = employee.Phone,
+                Address = employee.Address,
+                Town = employee.Town,
+                Department = dept.Name
+            };
+
+            return model;
         }
     }
 }

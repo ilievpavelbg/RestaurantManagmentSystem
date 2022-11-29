@@ -41,6 +41,12 @@ namespace RestaurantManagmentSystem.Core.Services
         {
             var department = await repo.GetByIdAsync<Department>(Id);
 
+            if (department == null)
+            {
+                throw new ArgumentException("Department with this ID can not be found !");
+
+            }
+
             var model = new EditDepartmentViewModel()
             {
                 Name = department.Name

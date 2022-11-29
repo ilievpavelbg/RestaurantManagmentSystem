@@ -30,11 +30,12 @@ namespace RestaurantManagmentSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var model = new MultipleDepartmentViewModel();
-
-            model.DepartmentModel = new DepartmentViewModel();
-            model.ActiveDepartments = await departmentService.GetAllDepartmentsAsync();
-            model.DeletedDepartments = await departmentService.GetAllDeletedDepartmentsAsync();
+            var model = new MultipleDepartmentViewModel
+            {
+                DepartmentModel = new DepartmentViewModel(),
+                ActiveDepartments = await departmentService.GetAllDepartmentsAsync(),
+                DeletedDepartments = await departmentService.GetAllDeletedDepartmentsAsync()
+            };
 
             return View(model);
         }
@@ -82,9 +83,21 @@ namespace RestaurantManagmentSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int Id)
         {
-            var department = await departmentService.EditGetDepartmentAsync(Id);
+            try
+            {
+                var department = await departmentService.EditGetDepartmentAsync(Id);
 
-            return View(department);
+                return View(department);
+
+            }
+            catch (Exception ex)
+            {
+
+                TempData["message"] = ex.Message;
+
+                return RedirectToAction("Add");
+            }
+            
         }
         /// <summary>
         /// Edit Department, update database

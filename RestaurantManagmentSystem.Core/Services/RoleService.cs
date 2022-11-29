@@ -8,8 +8,8 @@ namespace RestaurantManagmentSystem.Core.Services
 {
     public class RoleService : IRole
     {
-        private RoleManager<IdentityRole> roleManager;
-        private UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public RoleService(RoleManager<IdentityRole> _roleManager, UserManager<ApplicationUser> _userManager)
         {
@@ -57,7 +57,7 @@ namespace RestaurantManagmentSystem.Core.Services
 
             if (user == null)
             {
-                throw new ArgumentNullException(nameof(user), $"User with Id = {model.UserId} cannot be found");
+                throw new ArgumentException($"User with Id = {model.UserId} cannot be found");
             }
 
             var roles = await userManager.GetRolesAsync(user);
@@ -66,14 +66,14 @@ namespace RestaurantManagmentSystem.Core.Services
 
             if (!result.Succeeded)
             {
-                throw new ArgumentNullException("Cannot remove user existing roles");
+                throw new ArgumentException("Cannot remove user existing roles");
             }
 
             result = await userManager.AddToRolesAsync(user, model.Roles.Where(x => x.Selected).Select(y => y.RoleName));
 
             if (!result.Succeeded)
             {
-                throw new ArgumentNullException("Cannot add selected roles to user");
+                throw new ArgumentException("Cannot add selected roles to user");
             }
         }
 
@@ -83,7 +83,7 @@ namespace RestaurantManagmentSystem.Core.Services
 
             if (user == null)
             {
-                throw new ArgumentNullException(nameof(user), $"User with Id = {userId} cannot be found");
+                throw new ArgumentException($"User with Id = {userId} cannot be found");
 
             }
 

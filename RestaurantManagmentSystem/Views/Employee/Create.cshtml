@@ -27,10 +27,10 @@
                 <input class="form-control " autocomplete="" aria-required="true" asp-for="@Model.Email" />
                 <span asp-validation-for="@Model.Email" class="text-danger"></span>
             </div>
-            <div class="text-center mb-3">
-                <label asp-for="@Model.HireDate">Hire Date</label>
-                <input class="form-control" type="date" autocomplete="" aria-required="true" asp-for="@Model.HireDate" />
-                <span asp-validation-for="@Model.HireDate" class="text-danger"></span>
+            <div class="form-group text-center mb-3">
+                <label asp-for="HireDate" class="control-label"></label>
+                <input asp-for="HireDate" id="datepicker" type="text" autocomplete="off" class="form-control" id="datepicker"  />
+                <span asp-validation-for="HireDate" class="text-danger"></span>
             </div>
             <div class="text-center mb-3">
                 <label asp-for="@Model.Salary">Salary</label>
@@ -73,6 +73,14 @@
 
 
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function() {
+            $("#datepicker").datepicker();
+        });
+    </script>
+
 }
 

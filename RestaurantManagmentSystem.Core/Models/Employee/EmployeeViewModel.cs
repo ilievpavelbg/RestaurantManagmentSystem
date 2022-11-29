@@ -19,7 +19,7 @@ namespace RestaurantManagmentSystem.Core.Models.ApplicationUser
         public string Email { get; set; } = null!;
 
         [Required]
-        [DataType(DataType.Date)]
+
         public string HireDate { get; set; } = null!;
 
         [Required]

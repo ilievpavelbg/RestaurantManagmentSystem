@@ -41,6 +41,12 @@ namespace RestaurantManagmentSystem.Core.Services
         {
             var category = await repo.GetByIdAsync<Category>(Id);
 
+            if (category == null)
+            {
+                throw new ArgumentException("Category with this ID can not be found !");
+
+            }
+
             var model = new EditCategoryViewModel()
             {
                 Name = category.Name
@@ -86,7 +92,6 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task<bool> HasThisEntityAsync(string name)
         {
-            
             return await repo.All<Category>().AnyAsync(c => c.Name == name);
         }
         /// <summary>
@@ -120,7 +125,7 @@ namespace RestaurantManagmentSystem.Core.Services
 
             var model = new CategoryViewModel()
             {
-               Name = category.Name
+                Name = category.Name
             };
 
             return model;
@@ -132,8 +137,6 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task RestoreCategoryAsync(int Id)
         {
-            //var menuItems = repo.All<MenuItem>(x => x.CategoryId == Id && x.IsDeleted == true);
-
             var category = await repo.GetByIdAsync<Category>(Id);
 
             category.IsDeleted = false;

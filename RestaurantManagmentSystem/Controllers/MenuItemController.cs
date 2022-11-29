@@ -72,10 +72,11 @@ namespace RestaurantManagmentSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            var allMemuItem = new MultipleMenuItemViewModel();
-
-            allMemuItem.ActiveMenuItems =  await menuItemService.GetAllMenuItemsAsync();
-            allMemuItem.DeletedMenuItems =  await menuItemService.GetAllDeletedMenuItemsAsync();
+            var allMemuItem = new MultipleMenuItemViewModel
+            {
+                ActiveMenuItems = await menuItemService.GetAllMenuItemsAsync(),
+                DeletedMenuItems = await menuItemService.GetAllDeletedMenuItemsAsync()
+            };
 
             return View(allMemuItem);
         }

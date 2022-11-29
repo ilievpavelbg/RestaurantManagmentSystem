@@ -108,7 +108,7 @@ namespace RestaurantManagmentSystem.Controllers
             {
                 var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
-                var hasEmployee = await employeeService.EsistEmployeeByEmailAsync(user.Email);
+                var hasEmployee = await employeeService.ExistEmployeeByEmailAsync(user.Email);
                 
                 if (result.Succeeded)
                 {
