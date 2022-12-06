@@ -35,6 +35,7 @@ builder.Services.AddScoped<IMenuItem, MenuItemService>();
 builder.Services.AddScoped<IDepartment, DepartmentService>();
 builder.Services.AddScoped<IEmployee, EmployeeService>();
 builder.Services.AddScoped<IRole, RoleService>();
+builder.Services.AddScoped<ITable_1, TableService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

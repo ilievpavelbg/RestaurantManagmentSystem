@@ -60,7 +60,7 @@ namespace RestaurantManagmentSystem.Controllers
                 return RedirectToAction("Add");
             }
 
-            await departmentService.AddDepartmentAsync(model.DepartmentModel);
+            await departmentService.CreateDepartmentAsync(model.DepartmentModel);
 
             return RedirectToAction("Add");
         }

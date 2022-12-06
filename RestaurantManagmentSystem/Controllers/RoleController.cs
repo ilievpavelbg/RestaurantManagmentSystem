@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RestaurantManagmentSystem.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     public class RoleController : Controller
     {
         private IRole roleService;

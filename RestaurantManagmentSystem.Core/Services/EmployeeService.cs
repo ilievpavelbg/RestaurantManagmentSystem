@@ -95,26 +95,24 @@ namespace RestaurantManagmentSystem.Core.Services
 
         public async Task<EmployeeDetailsViewModel> GetEmployeeByIdAsync(int Id)
         {
-            var employee = await repo.GetByIdAsync<Employee>(Id);
+            var employee = await repo.All<Employee>().Where(e => e.Id == Id)
+                .Select(e => new EmployeeDetailsViewModel()
+                {
+                    Id = e.Id,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    Email = e.Email,
+                    HireDate = e.HireDate.ToString("d"),
+                    Phone = e.Phone,
+                    Salary = e.Salary,
+                    Address = e.Address,
+                    Town = e.Town,
+                    Department = e.Department.Name
+                })
+                .FirstAsync();
 
-            var department = employee.DepartmentId != null ? employee.DepartmentId : 0;
 
-            var dept = await repo.GetByIdAsync<Department>(department);
-
-            var model = new EmployeeDetailsViewModel()
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName,
-                Email = employee.Email,
-                HireDate = employee.HireDate.ToString("d"),
-                Phone = employee.Phone,
-                Address = employee.Address,
-                Town = employee.Town,
-                Department = dept.Name
-            };
-
-            return model;
+            return employee;
         }
     }
 }

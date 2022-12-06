@@ -22,7 +22,7 @@ namespace RestaurantManagmentSystem.Core.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task AddDepartmentAsync(DepartmentViewModel model)
+        public async Task CreateDepartmentAsync(DepartmentViewModel model)
         {
             var department = new Department()
             {

@@ -16,3 +16,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.orderButton{
+    border-radius:15px;
+}

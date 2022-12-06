@@ -1,0 +1,61 @@
+﻿@model IEnumerable<TableViewModel>
+
+@{
+    ViewBag.Title = "All Tables";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-center">@ViewBag.ErrorInfo</h2>
+<hr />
+
+<div class="row">
+    @foreach (var table in Model)
+    {
+        <div class="col-md-4 mb-5">
+            <div class="card text-center" style="background-color: @(table.IsReserved ? "#A7171A" : "#5cb85c") ">
+                <p class="h3 text-white">Table @table.Id</p>
+                <div class="card-body">
+                    @if (!table.IsReserved)
+                    {
+                        <a asp-area="Waiter" asp-controller="Home" asp-action="Reserve" class="btn btn-primary orderButton" asp-route-Id="@table.Id">
+                            <p class="h3 mb-0">AVAILIABLE</p>
+                        </a>
+                    }
+                    else
+                    { 
+                        @if (@ViewBag.UserId == table.UserId)
+                        {
+                           
+                            <a asp-area="Waiter" asp-controller="Home" asp-action="Release" class="btn btn-warning orderButton" asp-route-Id="@table.Id">
+                            <p class="h3 mb-0">RESERVED</p>
+                            <p class="mb-0 fw-bold">Click to relese the table</p></a>
+                            <br />
+                            <a asp-area="Waiter" asp-controller="Order" asp-action="Create" class="btn btn-info orderButton">
+                                <p class="h3 mb-0">Create Order</p>
+                            </a>
+
+                        }
+                        else
+                        {
+                            <h2>Call your colleague to release the table</h2>
+                        }
+
+                }
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

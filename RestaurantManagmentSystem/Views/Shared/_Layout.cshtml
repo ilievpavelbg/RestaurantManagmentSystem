@@ -59,8 +59,14 @@
                         <li class="nav-item">
                             <a class="nav-link active" asp-area="" asp-controller="Department" asp-action="Add">Manage Department</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" asp-area="" asp-controller="Employee" asp-action="Create">Employee</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active" href="#" data-bs-toggle="dropdown" aria-expanded="false">Manage Employees</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Employee" asp-action="Create">Create</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Employee" asp-action="All">All</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Employee" asp-action="Details">Deatails</a></li>
+
+                            </ul>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link active" href="#" data-bs-toggle="dropdown" aria-expanded="false">Manage Roles</a>

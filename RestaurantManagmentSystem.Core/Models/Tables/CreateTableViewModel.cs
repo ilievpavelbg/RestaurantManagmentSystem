@@ -1,12 +1,10 @@
 ﻿using RestaurantManagmentSystem.Core.Constrains.Table;
 using System.ComponentModel.DataAnnotations;
 
-namespace RestaurantManagmentSystem.Core.Data
+namespace RestaurantManagmentSystem.Core.Models.Tables
 {
-    public class Table
+    public class CreateTableViewModel
     {
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         [Range(TableConstrains.NumberMinLenght, TableConstrains.NumberMaxLenght)]
@@ -19,13 +17,8 @@ namespace RestaurantManagmentSystem.Core.Data
         [Required]
         public bool IsReserved { get; set; }
 
+        [Required]
         public bool IsDeleted { get; set; }
-
-        public string? UserId { get; set; } = null!;
-
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
-
-        public ICollection<Customer> Customers { get; set; } = new List<Customer>();
 
     }
 }

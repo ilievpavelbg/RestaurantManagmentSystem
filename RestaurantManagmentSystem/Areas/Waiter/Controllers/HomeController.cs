@@ -1,38 +1,84 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestaurantManagmentSystem.Core.Common;
 using RestaurantManagmentSystem.Core.Contracts;
-using RestaurantManagmentSystem.Core.Models.MenuItems;
 
 namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
 {
     [Area("Waiter")]
     public class HomeController : Controller
     {
-        private readonly ICategory categoryServise;
-        private readonly IMenuItem menuItemService;
+        private readonly ITable_1 tableService;
         /// <summary>
         /// Initialize category and manu services in constructor
         /// </summary>
         /// <param name="_category"></param>
         /// <param name="_menuItem"></param>
-        public HomeController(ICategory _category, IMenuItem _menuItem)
+        public HomeController(ITable_1 _tableService)
         {
-            categoryServise = _category;
-            menuItemService = _menuItem;
+            tableService = _tableService;
         }
 
-        /// <summary>
-        /// Show all MenuItems
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> AllTables()
         {
-            var allMemuItem = new MultipleMenuItemViewModel();
+            var userId = User.Id();
 
-            allMemuItem.ActiveMenuItems = await menuItemService.GetAllMenuItemsAsync();
-            allMemuItem.DeletedMenuItems = await menuItemService.GetAllDeletedMenuItemsAsync();
+            ViewBag.UserId = userId;
 
-            return View(allMemuItem);
+            var allTables = await tableService.GetAllTablesAsync();
+
+            return View(allTables);
         }
+
+        public async Task<IActionResult> Reserve(int Id)
+        {
+            try
+            {
+                var userId = User.Id();
+
+                ViewBag.UserId = userId;
+
+                var table = await tableService.GetTableByIdAsync(Id);
+
+                await tableService.ReserveTableAsync(table.Id, userId);
+
+                return RedirectToAction("AllTables");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorInfo = ex.Message;
+
+                return RedirectToAction("AllTables");
+
+            }
+
+           
+        }
+
+        public async Task<IActionResult> Release(int Id)
+        {
+            try
+            {
+                var userId = User.Id();
+
+                ViewBag.UserId = userId;
+
+                var table = await tableService.GetTableByIdAsync(Id);
+
+                await tableService.ReleaseTableAsync(table.Id, userId);
+
+                return RedirectToAction("AllTables");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorInfo = ex.Message;
+
+                return RedirectToAction("AllTables");
+
+            }
+
+
+        }
+
     }
 }

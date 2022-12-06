@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Models.ApplicationUser;
-using RestaurantManagmentSystem.Core.Models.Employee;
 
 namespace RestaurantManagmentSystem.Controllers
 {

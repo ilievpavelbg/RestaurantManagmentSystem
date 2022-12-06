@@ -12,13 +12,13 @@ namespace RestaurantManagmentSystem.Core.Data
         [Required]
         public DateTime CreatedOn { get; set; }
 
-        [Required]
-        public DateTime ClosedOn { get; set; }
+        
+        public DateTime? ClosedOn { get; set; }
 
         [Required]
         public bool OrderStatus { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
 
         [Required]
         [ForeignKey(nameof(Employee))]
