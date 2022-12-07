@@ -18,5 +18,6 @@ namespace RestaurantManagmentSystem.Core.Repository
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<SubOrder> SubOrders { get; set; }
     }
 }

@@ -8,6 +8,7 @@ namespace RestaurantManagmentSystem.Core.Data
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         [StringLength(MenuItemConstrains.NameMaxLenght)]
         public string Name { get; set; } = null!;
@@ -15,6 +16,9 @@ namespace RestaurantManagmentSystem.Core.Data
         [Required]
         [StringLength(MenuItemConstrains.DescriptionMaxLenght)]
         public string Description { get; set; } = null!;
+
+        public int? OnStock { get; set; }
+        public int? OrderedQty { get; set; }
 
         [Required]
         [Range(typeof(decimal), MenuItemConstrains.PriceMinLenght, MenuItemConstrains.PriceMaxLenght)]
@@ -29,10 +33,8 @@ namespace RestaurantManagmentSystem.Core.Data
         public bool IsDeleted { get; set; }
 
         [ForeignKey(nameof(Category))]
-        public int? CategoryId { get; set; }
-        public Category? Category { get; set; } = null!;
-
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public int CategoryId { get; set; }
+        public Category Category { get; set; } = null!;
 
         public ICollection<Product> Products { get; set; } = new List<Product>();
     }

@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestaurantManagmentSystem.Core.Common;
 using RestaurantManagmentSystem.Core.Contracts;
+using RestaurantManagmentSystem.Core.Data;
+using RestaurantManagmentSystem.Core.Data.Enum;
 using RestaurantManagmentSystem.Core.Models.MenuItems;
+using RestaurantManagmentSystem.Core.Models.Orders;
+using RestaurantManagmentSystem.Core.Repository.Common;
 using RestaurantManagmentSystem.Core.Services;
 
 namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
@@ -8,17 +13,30 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
     [Area("Waiter")]
     public class OrderController : Controller
     {
-        private readonly IMenuItem menuItemService;
-        public OrderController(IMenuItem _menuItemService)
+        private readonly IOrder orderServises;
+        private readonly IRepository repo;
+        public OrderController(IOrder _orderServises, IRepository _repo)
         {
-            menuItemService = _menuItemService;
+            orderServises = _orderServises;
+            repo = _repo;
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create(int Id)
         {
-            var menu = await menuItemService.GetAllMenuItemsAsync();
+            var userId = User.Id();
 
-            return View(menu);
+            var emplId = repo.All<Employee>().Where(x => x.ApplicationUserId == userId).FirstOrDefault();
+
+
+            var order = new OrderViewModel()
+            {
+                EmployeeId = emplId.Id,
+                TableId = Id,
+                OrderStatus = OrderStatus.Active.ToString(),
+                CreatedOn = DateTime.Now
+            };
+
+            return View(order);
         }
     }
 }

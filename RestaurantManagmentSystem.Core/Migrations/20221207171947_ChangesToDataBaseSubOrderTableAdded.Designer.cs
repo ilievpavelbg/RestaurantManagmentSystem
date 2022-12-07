@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantManagmentSystem.Core.Repository;
 
@@ -11,9 +12,10 @@ using RestaurantManagmentSystem.Core.Repository;
 namespace RestaurantManagmentSystem.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221207171947_ChangesToDataBaseSubOrderTableAdded")]
+    partial class ChangesToDataBaseSubOrderTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -535,7 +537,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("SubOrders");
+                    b.ToTable("SubOrder");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Table", b =>

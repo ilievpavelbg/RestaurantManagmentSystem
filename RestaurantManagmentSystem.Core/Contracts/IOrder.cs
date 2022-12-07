@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RestaurantManagmentSystem.Core.Models.Orders;
 
 namespace RestaurantManagmentSystem.Core.Contracts
 {
     public interface IOrder
     {
+        Task CreateOrderAsync(OrderViewModel model);
     }
 }
