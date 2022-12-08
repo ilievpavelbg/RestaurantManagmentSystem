@@ -16,7 +16,7 @@
     <p>@Model.OrderStatus</p>
     <p>@Model.CreatedOn</p>
 
-    @if (!Model.MenuItems.Any())
+    @*@if (!Model..Any())
     {
         <p>There is no items yet</p>
     }
@@ -24,7 +24,7 @@
     @foreach (var item in Model.MenuItems)
     {
         <p>@item.Name</p>
-    }
+    }*@
 </div>
 
 

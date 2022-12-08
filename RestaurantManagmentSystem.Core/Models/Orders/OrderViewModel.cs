@@ -1,25 +1,21 @@
-﻿using RestaurantManagmentSystem.Core.Models.MenuItems;
-using System.ComponentModel.DataAnnotations;
+﻿using RestaurantManagmentSystem.Core.Models.SubOrder;
 
 namespace RestaurantManagmentSystem.Core.Models.Orders
 {
     public class OrderViewModel
     {
-        [Required]
+        public int OrderId { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
-        [Required]
-        public string OrderStatus { get; set; }
+        public string OrderStatus { get; set; } = string.Empty;
 
-        [Required]
         public int EmployeeId { get; set; }
 
-        [Required]
         public int TableId { get; set; }
 
-        [Required]
         public decimal TotalPrice { get; set; }
 
-        public IEnumerable<OrderMenuItemViewModel> MenuItems { get; set; } = new List<OrderMenuItemViewModel>();
+        public IEnumerable<SubOrderViewModel>? SubOrders { get; set; } = new List<SubOrderViewModel>();
     }
 }

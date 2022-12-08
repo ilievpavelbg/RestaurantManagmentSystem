@@ -3,10 +3,8 @@ using RestaurantManagmentSystem.Core.Common;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Data.Enum;
-using RestaurantManagmentSystem.Core.Models.MenuItems;
 using RestaurantManagmentSystem.Core.Models.Orders;
 using RestaurantManagmentSystem.Core.Repository.Common;
-using RestaurantManagmentSystem.Core.Services;
 
 namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
 {
@@ -21,22 +19,27 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             repo = _repo;
         }
 
-        public IActionResult Create(int Id)
+        public async Task<IActionResult> Create(int Id)
         {
             var userId = User.Id();
 
-            var emplId = repo.All<Employee>().Where(x => x.ApplicationUserId == userId).FirstOrDefault();
+            var emplId =  repo.All<Employee>().Where(x => x.ApplicationUserId == userId).FirstOrDefault();
 
-
-            var order = new OrderViewModel()
+            if (emplId == null)
             {
-                EmployeeId = emplId.Id,
-                TableId = Id,
-                OrderStatus = OrderStatus.Active.ToString(),
-                CreatedOn = DateTime.Now
-            };
+                throw new ArgumentNullException();
+            }
 
-            return View(order);
+            var model = await orderServises.CreateOrderAsync(emplId.Id, Id);
+
+            return RedirectToAction("Details", new { id = model.OrderId });
+        }
+
+        public async Task<IActionResult> Details(int Id)
+        {
+            var model = await orderServises.GetOrderByIdAsync(Id);
+
+            return View(model);
         }
     }
 }

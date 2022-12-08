@@ -4,6 +4,7 @@ namespace RestaurantManagmentSystem.Core.Contracts
 {
     public interface IOrder
     {
-        Task CreateOrderAsync(OrderViewModel model);
+        Task<OrderViewModel> CreateOrderAsync(int employeeId, int tableId);
+        Task<OrderViewModel> GetOrderByIdAsync(int Id);
     }
 }
