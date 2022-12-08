@@ -31,7 +31,9 @@ namespace RestaurantManagmentSystem.Core.Services
                 Price = model.Price,
                 ImageURL = model.ImageURL,
                 ItemsForCooking = model.ItemsForCooking,
-                //CategoryId = model.CategoryId
+                CategoryId = model.CategoryId,
+                OnStock = model.OnStock
+                
             };
 
             await repo.AddAsync<MenuItem>(menuItem);
@@ -52,7 +54,8 @@ namespace RestaurantManagmentSystem.Core.Services
             menuItem.Price = model.Price;
             menuItem.ItemsForCooking = model.ItemsForCooking;
             menuItem.ImageURL = model.ImageURL;
-            //menuItem.CategoryId = model.CategoryId;
+            menuItem.CategoryId = model.CategoryId;
+            menuItem.OnStock = model.OnStock;
 
             await repo.SaveChangesAsync();
         }
@@ -72,6 +75,7 @@ namespace RestaurantManagmentSystem.Core.Services
                 Price = menuItem.Price,
                 ImageURL = menuItem.ImageURL,
                 CategoryId = menuItem.CategoryId,
+                OnStock = menuItem.OnStock,
                 ItemsForCooking = menuItem.ItemsForCooking,
             };
 

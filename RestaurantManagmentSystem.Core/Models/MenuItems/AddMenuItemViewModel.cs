@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using RestaurantManagmentSystem.Core.Constrains.MenuItem;
+﻿using RestaurantManagmentSystem.Core.Constrains.MenuItem;
 using RestaurantManagmentSystem.Core.Models.Categories;
 using System.ComponentModel.DataAnnotations;
 
@@ -25,7 +24,10 @@ namespace RestaurantManagmentSystem.Core.Models.MenuItems
         [Required]
         public bool ItemsForCooking { get; set; }
 
-        public int? CategoryId { get; set; }
+        public int CategoryId { get; set; }
+
+        public int? OnStock { get; set; }
+
 
         public IEnumerable<EditCategoryViewModel> Categories { get; set; } = new List<EditCategoryViewModel>();
 

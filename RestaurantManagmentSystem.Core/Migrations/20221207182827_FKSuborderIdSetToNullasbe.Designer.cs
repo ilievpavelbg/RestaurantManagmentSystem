@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantManagmentSystem.Core.Repository;
 
@@ -11,9 +12,10 @@ using RestaurantManagmentSystem.Core.Repository;
 namespace RestaurantManagmentSystem.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221207182827_FKSuborderIdSetToNullasbe")]
+    partial class FKSuborderIdSetToNullasbe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("MenuItemProduct", (string)null);
+                    b.ToTable("MenuItemProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -275,7 +277,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("SubOrderId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Customer", b =>
@@ -308,7 +310,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Department", b =>
@@ -329,7 +331,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments", (string)null);
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Employee", b =>
@@ -396,7 +398,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employee", (string)null);
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.MenuItem", b =>
@@ -443,7 +445,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("MenuItems", (string)null);
+                    b.ToTable("MenuItems");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Order", b =>
@@ -481,7 +483,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Product", b =>
@@ -502,7 +504,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.SubOrder", b =>
@@ -535,7 +537,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("SubOrders", (string)null);
+                    b.ToTable("SubOrders");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Table", b =>
@@ -563,7 +565,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tables", (string)null);
+                    b.ToTable("Tables");
                 });
 
             modelBuilder.Entity("MenuItemProduct", b =>

@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Description" class="control-label"></label>
-                <input asp-for="@Model.Description" class="form-control" />
+                <textarea asp-for="@Model.Description" class="form-control"></textarea>
                 <span asp-validation-for="@Model.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -38,6 +38,11 @@
                 <label asp-for="@Model.ImageURL" class="control-label"></label>
                 <input asp-for="@Model.ImageURL" class="form-control" />
                 <span asp-validation-for="@Model.ImageURL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.OnStock" class="control-label"></label>
+                <input asp-for="@Model.OnStock" class="form-control" />
+                <span asp-validation-for="@Model.OnStock" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="form-label">Is For Cooking ?</label>

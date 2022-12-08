@@ -14,7 +14,7 @@ namespace RestaurantManagmentSystem.Core.Data
 
         public bool IsDeleted { get; set; }
 
-        public int SubOrderId { get; set; }
+        public int? SubOrderId { get; set; }
         public SubOrder SubOrder { get; set; } = null!;
         public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
     }

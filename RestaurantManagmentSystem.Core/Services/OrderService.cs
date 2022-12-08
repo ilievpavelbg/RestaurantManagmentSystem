@@ -1,7 +1,6 @@
 ﻿using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Data.Enum;
-using RestaurantManagmentSystem.Core.Models.MenuItems;
 using RestaurantManagmentSystem.Core.Models.Orders;
 using RestaurantManagmentSystem.Core.Repository.Common;
 
