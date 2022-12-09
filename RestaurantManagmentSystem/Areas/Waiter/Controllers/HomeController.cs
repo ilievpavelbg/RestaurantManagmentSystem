@@ -8,19 +8,23 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
     public class HomeController : Controller
     {
         private readonly ITable_1 tableService;
+        private readonly IOrder orderService;
+
         /// <summary>
         /// Initialize category and manu services in constructor
         /// </summary>
         /// <param name="_category"></param>
         /// <param name="_menuItem"></param>
-        public HomeController(ITable_1 _tableService)
+        public HomeController(ITable_1 _tableService, IOrder _orderService)
         {
             tableService = _tableService;
+            orderService = _orderService;
         }
 
         [HttpGet]
         public async Task<IActionResult> AllTables()
         {
+
             var userId = User.Id();
 
             ViewBag.UserId = userId;
@@ -52,13 +56,18 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
 
             }
 
-           
+
         }
 
         public async Task<IActionResult> Release(int Id)
         {
             try
             {
+                var hasOrder = orderService.GetOrderIdByTableId(Id);
+
+                ViewBag.OrderId = hasOrder;
+
+
                 var userId = User.Id();
 
                 ViewBag.UserId = userId;

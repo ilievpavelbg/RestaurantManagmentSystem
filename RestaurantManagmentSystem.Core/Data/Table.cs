@@ -1,5 +1,6 @@
 ﻿using RestaurantManagmentSystem.Core.Constrains.Table;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantManagmentSystem.Core.Data
 {
@@ -23,7 +24,9 @@ namespace RestaurantManagmentSystem.Core.Data
 
         public string? UserId { get; set; } = null!;
 
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        [ForeignKey(nameof(Order))]
+        public int? OrderId { get; set; }
+        public Order Order { get; set; } = null!;
 
         public ICollection<Customer> Customers { get; set; } = new List<Customer>();
 

@@ -70,7 +70,22 @@ namespace RestaurantManagmentSystem.Core.Services
                 })
                 .FirstOrDefaultAsync();
 
+
+
             return order;
+        }
+
+        public bool GetOrderIdByTableId(int Id)
+        {
+            var hasOrder = repo.All<Order>().Any(x => x.TableId == Id && x.IsDeleted == false);
+
+            var model = repo.AllReadonly<Order>()
+                .Where(x => x.TableId == Id && x.IsDeleted == false)
+                .SingleOrDefaultAsync();
+
+            var orderId = model.Id;
+
+            return hasOrder;
         }
     }
 }

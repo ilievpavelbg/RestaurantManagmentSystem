@@ -22,29 +22,32 @@
                         </a>
                     }
                     else
-                    { 
+                    {
                         @if (@ViewBag.UserId == table.UserId)
                         {
-                           
-                            <a asp-area="Waiter" asp-controller="Home" asp-action="Release" class="btn btn-warning orderButton" asp-route-Id="@table.Id">
-                            <p class="h3 mb-0">RESERVED</p>
-                            <p class="mb-0 fw-bold">Click to relese the table</p></a>
+
+                                <a asp-area="Waiter" asp-controller="Home" asp-action="Release" class="btn btn-warning orderButton" asp-route-Id="@table.Id">
+                                    <p class="h3 mb-0">RESERVED</p>
+                                    <p class="mb-0 fw-bold color:white">Go to Order to Release the Table</p>
+                                </a>
+
+                                <a asp-area="Waiter" asp-controller="Order" asp-action="Create" class="btn btn-info orderButton" asp-route-Id="@table.Id">
+                                    <p class="h3 mb-0">Create Order</p>
+                                </a>
+
+
                             <br />
-                            <a asp-area="Waiter" asp-controller="Order" asp-action="Create" class="btn btn-info orderButton" asp-route-Id="@table.Id">
-                                <p class="h3 mb-0">Create Order</p>
-                            </a>
+
 
                         }
                         else
                         {
                             <h2>Call your colleague to release the table</h2>
                         }
-
-                }
+                    }
 
                 </div>
             </div>
         </div>
     }
 </div>
-
