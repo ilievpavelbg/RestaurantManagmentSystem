@@ -1,4 +1,5 @@
-﻿using RestaurantManagmentSystem.Core.Models.Categories;
+﻿using RestaurantManagmentSystem.Core.Data;
+using RestaurantManagmentSystem.Core.Models.Categories;
 
 namespace RestaurantManagmentSystem.Core.Contracts
 {
@@ -13,5 +14,6 @@ namespace RestaurantManagmentSystem.Core.Contracts
         Task EditPostCategoryAsync(EditCategoryViewModel model);
         Task<EditCategoryViewModel> EditGetCategoryAsync(int Id);
         Task<CategoryViewModel> GetCategoryById(int Id);
+        Task<IEnumerable<Category>> GetAllCategoriesSubOrderAsync();
     }
 }

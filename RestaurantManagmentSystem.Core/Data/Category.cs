@@ -12,6 +12,7 @@ namespace RestaurantManagmentSystem.Core.Data
         [StringLength(CategoryConstrains.NameMaxLenght)]
         public string Name { get; set; } = null!;
 
+        public bool IsChecked { get; set; }
         public bool IsDeleted { get; set; }
 
         public int? SubOrderId { get; set; }

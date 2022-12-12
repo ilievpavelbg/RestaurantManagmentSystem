@@ -8,6 +8,7 @@ namespace RestaurantManagmentSystem.Core.Data
     {
         public int Id { get; set; }
         public bool IsCompleted { get; set; }
+        public bool IsChecked { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreateOn { get; set; }
         public DateTime? CompletedOn { get; set; }

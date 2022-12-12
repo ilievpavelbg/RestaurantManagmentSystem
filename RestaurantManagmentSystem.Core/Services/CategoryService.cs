@@ -2,6 +2,7 @@
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Models.Categories;
+using RestaurantManagmentSystem.Core.Models.MenuItems;
 using RestaurantManagmentSystem.Core.Repository.Common;
 
 namespace RestaurantManagmentSystem.Core.Services
@@ -69,7 +70,7 @@ namespace RestaurantManagmentSystem.Core.Services
             await repo.SaveChangesAsync();
         }
         /// <summary>
-        /// Get all categories
+        /// Get all categories when created
         /// </summary>
         /// <returns></returns>
         public async Task<IEnumerable<EditCategoryViewModel>> GetAllCategoriesAsync()
@@ -80,6 +81,30 @@ namespace RestaurantManagmentSystem.Core.Services
                 {
                     Id = vm.Id,
                     Name = vm.Name
+                })
+                .ToListAsync();
+
+            return allCat;
+        }
+        /// <summary>
+        /// Get all categories for the SubOrderModel
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<Category>> GetAllCategoriesSubOrderAsync()
+        {
+            var allCat = await repo.All<Category>()
+                .Where(x => x.IsDeleted == false)
+                .Select(vm => new Category
+                {
+                    Name = vm.Name,
+                    //MenuItems = vm.MenuItems.Select(x => new OrderMenuItemViewModel()
+                    //{
+                    //    Name = x.Name,
+                    //    Description = x.Description,
+                    //    OnStock = x.OnStock ?? 0,
+                    //    Price = x.Price,
+                    //    ItemsForCooking = x.ItemsForCooking,
+                    //}).ToList()
                 })
                 .ToListAsync();
 

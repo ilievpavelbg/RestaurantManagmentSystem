@@ -52,7 +52,7 @@ namespace RestaurantManagmentSystem.Core.Services
                 .Where(x => x.OrderId == orderId)
                 .Select(so => new SubOrderViewModel()
                 {
-                    OrderId = so.OrderId,
+                    
                     CreateOn = so.CreateOn,
                     CurrentTotalSum = so.CurrentTotalSum,
 
@@ -69,8 +69,6 @@ namespace RestaurantManagmentSystem.Core.Services
                     SubOrders = subOrders
                 })
                 .FirstOrDefaultAsync();
-
-
 
             return order;
         }

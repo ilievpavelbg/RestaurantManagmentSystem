@@ -16,15 +16,55 @@
     <p>@Model.OrderStatus</p>
     <p>@Model.CreatedOn</p>
 
-    @*@if (!Model..Any())
+    @if (!Model.SubOrders.Any())
     {
-        <p>There is no items yet</p>
+        <p>There is no Orders yet</p>
+    }
+    else
+    {
+        foreach (var item in Model.SubOrders)
+        {
+            foreach (var category in item.Categories)
+            {
+                <h3>@category.Name</h3>
+                <hr />
+                <table class="table table-striped table-bordered">
+@*                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                        </tr>
+                    </thead>*@
+                   @* <tbody>
+                        @{
+                            int count = 1;
+                        }
+                        @foreach (var product in category.MenuItems)
+                        {
+                            <tr>
+                                <th>@count</th>
+                                <td>@product.Name</td>
+                                <td>@product.OrderedQty</td>
+                                <td>@(product.Price + "лв.")</td>
+                            </tr>
+                            count++;
+                        }
+                    </tbody>*@
+                </table>
+
+            }
+        }
     }
 
-    @foreach (var item in Model.MenuItems)
-    {
-        <p>@item.Name</p>
-    }*@
+     <a class="btn btn-primary" asp-area="Waiter" asp-controller="Order" asp-action="Purchase" asp-route-Id="@Model.OrderId" >Create Purchase</a>
+
+
+
+
+    <div class="mt-2">
+        <a class="btn btn-danger" asp-area="Waiter" asp-controller="Home" asp-action="AllTables">Back to List</a>
+    </div>
 </div>
 
 

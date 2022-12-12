@@ -20,7 +20,10 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             tableService = _tableService;
             orderService = _orderService;
         }
-
+        /// <summary>
+        /// Get all tables
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> AllTables()
         {
@@ -34,6 +37,11 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             return View(allTables);
         }
 
+        /// <summary>
+        /// Reserve table
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Reserve(int Id)
         {
             try
@@ -53,12 +61,14 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
                 ViewBag.ErrorInfo = ex.Message;
 
                 return RedirectToAction("AllTables");
-
             }
-
-
         }
 
+        /// <summary>
+        /// Release table
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Release(int Id)
         {
             try

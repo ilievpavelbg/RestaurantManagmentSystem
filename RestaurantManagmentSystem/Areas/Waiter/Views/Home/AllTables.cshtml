@@ -12,7 +12,7 @@
     @foreach (var table in Model)
     {
         <div class="col-md-4 mb-5">
-            <div class="card text-center" style="background-color: @(table.IsReserved ? "#A7171A" : "#5cb85c") ">
+            <div class="card text-center" style="background-color: @(table.IsReserved ? "#FF0000" : "#009900") ">
                 <p class="h3 text-white">Table @table.Id</p>
                 <div class="card-body">
                     @if (!table.IsReserved)
@@ -25,20 +25,23 @@
                     {
                         @if (@ViewBag.UserId == table.UserId)
                         {
-
+                            @if (@table.OrderId == null)
+                            {
                                 <a asp-area="Waiter" asp-controller="Home" asp-action="Release" class="btn btn-warning orderButton" asp-route-Id="@table.Id">
                                     <p class="h3 mb-0">RESERVED</p>
-                                    <p class="mb-0 fw-bold color:white">Go to Order to Release the Table</p>
                                 </a>
-
                                 <a asp-area="Waiter" asp-controller="Order" asp-action="Create" class="btn btn-info orderButton" asp-route-Id="@table.Id">
                                     <p class="h3 mb-0">Create Order</p>
                                 </a>
-
-
-                            <br />
-
-
+                                <p class="mb-0 fw-bold color:white">Create Order or Release the Table</p>
+                            }
+                            else
+                            {
+                                <a asp-area="Waiter" asp-controller="Order" asp-action="Details" class="btn btn-warning orderButton" asp-route-Id="@table.OrderId">
+                                    <p class="h3 mb-0">RESERVED</p>
+                                    <p class="mb-0 fw-bold color:white">Go to Order to Release the Table</p>
+                                </a>
+                            }
                         }
                         else
                         {

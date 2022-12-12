@@ -9,5 +9,6 @@ namespace RestaurantManagmentSystem.Core.Contracts
         Task<IEnumerable<TableViewModel>> GetAllTablesAsync();
         Task<TableViewModel> ReserveTableAsync(int Id, string userId);
         Task<TableViewModel> ReleaseTableAsync(int Id, string userId);
+        Task SaveCurrentOrderIdToTable(int orderId, int tableId);
     }
 }

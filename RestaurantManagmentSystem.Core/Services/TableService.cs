@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Models.Tables;
@@ -52,7 +51,8 @@ namespace RestaurantManagmentSystem.Core.Services
                 {
                     Id = vm.Id,
                     IsReserved = vm.IsReserved,
-                    UserId = vm.UserId
+                    UserId = vm.UserId,
+                    OrderId = vm.OrderId
                     
                 })
                 .ToListAsync();
@@ -115,6 +115,15 @@ namespace RestaurantManagmentSystem.Core.Services
             };
 
             return model;
+        }
+
+        public async Task SaveCurrentOrderIdToTable(int orderId, int tableId)
+        {
+            var table = await repo.GetByIdAsync<Table>(tableId);
+
+            table.OrderId = orderId;
+
+            await repo.SaveChangesAsync();
         }
     }
 }

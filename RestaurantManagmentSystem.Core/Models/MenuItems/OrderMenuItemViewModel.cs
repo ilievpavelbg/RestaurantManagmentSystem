@@ -6,7 +6,9 @@
 
         public string Description { get; set; } = null!;
 
-        public int? OrderedQty { get; set; }
+        public int OrderedQty { get; set; }
+
+        public int OnStock { get; set; }
 
         public decimal Price { get; set; }
 

@@ -1,10 +1,8 @@
-﻿using RestaurantManagmentSystem.Core.Constrains.SubOrder;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using RestaurantManagmentSystem.Core.Constrains.SubOrder;
+using RestaurantManagmentSystem.Core.Data;
+using RestaurantManagmentSystem.Core.Models.Categories;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RestaurantManagmentSystem.Core.Models.SubOrder
 {
@@ -18,8 +16,8 @@ namespace RestaurantManagmentSystem.Core.Models.SubOrder
         [Required]
         [Range(typeof(decimal), SubOrderConstrains.PriceMinLenght, SubOrderConstrains.PriceMaxLenght)]
         public decimal CurrentTotalSum { get; set; }
-        public int OrderId { get; set; }
-
-        //public ICollection<Category> Categories { get; set; } = new List<Category>();
+        public int CategoryId { get; set; }
+      
+        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
     }
 }

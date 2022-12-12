@@ -30,6 +30,8 @@ namespace RestaurantManagmentSystem.Core.Data
         [Required]
         public bool ItemsForCooking { get; set; }
 
+        public bool IsChecked { get; set; }
+
         public bool IsDeleted { get; set; }
 
         [ForeignKey(nameof(Category))]
