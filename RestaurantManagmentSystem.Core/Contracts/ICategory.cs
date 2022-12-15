@@ -14,6 +14,9 @@ namespace RestaurantManagmentSystem.Core.Contracts
         Task EditPostCategoryAsync(EditCategoryViewModel model);
         Task<EditCategoryViewModel> EditGetCategoryAsync(int Id);
         Task<CategoryViewModel> GetCategoryById(int Id);
+
         Task<IEnumerable<Category>> GetAllCategoriesSubOrderAsync();
+
+        Task<IEnumerable<Category>> AddMenuItemsToCategory(List<MenuItem> item, IEnumerable<Category> category);
     }
 }

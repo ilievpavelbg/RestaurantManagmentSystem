@@ -21,6 +21,6 @@ namespace RestaurantManagmentSystem.Core.Data
         public int OrderId { get; set; }
         public Order Order { get; set; } = null!;
 
-        public ICollection<Category> Categories { get; set; } = new List<Category>();
+        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
     }
 }

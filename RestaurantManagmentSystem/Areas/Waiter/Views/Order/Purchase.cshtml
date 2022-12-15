@@ -1,6 +1,4 @@
-﻿@using RestaurantManagmentSystem.Core.Models.Orders
-@using RestaurantManagmentSystem.Core.Models.SubOrder
-@model SubOrderViewModel
+﻿@model List<Category>
 
 @{
     ViewBag.Title = "Purchase Modul";
@@ -9,81 +7,42 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
-
-            <div class="form-group">
-                <label asp-for="@Model.IsCompleted"></label>
-                <input asp-for="@Model.IsCompleted" value="true" class="form-control">
-                <span asp-validation-for="@Model.IsCompleted" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.CreateOn"></label>
-                <input asp-for="@Model.CreateOn" value="@DateTime.Now" class="form-control">
-                <span asp-validation-for="@Model.CreateOn" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.IsDeleted"></label>
-                <input asp-for="@Model.IsDeleted" value="false" class="form-control">
-                <span asp-validation-for="@Model.IsDeleted" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.CurrentTotalSum"></label>
-                <input asp-for="@Model.CurrentTotalSum" value="111" class="form-control">
-                <span asp-validation-for="@Model.CurrentTotalSum" class="small text-danger"></span>
-            </div>
-@*
-            @foreach (var item in Model.Categories)
-            {
-                <div class="form-check">
-                    <input class="form-check-input" asp-for="@item.Id" type="hidden" >
-                    <input class="form-check-input" asp-for="@item.Name" type="hidden" >
-                    <input class="form-check-input" name="" type="checkbox" >
-
-                    <label class="form-check-label" asp-for="@item.Name">
-                        @item.Name
-                    </label>
-                </div>
-
-            }*@
-
-            <div class="form-group">
-                <label asp-for="@Model.CategoryId" class="form-label">Department</label>
-                <select asp-for="@Model.CategoryId" class="form-control" aria-label="Default select example">
-                    <option value="@null" selected>Open this menu, or save without Department</option>
-                    @foreach (var department in Model.Categories)
-                    {
-                        <option value="@department.Id">@department.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="Categories" class="text-danger"></span>
-            </div>
+@using (Html.BeginForm())
+{
+    for (var i = 0; i < Model.Count(); i++)
+    {
+        <table class="table">
+            <tr>
+                <td class="fs-2 text-center">
+                    @Html.DisplayFor(it => it[i].Name)
+                </td>
+                <td>
+                    @Html.HiddenFor(it => it[i].Id)
+                    @Html.HiddenFor(it => it[i].Name)
+                </td>
+            </tr>
+        </table>
 
 
-            <h3 class="text-center"></h3>
+        for (var x = 0; x < Model[i].MenuItems.Count(); x++)
+        {
+            <table class="table">
+                <tr>
+                    <td class="col-1">
+                        @Html.CheckBoxFor(it => Model[i].MenuItems[x].IsChecked)
+                    </td>
+                    <td class="fs-4">
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].Id)
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].Name)
+                        @Html.DisplayFor(it => Model[i].MenuItems[x].Name)
+                        @Html.DisplayFor(it => Model[i].MenuItems[x].Price)
+                    </td>
+                </tr>
+            </table>
+        }
 
-
-            @* <td class="col-md-2">
-            <input id="para" style="width: 50px; height: auto" asp-for="@menuItem.OrderedQty" value="@menuItem.OrderedQty" class="form-check-input" type="number" min="0" max="@menuItem.OnStock">
-            </td>
-            <td class="col-md-2"><input asp-for="@menuItem.Price" value="@menuItem.Price" hidden />@(menuItem.Price)</td>
-            Availiable items on Stock : @menuItem.OnStock*@
-
-
-
-            <div class="form-group mt-3">
-                <input type="submit" value="Create" class="btn btn-primary">
-            </div>
-        </form>
-
-    </div>
-</div>
-
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    }
+    <input id="Submit1" type="submit" value="submit" />
 }
 
 

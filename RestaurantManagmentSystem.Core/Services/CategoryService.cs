@@ -28,6 +28,7 @@ namespace RestaurantManagmentSystem.Core.Services
             var category = new Category()
             {
                 Name = model.Name
+
             };
 
             await repo.AddAsync<Category>(category);
@@ -92,22 +93,14 @@ namespace RestaurantManagmentSystem.Core.Services
         /// <returns></returns>
         public async Task<IEnumerable<Category>> GetAllCategoriesSubOrderAsync()
         {
+
+            var items =  repo.AllReadonly<MenuItem>();
+
             var allCat = await repo.All<Category>()
                 .Where(x => x.IsDeleted == false)
-                .Select(vm => new Category
-                {
-                    Name = vm.Name,
-                    //MenuItems = vm.MenuItems.Select(x => new OrderMenuItemViewModel()
-                    //{
-                    //    Name = x.Name,
-                    //    Description = x.Description,
-                    //    OnStock = x.OnStock ?? 0,
-                    //    Price = x.Price,
-                    //    ItemsForCooking = x.ItemsForCooking,
-                    //}).ToList()
-                })
                 .ToListAsync();
 
+          
             return allCat;
         }
         /// <summary>
@@ -184,6 +177,20 @@ namespace RestaurantManagmentSystem.Core.Services
                 .ToListAsync();
 
             return allCat;
+        }
+
+        public async Task<IEnumerable<Category>> AddMenuItemsToCategory(List<MenuItem> item, IEnumerable<Category> category)
+        {
+            foreach (var cat in category)
+            {
+
+                cat.MenuItems = item.Where(x => x.CategoryId == cat.Id).ToList();   
+
+            }
+
+            await repo.SaveChangesAsync();
+
+            return category;
         }
     }
 }

@@ -103,6 +103,16 @@ namespace RestaurantManagmentSystem.Core.Services
 
             return allMenuItem;
         }
+
+        public async Task<List<MenuItem>> GetAllSubOrderMenuItemsAsync()
+        {
+
+            var allMenuItem = await repo.All<MenuItem>()
+                .Where(x => x.IsDeleted == false)
+                .ToListAsync();
+
+            return allMenuItem;
+        }
         /// <summary>
         /// Get the MenuItem by Id
         /// </summary>

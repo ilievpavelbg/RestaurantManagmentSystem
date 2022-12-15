@@ -6,6 +6,8 @@ namespace RestaurantManagmentSystem.Core.Models.Categories
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
-        //public IEnumerable<OrderMenuItemViewModel> MenuItems { get; set; } = new List<OrderMenuItemViewModel>();
+        public bool IsChecked { get; set; }
+
+        public List<OrderMenuItemViewModel> MenuItems { get; set; } = new List<OrderMenuItemViewModel>();
     }
 }

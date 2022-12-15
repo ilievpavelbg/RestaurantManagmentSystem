@@ -17,6 +17,6 @@ namespace RestaurantManagmentSystem.Core.Data
 
         public int? SubOrderId { get; set; }
         public SubOrder SubOrder { get; set; } = null!;
-        public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
+        public List<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
     }
 }

@@ -1,5 +1,5 @@
 ﻿@using RestaurantManagmentSystem.Core.Models.Orders
-@model OrderViewModel
+@model Order
 
 @{
     ViewBag.Title = "Order Details";
@@ -29,14 +29,14 @@
                 <h3>@category.Name</h3>
                 <hr />
                 <table class="table table-striped table-bordered">
-@*                    <thead class="thead-dark">
+                  <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">First Name</th>
                             <th scope="col">Last Name</th>
                         </tr>
-                    </thead>*@
-                   @* <tbody>
+                    </thead>
+                   <tbody>
                         @{
                             int count = 1;
                         }
@@ -50,14 +50,14 @@
                             </tr>
                             count++;
                         }
-                    </tbody>*@
+                    </tbody>
                 </table>
 
             }
         }
     }
 
-     <a class="btn btn-primary" asp-area="Waiter" asp-controller="Order" asp-action="Purchase" asp-route-Id="@Model.OrderId" >Create Purchase</a>
+     <a class="btn btn-primary" asp-area="Waiter" asp-controller="Order" asp-action="CreateSubOrder" asp-route-Id="@Model.Id" >Create SubOrder</a>
 
 
 

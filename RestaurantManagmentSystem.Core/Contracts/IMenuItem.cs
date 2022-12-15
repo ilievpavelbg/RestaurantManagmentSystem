@@ -1,4 +1,5 @@
-﻿using RestaurantManagmentSystem.Core.Models.MenuItems;
+﻿using RestaurantManagmentSystem.Core.Data;
+using RestaurantManagmentSystem.Core.Models.MenuItems;
 
 namespace RestaurantManagmentSystem.Core.Contracts
 {
@@ -13,5 +14,7 @@ namespace RestaurantManagmentSystem.Core.Contracts
         Task<EditMenuItemViewModel> GetByIdMenuItem(int Id);
         Task<bool> HasThisEntityAsync(string name);
         Task RestoreMenuItemAsync(int Id);
+
+        Task<List<MenuItem>> GetAllSubOrderMenuItemsAsync();
     }
 }

@@ -1,9 +1,15 @@
-﻿using RestaurantManagmentSystem.Core.Models.SubOrder;
+﻿using RestaurantManagmentSystem.Core.Data;
 
 namespace RestaurantManagmentSystem.Core.Contracts
 {
     public interface ISubOrder
     {
-        Task<SubOrderViewModel> CreateSubOrderAsync(int Id);
+        Task<SubOrder> CreateSubOrderAsync(int Id);
+
+        Task<SubOrder> AddOrderedItemsAsync(IEnumerable<Category> model, int Id);
+
+        Task<SubOrder> GetSubOrderByIdAsync(int Id);
+
+        Task<SubOrder> AddCategoriesToSubOrderAsync(IEnumerable<Category> model);
     }
 }

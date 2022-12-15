@@ -19,7 +19,7 @@ namespace RestaurantManagmentSystem.Core.Services
         {
             repo = _repo;
         }
-        public async Task<OrderViewModel> CreateOrderAsync(int employeeId, int tableId)
+        public async Task<Order> CreateOrderAsync(int employeeId, int tableId)
         {
 
             var order = new Order()
@@ -34,41 +34,23 @@ namespace RestaurantManagmentSystem.Core.Services
             await repo.AddAsync<Order>(order);
             await repo.SaveChangesAsync();
 
-            var model = new OrderViewModel
-            {
-                OrderId = order.Id,
-                CreatedOn = order.CreatedOn,
-                EmployeeId = order.EmployeeId,
-                TableId = order.TableId,
-                TotalPrice = order.TotalPrice
-            };
+          
 
-            return model;
+            return order;
         }
 
-        public async Task<OrderViewModel> GetOrderByIdAsync(int orderId)
+        public async Task<Order> GetOrderByIdAsync(int orderId)
         {
             var subOrders = await repo.All<SubOrder>()
                 .Where(x => x.OrderId == orderId)
-                .Select(so => new SubOrderViewModel()
-                {
-                    
-                    CreateOn = so.CreateOn,
-                    CurrentTotalSum = so.CurrentTotalSum,
-
-                }).ToListAsync();
+                .ToListAsync();
            
                 var order = await repo.All<Order>().Where(x => x.Id == orderId)
-                .Select(or => new OrderViewModel()
-                {
-                    OrderId = or.Id,
-                    CreatedOn = or.CreatedOn,
-                    EmployeeId = or.EmployeeId,
-                    TableId = or.TableId,
-                    TotalPrice = or.TotalPrice,
-                    SubOrders = subOrders
-                })
                 .FirstOrDefaultAsync();
+
+            order.SubOrders = subOrders;
+
+            await repo.SaveChangesAsync();
 
             return order;
         }
@@ -77,11 +59,11 @@ namespace RestaurantManagmentSystem.Core.Services
         {
             var hasOrder = repo.All<Order>().Any(x => x.TableId == Id && x.IsDeleted == false);
 
-            var model = repo.AllReadonly<Order>()
-                .Where(x => x.TableId == Id && x.IsDeleted == false)
-                .SingleOrDefaultAsync();
+            //var model = repo.AllReadonly<Order>()
+            //    .Where(x => x.TableId == Id && x.IsDeleted == false)
+            //    .SingleOrDefaultAsync();
 
-            var orderId = model.Id;
+            //var orderId = model.Id;
 
             return hasOrder;
         }

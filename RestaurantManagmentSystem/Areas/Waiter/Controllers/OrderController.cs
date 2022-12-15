@@ -3,8 +3,6 @@ using RestaurantManagmentSystem.Core.Common;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Models.Categories;
-using RestaurantManagmentSystem.Core.Models.Orders;
-using RestaurantManagmentSystem.Core.Models.SubOrder;
 using RestaurantManagmentSystem.Core.Repository.Common;
 
 namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
@@ -17,14 +15,16 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
         private readonly ITable_1 tableService;
         private readonly IRepository repo;
         private readonly ICategory categoryService;
-        private readonly IMenuItem menuItemService;
+        private readonly IMenuItem menuService;
+
         public OrderController(
             IOrder _orderServises, 
             IRepository _repo,
             ITable_1 _tableService,
             ISubOrder _subOrderServises,
             ICategory _categoryService,
-            IMenuItem _menuItemService
+            IMenuItem _menuService
+
             )
         {
             orderServises = _orderServises;
@@ -32,7 +32,7 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             tableService = _tableService;
             subOrderServises = _subOrderServises;
             categoryService = _categoryService;
-            menuItemService = _menuItemService;
+            menuService = _menuService;
         }
 
         public async Task<IActionResult> Create(int Id)
@@ -48,9 +48,9 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
 
             var model = await orderServises.CreateOrderAsync(emplId.Id, Id);
 
-            await tableService.SaveCurrentOrderIdToTable(model.OrderId, Id);
+            await tableService.SaveCurrentOrderIdToTable(model.Id, Id);
 
-            return RedirectToAction("Details", new { id = model.OrderId });
+            return RedirectToAction("Details", new { id = model.Id });
         }
 
         public async Task<IActionResult> Details(int Id)
@@ -63,35 +63,43 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
         [HttpGet]
         public async Task<IActionResult> Purchase()
         {
-            var model = new SubOrderViewModel()
-            {
-                Categories = await categoryService.GetAllCategoriesSubOrderAsync()
-            };
+            var items = await menuService.GetAllSubOrderMenuItemsAsync();
+            var model = await categoryService.GetAllCategoriesSubOrderAsync();
+
+            var catItems = await categoryService.AddMenuItemsToCategory(items, model);
            
 
 
-            return View(model);
+            return View(catItems);
         }
 
         [HttpPost]
-        public IActionResult Purchase(SubOrderViewModel model)
+        public IActionResult Purchase(IEnumerable<Category> model, int Id)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            Console.WriteLine("Hello");
-            //var model = await subOrderServises.CreateSubOrderAsync();
+            try
+            {
+               
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
 
             return RedirectToAction("Details");
         }
 
         public async Task<IActionResult> CreateSubOrder(int Id)
         {
-           await subOrderServises.CreateSubOrderAsync(Id);
+           var sub = await subOrderServises.CreateSubOrderAsync(Id);
 
-            return RedirectToAction("Purchase");
+            return RedirectToAction("Purchase", new {id = sub.Id});
         }
     }
 }

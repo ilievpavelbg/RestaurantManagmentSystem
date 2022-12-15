@@ -1,11 +1,11 @@
-﻿using RestaurantManagmentSystem.Core.Models.Orders;
+﻿using RestaurantManagmentSystem.Core.Data;
 
 namespace RestaurantManagmentSystem.Core.Contracts
 {
     public interface IOrder
     {
-        Task<OrderViewModel> CreateOrderAsync(int employeeId, int tableId);
-        Task<OrderViewModel> GetOrderByIdAsync(int Id);
+        Task<Order> CreateOrderAsync(int employeeId, int tableId);
+        Task<Order> GetOrderByIdAsync(int Id);
         bool GetOrderIdByTableId(int Id);
     }
 }

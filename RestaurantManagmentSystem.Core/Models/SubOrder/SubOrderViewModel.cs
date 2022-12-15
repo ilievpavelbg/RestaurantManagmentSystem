@@ -17,7 +17,8 @@ namespace RestaurantManagmentSystem.Core.Models.SubOrder
         [Range(typeof(decimal), SubOrderConstrains.PriceMinLenght, SubOrderConstrains.PriceMaxLenght)]
         public decimal CurrentTotalSum { get; set; }
         public int CategoryId { get; set; }
-      
+        public int OrderId { get; set; }
+
         public IEnumerable<Category> Categories { get; set; } = new List<Category>();
     }
 }
