@@ -9,6 +9,14 @@ namespace RestaurantManagmentSystem.Core.Repository
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            if (this.Database.IsRelational())
+            {
+                this.Database.Migrate();
+            }
+            else
+            {
+                this.Database.EnsureCreated();
+            }
         }
 
         public DbSet<Category> Categories { get; set; }
@@ -19,5 +27,7 @@ namespace RestaurantManagmentSystem.Core.Repository
         public DbSet<Product> Products { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<SubOrder> SubOrders { get; set; }
+        public DbSet<TempOrder> TempOrders { get; set; }
+        public DbSet<TempOrderMenuItemViewModel> TempOrderMenuItemViewModels { get; set; }
     }
 }

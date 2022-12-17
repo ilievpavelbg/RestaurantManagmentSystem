@@ -3,6 +3,7 @@ using RestaurantManagmentSystem.Core.Common;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Models.Categories;
+using RestaurantManagmentSystem.Core.Models.SubOrder;
 using RestaurantManagmentSystem.Core.Repository.Common;
 
 namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
@@ -16,6 +17,7 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
         private readonly IRepository repo;
         private readonly ICategory categoryService;
         private readonly IMenuItem menuService;
+        private readonly ITempOrder tempOrderService;
 
         public OrderController(
             IOrder _orderServises, 
@@ -23,7 +25,8 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             ITable_1 _tableService,
             ISubOrder _subOrderServises,
             ICategory _categoryService,
-            IMenuItem _menuService
+            IMenuItem _menuService,
+            ITempOrder _tempOrderService
 
             )
         {
@@ -33,6 +36,7 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             subOrderServises = _subOrderServises;
             categoryService = _categoryService;
             menuService = _menuService;
+            tempOrderService = _tempOrderService;
         }
 
         public async Task<IActionResult> Create(int Id)
@@ -55,51 +59,86 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
 
         public async Task<IActionResult> Details(int Id)
         {
-            var model = await orderServises.GetOrderByIdAsync(Id);
+            var order = await orderServises.GetOrderByIdAsync(Id);
+
+            if(order == null)
+            {
+                return RedirectToAction("Create");
+            }
+            
+
+            return View(order);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Purchase(int Id)
+        {
+            var model = await menuService.GetAllMenuItemsTempOrderAsync();
+
+            //var sub = await subOrderServises.GetSubOrderByIdAsync(Id);
+
+            //var model = await categoryService.GetAllCategoriesSubOrderAsync();
+
+            //foreach (var item in model)
+            //{
+            //    item.SubOrderId = Id;
+            //}
+
+            //sub.Categories = model.ToList();
 
             return View(model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Purchase()
-        {
-            var items = await menuService.GetAllSubOrderMenuItemsAsync();
-            var model = await categoryService.GetAllCategoriesSubOrderAsync();
-
-            var catItems = await categoryService.AddMenuItemsToCategory(items, model);
-           
-
-
-            return View(catItems);
-        }
-
         [HttpPost]
-        public IActionResult Purchase(IEnumerable<Category> model, int Id)
+        public async Task<IActionResult> Purchase(IEnumerable<TempOrderMenuItemViewModel> model, int Id)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
+
             try
             {
-               
+                await tempOrderService.AddMenuItemsToTempOrderAsync(model, Id);
+
+                //await subOrderServises.AddSubOrderToOrderAsync(model.OrderId);
+
+                //var subId = model.OrderId;
+
+                //return RedirectToAction("Details", new { id = subId });
+
             }
             catch (Exception ex)
             {
 
-                throw;
+                return RedirectToPage("Error", ex);
             }
 
-
-            return RedirectToAction("Details");
+            return RedirectToAction("Test");
         }
 
-        public async Task<IActionResult> CreateSubOrder(int Id)
+        public IActionResult Test(TempOrder model)
         {
-           var sub = await subOrderServises.CreateSubOrderAsync(Id);
+            return View(model);
+        }
 
-            return RedirectToAction("Purchase", new {id = sub.Id});
+        [HttpGet]
+        public IActionResult CreateSubOrder(int Id)
+        {
+            var model = new TempOrder();
+
+            ViewBag.OrderId = Id;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSubOrder(TempOrder model, int Id)
+        {
+            var subId = await tempOrderService.CreateTempOrderAsync(model, Id);
+
+            return RedirectToAction("Purchase", new { id = subId });
         }
     }
 }

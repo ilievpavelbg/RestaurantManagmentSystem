@@ -34,5 +34,6 @@ namespace RestaurantManagmentSystem.Core.Data
         public Table Table { get; set; } = null!;
 
         public IEnumerable<SubOrder> SubOrders { get; set; } = new List<SubOrder>();
+        public IEnumerable<TempOrder> TempOrders { get; set; } = new List<TempOrder>();
     }
 }

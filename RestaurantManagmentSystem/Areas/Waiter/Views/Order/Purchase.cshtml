@@ -1,4 +1,5 @@
-﻿@model List<Category>
+﻿@using RestaurantManagmentSystem.Core.Models.SubOrder
+@model List<TempOrderMenuItemViewModel>
 
 @{
     ViewBag.Title = "Purchase Modul";
@@ -13,29 +14,74 @@
     {
         <table class="table">
             <tr>
+                <td class="col-1">
+                        @@Html.CheckBoxFor(it => it[i].IsChecked)
+                    </td>
                 <td class="fs-2 text-center">
                     @Html.DisplayFor(it => it[i].Name)
+                    @Html.DisplayFor(it => it[i].Price)
                 </td>
                 <td>
                     @Html.HiddenFor(it => it[i].Id)
                     @Html.HiddenFor(it => it[i].Name)
+                    @Html.HiddenFor(it => it[i].Price)
+                    @Html.HiddenFor(it => it[i].Description)
+                    @Html.HiddenFor(it => it[i].OnStock)
+                    @Html.HiddenFor(it => it[i].OrderedQty)
+                    @Html.HiddenFor(it => it[i].ItemsForCooking)
+                    @Html.HiddenFor(it => it[i].ImageURL)
+
                 </td>
             </tr>
         </table>
 
 
-        for (var x = 0; x < Model[i].MenuItems.Count(); x++)
+    }
+    <input id="Submit1" type="submit" value="submit" />
+}
+
+
+@*@using (Html.BeginForm())
+{
+    @Html.HiddenFor(it => Model.OrderId)
+    for (var i = 0; i < Model.Categories.Count(); i++)
+    {
+        <table class="table">
+            <tr>
+                <td class="fs-2 text-center">
+                    @Html.DisplayFor(it => Model.Categories[i].Name)
+                </td>
+                <td>
+                    @Html.HiddenFor(it => Model.Categories[i].Id)
+                    @Html.HiddenFor(it => Model.Categories[i].Name)
+                    @Html.HiddenFor(it => Model.Categories[i].IsChecked)
+                    @Html.HiddenFor(it => Model.Categories[i].IsDeleted)
+                    @Html.HiddenFor(it => Model.Categories[i].SubOrderId)
+                </td>
+            </tr>
+        </table>
+
+
+        for (var x = 0; x < Model.Categories[i].MenuItems.Count(); x++)
         {
             <table class="table">
                 <tr>
                     <td class="col-1">
-                        @Html.CheckBoxFor(it => Model[i].MenuItems[x].IsChecked)
+                        @Html.CheckBoxFor(it => Model.Categories[i].MenuItems[x].IsChecked)
                     </td>
                     <td class="fs-4">
-                        @Html.HiddenFor(it => Model[i].MenuItems[x].Id)
-                        @Html.HiddenFor(it => Model[i].MenuItems[x].Name)
-                        @Html.DisplayFor(it => Model[i].MenuItems[x].Name)
-                        @Html.DisplayFor(it => Model[i].MenuItems[x].Price)
+                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].Id)
+                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].Name)
+                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].Description)
+                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].Price)
+                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].ImageURL)
+                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].ItemsForCooking)
+                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].IsDeleted)
+                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].CategoryId)
+
+
+                        @Html.DisplayFor(it => Model.Categories[i].MenuItems[x].Name)
+                        @Html.DisplayFor(it => Model.Categories[i].MenuItems[x].Price)
                     </td>
                 </tr>
             </table>
@@ -43,6 +89,10 @@
 
     }
     <input id="Submit1" type="submit" value="submit" />
-}
+}*@
+
+
+
+
 
 

@@ -1,0 +1,55 @@
+﻿@using RestaurantManagmentSystem.Core.Models.SubOrder
+@model TempOrder
+
+@{
+    ViewData["Title"] = "Create SubOrder";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <form id="registerForm" method="post">
+            <hr />
+     
+           @* <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group text-center mb-3">
+                <label asp-for="CreateOn" class="control-label"></label>
+                <input asp-for="CreateOn" id="datepicker" type="text" autocomplete="off" class="form-control" id="datepicker" />
+                <span asp-validation-for="CreateOn" class="text-danger"></span>
+            </div>
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="col-form-label" asp-for="@Model.CurrentTotalSum">Current total sum:</label>
+                </div>
+                <div class="col-auto">
+                    <input type="text" class="form-control" asp-for="@Model.CurrentTotalSum">
+                    <span asp-validation-for="@Model.CurrentTotalSum" class="text-danger"></span>
+                </div>
+            </div>       *@
+            <div class="text-center">
+                <button id="registerSubmit"  asp-route-Id="@ViewBag.OrderId" type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+        $(function() {
+            $("#datepicker").datepicker();
+        });
+    </script>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function() {
+            $("#datepicker").datepicker();
+        });
+    </script>
+
+}
+

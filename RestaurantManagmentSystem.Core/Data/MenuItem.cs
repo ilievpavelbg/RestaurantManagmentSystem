@@ -36,7 +36,8 @@ namespace RestaurantManagmentSystem.Core.Data
 
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
-        public Category Category { get; set; } = null!;
+
+        public virtual Category? Category { get; set; } = null!;
 
         public ICollection<Product> Products { get; set; } = new List<Product>();
     }

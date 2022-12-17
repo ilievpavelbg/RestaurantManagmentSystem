@@ -2,8 +2,6 @@
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Data.Enum;
-using RestaurantManagmentSystem.Core.Models.Orders;
-using RestaurantManagmentSystem.Core.Models.SubOrder;
 using RestaurantManagmentSystem.Core.Repository.Common;
 
 namespace RestaurantManagmentSystem.Core.Services
@@ -33,8 +31,6 @@ namespace RestaurantManagmentSystem.Core.Services
 
             await repo.AddAsync<Order>(order);
             await repo.SaveChangesAsync();
-
-          
 
             return order;
         }

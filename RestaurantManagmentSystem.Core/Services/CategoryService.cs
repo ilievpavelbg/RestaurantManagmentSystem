@@ -91,16 +91,48 @@ namespace RestaurantManagmentSystem.Core.Services
         /// Get all categories for the SubOrderModel
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Category>> GetAllCategoriesSubOrderAsync()
+        public async Task<IEnumerable<SubOrderCategoryViewModel>> GetAllCategoriesSubOrderAsync()
         {
+            var items = await repo.AllReadonly<MenuItem>()
 
-            var items =  repo.AllReadonly<MenuItem>();
+                .Select(m => new SubOrderMenuItemsViewModel()
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    Description = m.Description,
+                    OnStock = m.OnStock,
+                    OrderedQty = m.OrderedQty,
+                    Price = m.Price,
+                    ImageURL = m.ImageURL,
+                    ItemsForCooking = m.ItemsForCooking,
+                    IsChecked = false,
+                    IsDeleted = m.IsDeleted,
+                    CategoryId = m.CategoryId
+                }).ToListAsync();
 
             var allCat = await repo.All<Category>()
                 .Where(x => x.IsDeleted == false)
+                .Select(x => new SubOrderCategoryViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    IsChecked = x.IsChecked,
+                    IsDeleted = x.IsDeleted,
+                    
+                })
                 .ToListAsync();
 
-          
+            foreach (var cat in allCat)
+            {
+                var itemCateg = items.Where(x => x.CategoryId == cat.Id);
+
+                foreach (var item in itemCateg)
+                {
+                    cat.MenuItems.Add(item);
+                }
+
+            }
+
             return allCat;
         }
         /// <summary>
@@ -179,12 +211,12 @@ namespace RestaurantManagmentSystem.Core.Services
             return allCat;
         }
 
-        public async Task<IEnumerable<Category>> AddMenuItemsToCategory(List<MenuItem> item, IEnumerable<Category> category)
+        public async Task<IEnumerable<Category>> AddMenuItemsToCategory(List<MenuItem> item, List<Category> category)
         {
             foreach (var cat in category)
             {
 
-                cat.MenuItems = item.Where(x => x.CategoryId == cat.Id).ToList();   
+                cat.MenuItems = item.Where(x => x.CategoryId == cat.Id).ToList();
 
             }
 
