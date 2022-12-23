@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
-using RestaurantManagmentSystem.Core.Models.Categories;
 using RestaurantManagmentSystem.Core.Models.SubOrder;
 using RestaurantManagmentSystem.Core.Repository.Common;
 
@@ -19,69 +18,20 @@ namespace RestaurantManagmentSystem.Core.Services
             repo = _repo;
         }
 
-        public async Task AddCategoriesToSubOrderAsync(SubOrderViewModel model)
+        public async Task AddCategoriesToSubOrderAsync(IEnumerable<Category> model, int Id)
         {
-            var category = model.Categories.Where(x => x.MenuItems.Any(x => x.IsChecked == true)).ToList();
+            var subOrder = await repo.GetByIdAsync<SubOrder>(Id);
 
-            var subOrder = await repo.AllReadonly<SubOrder>().Where(x => x.Id == model.Id).FirstAsync();
+            var currentTotal =
+                model.Sum(x => x.MenuItems.Where(mi => mi.IsChecked == true && mi.OrderedQty > 0)
+            .Sum(mi => (mi.Price * mi.OrderedQty)));
 
-
-            subOrder.Categories = model.Categories
-                .Where(x => x.MenuItems.Any(x => x.IsChecked == true))
-                .Select(x => new Category()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                IsChecked = x.IsChecked,
-                IsDeleted = x.IsDeleted,
-                MenuItems = x.MenuItems.Select(x => new MenuItem()
-                {
-                    Id = x.Id,
-                    Price = x.Price,
-                    Name = x.Name,
-                    CategoryId = x.CategoryId,
-                    IsChecked= x.IsChecked,
-                    IsDeleted= x.IsDeleted,
-                    ItemsForCooking = x.ItemsForCooking
-                    
-                }).ToList()
-            }).ToList();
+            subOrder.Categories = model;
+            subOrder.CreateOn = DateTime.Now;
+            subOrder.CurrentTotalSum = currentTotal ?? 0;
 
             await repo.SaveChangesAsync();
 
-
-
-            foreach (var cat in category)
-            {
-                var catId = cat.Id;
-
-                subOrder.CategoryId = catId;
-
-                await repo.SaveChangesAsync();
-
-                foreach (var item in cat.MenuItems)
-                {
-                    var itemId = item.Id;
-
-                    subOrder.ProductId = itemId;
-
-                    await repo.SaveChangesAsync();
-                }
-            }
-
-
-            decimal currentTotalSum = 0;
-
-            foreach (var cat in category)
-            {
-                var curentsum = cat.MenuItems.Sum(x => x.Price);
-
-                currentTotalSum += curentsum;
-            }
-
-            subOrder.CurrentTotalSum = currentTotalSum;
-
-            await repo.SaveChangesAsync();
         }
 
         public async Task<SubOrder> AddOrderedItemsAsync(IEnumerable<Category> model, int Id)
@@ -92,7 +42,7 @@ namespace RestaurantManagmentSystem.Core.Services
             return subOrd;
         }
 
-        public async Task<int> CreateSubOrderAsync(SubOrderViewModel model, int Id)
+        public async Task<int> CreateSubOrderAsync(SubOrder model, int Id)
         {
 
             var subOrder = new SubOrder()
@@ -123,21 +73,9 @@ namespace RestaurantManagmentSystem.Core.Services
 
         }
 
-        public async Task<SubOrderViewModel> GetSubOrderByIdAsync(int Id)
+        public async Task<SubOrder> GetSubOrderByIdAsync(int Id)
         {
-            var subOrd = await repo.All<SubOrder>()
-                .Where(x => x.Id == Id)
-                .Select(x => new SubOrderViewModel()
-                {
-                    Id = x.Id,
-                    IsCompleted = x.IsCompleted,
-                    IsDeleted = x.IsDeleted,
-                    CreateOn = x.CreateOn,
-                    CompletedOn = x.CompletedOn,
-                    CurrentTotalSum = x.CurrentTotalSum,
-                    OrderId = x.OrderId
-                })
-                .FirstAsync();
+            var subOrd = await repo.GetByIdAsync<SubOrder>(Id);
 
             if (subOrd == null)
             {

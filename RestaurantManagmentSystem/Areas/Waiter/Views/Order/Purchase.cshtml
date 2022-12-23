@@ -1,5 +1,4 @@
-﻿@using RestaurantManagmentSystem.Core.Models.SubOrder
-@model List<TempOrderMenuItemViewModel>
+﻿@model List<Category>
 
 @{
     ViewBag.Title = "Purchase Modul";
@@ -14,85 +13,113 @@
     {
         <table class="table">
             <tr>
-                <td class="col-1">
-                        @@Html.CheckBoxFor(it => it[i].IsChecked)
-                    </td>
                 <td class="fs-2 text-center">
-                    @Html.DisplayFor(it => it[i].Name)
-                    @Html.DisplayFor(it => it[i].Price)
+                    @Html.DisplayFor(it => Model[i].Name)
                 </td>
                 <td>
-                    @Html.HiddenFor(it => it[i].Id)
-                    @Html.HiddenFor(it => it[i].Name)
-                    @Html.HiddenFor(it => it[i].Price)
-                    @Html.HiddenFor(it => it[i].Description)
-                    @Html.HiddenFor(it => it[i].OnStock)
-                    @Html.HiddenFor(it => it[i].OrderedQty)
-                    @Html.HiddenFor(it => it[i].ItemsForCooking)
-                    @Html.HiddenFor(it => it[i].ImageURL)
+                    @Html.HiddenFor(it => Model[i].Id)
+                    @Html.HiddenFor(it => Model[i].Name)
+                    @Html.HiddenFor(it => Model[i].IsChecked)
+                    @Html.HiddenFor(it => Model[i].IsDeleted)
+                    @Html.HiddenFor(it => Model[i].SubOrderId)
 
                 </td>
             </tr>
         </table>
 
 
-    }
-    <input id="Submit1" type="submit" value="submit" />
-}
-
-
-@*@using (Html.BeginForm())
-{
-    @Html.HiddenFor(it => Model.OrderId)
-    for (var i = 0; i < Model.Categories.Count(); i++)
-    {
-        <table class="table">
-            <tr>
-                <td class="fs-2 text-center">
-                    @Html.DisplayFor(it => Model.Categories[i].Name)
-                </td>
-                <td>
-                    @Html.HiddenFor(it => Model.Categories[i].Id)
-                    @Html.HiddenFor(it => Model.Categories[i].Name)
-                    @Html.HiddenFor(it => Model.Categories[i].IsChecked)
-                    @Html.HiddenFor(it => Model.Categories[i].IsDeleted)
-                    @Html.HiddenFor(it => Model.Categories[i].SubOrderId)
-                </td>
-            </tr>
-        </table>
-
-
-        for (var x = 0; x < Model.Categories[i].MenuItems.Count(); x++)
+        for (var x = 0; x < Model[i].MenuItems.Count(); x++)
         {
             <table class="table">
                 <tr>
                     <td class="col-1">
-                        @Html.CheckBoxFor(it => Model.Categories[i].MenuItems[x].IsChecked)
+                        @Html.CheckBoxFor(it => Model[i].MenuItems[x].IsChecked, new {id = "checkbox"})
                     </td>
                     <td class="fs-4">
-                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].Id)
-                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].Name)
-                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].Description)
-                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].Price)
-                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].ImageURL)
-                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].ItemsForCooking)
-                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].IsDeleted)
-                        @Html.HiddenFor(it => Model.Categories[i].MenuItems[x].CategoryId)
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].Id)
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].Name)
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].Description)
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].Price)
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].ImageURL)
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].ItemsForCooking)
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].IsDeleted)
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].CategoryId)
 
 
-                        @Html.DisplayFor(it => Model.Categories[i].MenuItems[x].Name)
-                        @Html.DisplayFor(it => Model.Categories[i].MenuItems[x].Price)
+                        @Html.DisplayFor(it => Model[i].MenuItems[x].Name)
+                        @Html.DisplayFor(it => Model[i].MenuItems[x].Price)
+
+                        @Html.EditorFor(it => Model[i].MenuItems[x].OrderedQty, new {id ="ordQty"})
                     </td>
                 </tr>
             </table>
         }
 
     }
-    <input id="Submit1" type="submit" value="submit" />
-}*@
+    <input id="Submit" type="submit" value="submit" />
+}
+
+
+<script>
+    let input = document.getElementById("Submit");
+    let inputCheck = document.querySelectorAll("#checkbox");
+    let trs = document.querySelectorAll('.table tr td[class="fs-4"]');
+    let qty = ""
+
+    //trs.forEach(x => x.childNodes[17].disabled = true)
+
+    input.disabled = true; //setting button state to disabled
+
+    arrayInputCheck = Array.from(inputCheck)
+
+    let enabledSettings = []
+
+
+    // Use Array.forEach to add an event listener to each checkbox.
+    inputCheck.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            enabledSettings = Array.from(inputCheck) // Convert checkboxes to an array to use filter and map.
 
 
 
+            if (enabledSettings.some(x => x.checked)) {
+
+                input.disabled = false;
+
+            }
+            else {
+
+                input.disabled = true;
+
+                for (let i = 0; i < trs.length; i++) {
+
+                    trs[i].childNodes[17].disabled = true;
+
+                }
+
+            }
+
+            for (let i = 0; i < enabledSettings.length; i++) {
+
+                if (enabledSettings[i].checked) {
+
+                    trs[i].childNodes[17].disabled = false;
+
+                }
+                else{
+
+                    trs[i].childNodes[17].disabled = true;
+
+                }
+
+            }
+
+        })
+    });
+
+
+
+</script>
 
 
 

@@ -14,7 +14,7 @@ namespace RestaurantManagmentSystem.Core.Contracts
         Task<EditMenuItemViewModel> GetByIdMenuItem(int Id);
         Task<bool> HasThisEntityAsync(string name);
         Task RestoreMenuItemAsync(int Id);
-        Task<IEnumerable<TempOrderMenuItemViewModel>> GetAllMenuItemsTempOrderAsync();
+        Task<IEnumerable<MenuItem>> GetAllMenuItemsPurchaseAsync();
         Task<List<MenuItem>> GetAllSubOrderMenuItemsAsync();
     }
 }

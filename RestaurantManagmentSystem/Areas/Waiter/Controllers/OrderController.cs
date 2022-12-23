@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Common;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
-using RestaurantManagmentSystem.Core.Models.Categories;
-using RestaurantManagmentSystem.Core.Models.SubOrder;
 using RestaurantManagmentSystem.Core.Repository.Common;
 
 namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
 {
     [Area("Waiter")]
+    [Authorize(Roles = "Waiter, Manager")]
     public class OrderController : Controller
     {
         private readonly IOrder orderServises;
@@ -73,34 +73,40 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
         [HttpGet]
         public async Task<IActionResult> Purchase(int Id)
         {
-            var model = await menuService.GetAllMenuItemsTempOrderAsync();
+            var menuItems = await menuService.GetAllMenuItemsPurchaseAsync();
 
-            //var sub = await subOrderServises.GetSubOrderByIdAsync(Id);
+            var model = await categoryService.GetAllCategoriesSubOrderAsync();
 
-            //var model = await categoryService.GetAllCategoriesSubOrderAsync();
+            foreach (var item in model)
+            {
+                item.MenuItems = menuItems.Where(x => x.CategoryId == item.Id).ToList();
+            }
 
-            //foreach (var item in model)
-            //{
-            //    item.SubOrderId = Id;
-            //}
+            ViewBag.SubOrderId = Id;
 
-            //sub.Categories = model.ToList();
+            foreach (var item in model)
+            {
+                item.SubOrderId = Id;
+               
+            }
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Purchase(IEnumerable<TempOrderMenuItemViewModel> model, int Id)
+        public async Task<IActionResult> Purchase(IEnumerable< Category> model, int Id)
         {
             if (!ModelState.IsValid)
             {
+
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
                 return View(model);
             }
 
 
             try
             {
-                await tempOrderService.AddMenuItemsToTempOrderAsync(model, Id);
+                await subOrderServises.AddCategoriesToSubOrderAsync(model, Id);
 
                 //await subOrderServises.AddSubOrderToOrderAsync(model.OrderId);
 
@@ -134,9 +140,9 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSubOrder(TempOrder model, int Id)
+        public async Task<IActionResult> CreateSubOrder(SubOrder model, int Id)
         {
-            var subId = await tempOrderService.CreateTempOrderAsync(model, Id);
+            var subId = await subOrderServises.CreateSubOrderAsync(model, Id);
 
             return RedirectToAction("Purchase", new { id = subId });
         }

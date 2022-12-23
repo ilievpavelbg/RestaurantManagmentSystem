@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Common;
 using RestaurantManagmentSystem.Core.Contracts;
 
 namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
 {
     [Area("Waiter")]
+    [Authorize(Roles = "Waiter, Manager")]
     public class HomeController : Controller
     {
         private readonly ITable_1 tableService;

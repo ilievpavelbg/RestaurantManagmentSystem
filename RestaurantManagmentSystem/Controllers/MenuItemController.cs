@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Models.MenuItems;
 
 namespace RestaurantManagmentSystem.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class MenuItemController : Controller
     {
         private readonly ICategory categoryServise;

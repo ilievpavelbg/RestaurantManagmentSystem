@@ -12,5 +12,7 @@ namespace RestaurantManagmentSystem.Core.Contracts
         Task<bool> ExistEmployeeByEmailAsync(string email);
         Task<BecomeEmployee> GetEmployeeByEmailAsync(string email);
         Task ConnectUserWithEmployeeAsync(BecomeEmployee modelEmployee, ApplicationUser user);
+
+        Task EditPostEmployeeAsync(EmployeeDetailsViewModel model);
     }
 }

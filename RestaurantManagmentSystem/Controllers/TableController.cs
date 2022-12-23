@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Models.Tables;
 
 namespace RestaurantManagmentSystem.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class TableController : Controller
     {
         private readonly ITable_1 tableService;

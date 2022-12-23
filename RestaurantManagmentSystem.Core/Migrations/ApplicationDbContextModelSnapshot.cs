@@ -34,7 +34,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("MenuItemProduct");
+                    b.ToTable("MenuItemProduct", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -260,9 +260,6 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("IsChecked")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -271,14 +268,14 @@ namespace RestaurantManagmentSystem.Core.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("SubOrderId")
+                    b.Property<int>("SubOrderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SubOrderId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Customer", b =>
@@ -311,7 +308,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Department", b =>
@@ -332,7 +329,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Employee", b =>
@@ -399,7 +396,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employee", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.MenuItem", b =>
@@ -421,9 +418,6 @@ namespace RestaurantManagmentSystem.Core.Migrations
                     b.Property<string>("ImageURL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsChecked")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -449,7 +443,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("MenuItems");
+                    b.ToTable("MenuItems", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Order", b =>
@@ -487,7 +481,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Product", b =>
@@ -508,7 +502,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.SubOrder", b =>
@@ -519,9 +513,6 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("CompletedOn")
                         .HasColumnType("datetime2");
 
@@ -530,9 +521,6 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
                     b.Property<decimal>("CurrentTotalSum")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsChecked")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
@@ -543,14 +531,11 @@ namespace RestaurantManagmentSystem.Core.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("SubOrders");
+                    b.ToTable("SubOrders", (string)null);
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Table", b =>
@@ -573,102 +558,12 @@ namespace RestaurantManagmentSystem.Core.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("Tables");
-                });
-
-            modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.TempOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool?>("IsChecked")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ItemName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("ItemsForCooking")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("TempOrders");
-                });
-
-            modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.TempOrderMenuItemViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageURL")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("IsChecked")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("ItemsForCooking")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("OnStock")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderedQty")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TempOrderMenuItemViewModels");
-                });
-
-            modelBuilder.Entity("TempOrderTempOrderMenuItemViewModel", b =>
-                {
-                    b.Property<int>("MenuItemsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TempOrdersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MenuItemsId", "TempOrdersId");
-
-                    b.HasIndex("TempOrdersId");
-
-                    b.ToTable("TempOrderTempOrderMenuItemViewModel");
+                    b.ToTable("Tables", (string)null);
                 });
 
             modelBuilder.Entity("MenuItemProduct", b =>
@@ -739,9 +634,13 @@ namespace RestaurantManagmentSystem.Core.Migrations
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Category", b =>
                 {
-                    b.HasOne("RestaurantManagmentSystem.Core.Data.SubOrder", null)
+                    b.HasOne("RestaurantManagmentSystem.Core.Data.SubOrder", "SubOrder")
                         .WithMany("Categories")
-                        .HasForeignKey("SubOrderId");
+                        .HasForeignKey("SubOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubOrder");
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Customer", b =>
@@ -788,7 +687,7 @@ namespace RestaurantManagmentSystem.Core.Migrations
                         .IsRequired();
 
                     b.HasOne("RestaurantManagmentSystem.Core.Data.Table", "Table")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("TableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -807,41 +706,6 @@ namespace RestaurantManagmentSystem.Core.Migrations
                         .IsRequired();
 
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Table", b =>
-                {
-                    b.HasOne("RestaurantManagmentSystem.Core.Data.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId");
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.TempOrder", b =>
-                {
-                    b.HasOne("RestaurantManagmentSystem.Core.Data.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("TempOrderTempOrderMenuItemViewModel", b =>
-                {
-                    b.HasOne("RestaurantManagmentSystem.Core.Data.TempOrderMenuItemViewModel", null)
-                        .WithMany()
-                        .HasForeignKey("MenuItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RestaurantManagmentSystem.Core.Data.TempOrder", null)
-                        .WithMany()
-                        .HasForeignKey("TempOrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.ApplicationUser", b =>
@@ -877,6 +741,8 @@ namespace RestaurantManagmentSystem.Core.Migrations
             modelBuilder.Entity("RestaurantManagmentSystem.Core.Data.Table", b =>
                 {
                     b.Navigation("Customers");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

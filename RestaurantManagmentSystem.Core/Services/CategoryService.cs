@@ -91,47 +91,12 @@ namespace RestaurantManagmentSystem.Core.Services
         /// Get all categories for the SubOrderModel
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<SubOrderCategoryViewModel>> GetAllCategoriesSubOrderAsync()
+        public async Task<IEnumerable<Category>> GetAllCategoriesSubOrderAsync()
         {
-            var items = await repo.AllReadonly<MenuItem>()
-
-                .Select(m => new SubOrderMenuItemsViewModel()
-                {
-                    Id = m.Id,
-                    Name = m.Name,
-                    Description = m.Description,
-                    OnStock = m.OnStock,
-                    OrderedQty = m.OrderedQty,
-                    Price = m.Price,
-                    ImageURL = m.ImageURL,
-                    ItemsForCooking = m.ItemsForCooking,
-                    IsChecked = false,
-                    IsDeleted = m.IsDeleted,
-                    CategoryId = m.CategoryId
-                }).ToListAsync();
 
             var allCat = await repo.All<Category>()
-                .Where(x => x.IsDeleted == false)
-                .Select(x => new SubOrderCategoryViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    IsChecked = x.IsChecked,
-                    IsDeleted = x.IsDeleted,
-                    
-                })
+                .Where(x => x.IsDeleted == false && x.MenuItems.Any())
                 .ToListAsync();
-
-            foreach (var cat in allCat)
-            {
-                var itemCateg = items.Where(x => x.CategoryId == cat.Id);
-
-                foreach (var item in itemCateg)
-                {
-                    cat.MenuItems.Add(item);
-                }
-
-            }
 
             return allCat;
         }

@@ -114,6 +114,24 @@ namespace RestaurantManagmentSystem.Core.Services
 
             return employee;
         }
+
+        public async Task EditPostEmployeeAsync(EmployeeDetailsViewModel model)
+        {
+            var employee = await repo.GetByIdAsync<Employee>(model.Id);
+
+            employee.Id = model.Id;
+            employee.FirstName = model.FirstName;
+            employee.LastName = model.LastName;
+            employee.Email = model.Email;
+            employee.Phone = model.Phone;
+            employee.Salary = model.Salary;
+            employee.Address = model.Address;
+            employee.Town = model.Town;
+
+            await repo.SaveChangesAsync();
+        }
+
+
     }
 }
 

@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Models.ApplicationUser;
+using RestaurantManagmentSystem.Core.Models.Employee;
 
 namespace RestaurantManagmentSystem.Controllers
 {
 
+    [Authorize(Roles = "Administrator")]
     public class EmployeeController : Controller
     {
         private readonly IEmployee employeeService;
@@ -56,6 +59,48 @@ namespace RestaurantManagmentSystem.Controllers
 
             return View(employee);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int Id)
+        {
+            try
+            {
+                var employee = await employeeService.GetEmployeeByIdAsync(Id);
+
+                return View(employee);
+
+            }
+            catch (Exception ex)
+            {
+
+                TempData["message"] = ex.Message;
+
+                return RedirectToAction("All");
+            }
+
+        }
+        /// <summary>
+        /// Edit Department, update database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Edit(EmployeeDetailsViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Details");
+            }
+
+            await employeeService.EditPostEmployeeAsync(model);
+
+            return RedirectToAction("Details");
+        }
+        /// <summary>
+        /// Delete Department
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
 
     }
 }

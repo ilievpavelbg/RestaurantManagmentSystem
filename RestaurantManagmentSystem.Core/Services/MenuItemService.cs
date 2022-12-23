@@ -103,23 +103,19 @@ namespace RestaurantManagmentSystem.Core.Services
 
             return allMenuItem;
         }
-        public async Task<IEnumerable<TempOrderMenuItemViewModel>> GetAllMenuItemsTempOrderAsync()
+        public async Task<IEnumerable<MenuItem>> GetAllMenuItemsPurchaseAsync()
         {
 
             var allMenuItem = await repo.All<MenuItem>()
                 .Where(x => x.IsDeleted == false)
-                .Select(mi => new TempOrderMenuItemViewModel()
-                {
-                    Id = mi.Id,
-                    Name = mi.Name,
-                    Description = mi.Description,
-                    Price = mi.Price,
-                    ItemsForCooking = mi.ItemsForCooking,
-                    OnStock = mi.OnStock,
-                    OrderedQty = mi.OrderedQty,
-                    IsChecked = mi.IsChecked,
-                    ImageURL = mi.ImageURL
-                }).ToListAsync();
+                .ToListAsync();
+
+            foreach (var item in allMenuItem)
+            {
+                item.IsChecked = false;
+            }
+
+            await repo.SaveChangesAsync();
 
             return allMenuItem;
         }
