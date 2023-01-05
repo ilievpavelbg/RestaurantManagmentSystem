@@ -12,6 +12,6 @@ namespace RestaurantManagmentSystem.Core.Contracts
         Task<SubOrder> GetSubOrderByIdAsync(int Id);
         Task AddSubOrderToOrderAsync(int Id);
 
-        Task AddCategoriesToSubOrderAsync(IEnumerable<Category> model, int Id);
+        Task<int> AddCategoriesToSubOrderAsync(IEnumerable<Category> model, int Id);
     }
 }

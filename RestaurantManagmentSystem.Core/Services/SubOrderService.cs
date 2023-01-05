@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
-using RestaurantManagmentSystem.Core.Models.SubOrder;
 using RestaurantManagmentSystem.Core.Repository.Common;
 
 namespace RestaurantManagmentSystem.Core.Services
@@ -18,19 +17,41 @@ namespace RestaurantManagmentSystem.Core.Services
             repo = _repo;
         }
 
-        public async Task AddCategoriesToSubOrderAsync(IEnumerable<Category> model, int Id)
+        public async Task<int> AddCategoriesToSubOrderAsync(IEnumerable<Category> model, int Id)
         {
+            var categories = new List<Category>();
+
+            foreach (var category in model)
+            {
+                if (category.MenuItems.Any(x => x.IsChecked == true))
+                {
+                    var checkedItemsOnly = category.MenuItems.Where(x => x.IsChecked == true).ToList();
+                    category.MenuItems = checkedItemsOnly;
+
+                    categories.Add(category);
+                }
+
+            }
+
+
             var subOrder = await repo.GetByIdAsync<SubOrder>(Id);
 
             var currentTotal =
                 model.Sum(x => x.MenuItems.Where(mi => mi.IsChecked == true && mi.OrderedQty > 0)
             .Sum(mi => (mi.Price * mi.OrderedQty)));
 
-            subOrder.Categories = model;
+            subOrder.Categories = categories;
             subOrder.CreateOn = DateTime.Now;
             subOrder.CurrentTotalSum = currentTotal ?? 0;
 
+            var order = await repo.GetByIdAsync<Order>(subOrder.OrderId);
+
+            order.SubOrders.ToList().Add(subOrder);
+
+
             await repo.SaveChangesAsync();
+
+            return order.Id;
 
         }
 

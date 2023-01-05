@@ -44,12 +44,13 @@
                         @Html.HiddenFor(it => Model[i].MenuItems[x].ItemsForCooking)
                         @Html.HiddenFor(it => Model[i].MenuItems[x].IsDeleted)
                         @Html.HiddenFor(it => Model[i].MenuItems[x].CategoryId)
+                        @Html.HiddenFor(it => Model[i].MenuItems[x].OnStock)
 
 
                         @Html.DisplayFor(it => Model[i].MenuItems[x].Name)
                         @Html.DisplayFor(it => Model[i].MenuItems[x].Price)
 
-                        @Html.EditorFor(it => Model[i].MenuItems[x].OrderedQty, new {id ="ordQty"})
+                        @Html.EditorFor(it => Model[i].MenuItems[x].OrderedQty, new {htmlAttributes = new { @min= "0", @max = @Model[i].MenuItems[x].OnStock}})
                     </td>
                 </tr>
             </table>
@@ -64,23 +65,23 @@
     let input = document.getElementById("Submit");
     let inputCheck = document.querySelectorAll("#checkbox");
     let trs = document.querySelectorAll('.table tr td[class="fs-4"]');
-    let qty = ""
 
-    //trs.forEach(x => x.childNodes[17].disabled = true)
+    for (let i = 0; i < trs.length; i++) {
+
+        trs[i].childNodes[19].disabled = true;
+
+        trs[i].childNodes[19].textContent = "";
+
+    }
 
     input.disabled = true; //setting button state to disabled
 
-    arrayInputCheck = Array.from(inputCheck)
-
     let enabledSettings = []
-
 
     // Use Array.forEach to add an event listener to each checkbox.
     inputCheck.forEach(function(checkbox) {
         checkbox.addEventListener('change', function() {
             enabledSettings = Array.from(inputCheck) // Convert checkboxes to an array to use filter and map.
-
-
 
             if (enabledSettings.some(x => x.checked)) {
 
@@ -91,24 +92,18 @@
 
                 input.disabled = true;
 
-                for (let i = 0; i < trs.length; i++) {
-
-                    trs[i].childNodes[17].disabled = true;
-
-                }
-
             }
 
             for (let i = 0; i < enabledSettings.length; i++) {
 
                 if (enabledSettings[i].checked) {
 
-                    trs[i].childNodes[17].disabled = false;
+                    trs[i].childNodes[19].disabled = false;
 
                 }
-                else{
+                else {
 
-                    trs[i].childNodes[17].disabled = true;
+                    trs[i].childNodes[19].disabled = true;
 
                 }
 
@@ -116,8 +111,6 @@
 
         })
     });
-
-
 
 </script>
 

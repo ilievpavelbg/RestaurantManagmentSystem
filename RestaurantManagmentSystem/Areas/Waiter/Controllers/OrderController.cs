@@ -17,7 +17,6 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
         private readonly IRepository repo;
         private readonly ICategory categoryService;
         private readonly IMenuItem menuService;
-        private readonly ITempOrder tempOrderService;
 
         public OrderController(
             IOrder _orderServises, 
@@ -25,8 +24,7 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             ITable_1 _tableService,
             ISubOrder _subOrderServises,
             ICategory _categoryService,
-            IMenuItem _menuService,
-            ITempOrder _tempOrderService
+            IMenuItem _menuService
 
             )
         {
@@ -36,7 +34,6 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             subOrderServises = _subOrderServises;
             categoryService = _categoryService;
             menuService = _menuService;
-            tempOrderService = _tempOrderService;
         }
 
         public async Task<IActionResult> Create(int Id)
@@ -55,17 +52,13 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             await tableService.SaveCurrentOrderIdToTable(model.Id, Id);
 
             return RedirectToAction("Details", new { id = model.Id });
+            
         }
 
-        public async Task<IActionResult> Details(int Id)
+        [HttpGet]
+        public async Task<IActionResult>  Details(int Id)
         {
             var order = await orderServises.GetOrderByIdAsync(Id);
-
-            if(order == null)
-            {
-                return RedirectToAction("Create");
-            }
-            
 
             return View(order);
         }
@@ -106,13 +99,9 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
 
             try
             {
-                await subOrderServises.AddCategoriesToSubOrderAsync(model, Id);
+                var orderId = await subOrderServises.AddCategoriesToSubOrderAsync(model, Id);
 
-                //await subOrderServises.AddSubOrderToOrderAsync(model.OrderId);
-
-                //var subId = model.OrderId;
-
-                //return RedirectToAction("Details", new { id = subId });
+                return RedirectToAction("Details", new { Id = orderId });
 
             }
             catch (Exception ex)
@@ -121,7 +110,7 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
                 return RedirectToPage("Error", ex);
             }
 
-            return RedirectToAction("Test");
+            
         }
 
         public IActionResult Test(TempOrder model)
@@ -145,6 +134,13 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             var subId = await subOrderServises.CreateSubOrderAsync(model, Id);
 
             return RedirectToAction("Purchase", new { id = subId });
+        }
+
+        public async Task<IActionResult> Delete(int Id)
+        {
+            await orderServises.CloseTheOrder(Id);
+
+            return RedirectToAction("AllTables", "Home");
         }
     }
 }

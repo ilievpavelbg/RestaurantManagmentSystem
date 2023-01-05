@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RestaurantManagmentSystem.Core.Contracts;
+﻿using RestaurantManagmentSystem.Core.Contracts;
 using RestaurantManagmentSystem.Core.Data;
 using RestaurantManagmentSystem.Core.Data.Enum;
 using RestaurantManagmentSystem.Core.Repository.Common;
@@ -17,6 +16,22 @@ namespace RestaurantManagmentSystem.Core.Services
         {
             repo = _repo;
         }
+
+        public async Task CloseTheOrder(int Id)
+        {
+            var order = await repo.GetByIdAsync<Order>(Id);
+
+            order.IsDeleted = true;
+            order.ClosedOn = DateTime.Now;
+
+            var table = await repo.GetByIdAsync<Table>(order.TableId);
+
+            table.IsReserved = false;
+
+            await repo.SaveChangesAsync();
+
+        }
+
         public async Task<Order> CreateOrderAsync(int employeeId, int tableId)
         {
 
@@ -37,16 +52,21 @@ namespace RestaurantManagmentSystem.Core.Services
 
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
-            var subOrders = await repo.All<SubOrder>()
-                .Where(x => x.OrderId == orderId)
-                .ToListAsync();
-           
-                var order = await repo.All<Order>().Where(x => x.Id == orderId)
-                .FirstOrDefaultAsync();
+            var subOrd = repo.All<SubOrder>().Where(x => x.OrderId == orderId).ToList();
 
-            order.SubOrders = subOrders;
+            foreach (var sub in subOrd)
+            {
+                sub.Categories =  repo.All<Category>().Where(x => x.SubOrderId == sub.Id).ToList();
 
-            await repo.SaveChangesAsync();
+                foreach (var categ in sub.Categories)
+                {
+                    categ.MenuItems = repo.All<MenuItem>().Where(x => x.CategoryId == categ.Id).ToList();
+                }
+            }
+
+            var order = await repo.GetByIdAsync<Order>(orderId);
+
+            order.SubOrders = subOrd;
 
             return order;
         }
@@ -54,12 +74,6 @@ namespace RestaurantManagmentSystem.Core.Services
         public bool GetOrderIdByTableId(int Id)
         {
             var hasOrder = repo.All<Order>().Any(x => x.TableId == Id && x.IsDeleted == false);
-
-            //var model = repo.AllReadonly<Order>()
-            //    .Where(x => x.TableId == Id && x.IsDeleted == false)
-            //    .SingleOrDefaultAsync();
-
-            //var orderId = model.Id;
 
             return hasOrder;
         }

@@ -8,13 +8,12 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-
-
 <div class="container">
-    <p>@Model.EmployeeId</p>
-    <p>@Model.TableId</p>
-    <p>@Model.OrderStatus</p>
-    <p>@Model.CreatedOn</p>
+    <h3>Oder Number - @Model.Id</h3>
+    <p>Employee ID : @Model.EmployeeId</p>
+    <p>Table ID : @Model.TableId</p>
+    <p>Order Status : @Model.OrderStatus</p>
+    <p>Order Ceate on : @Model.CreatedOn</p>
 
     @if (!Model.SubOrders.Any())
     {
@@ -24,46 +23,41 @@
     {
         foreach (var item in Model.SubOrders)
         {
+            <h4>SubOrder : # @item.Id</h4>
+            <br />
+
+            var counter = 1;
+
             foreach (var category in item.Categories)
             {
-                <h3>@category.Name</h3>
-                <hr />
-                <table class="table table-striped table-bordered">
-                  <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First Name</th>
-                            <th scope="col">Last Name</th>
-                        </tr>
-                    </thead>
-                   <tbody>
-                        @{
-                            int count = 1;
-                        }
-                        @foreach (var product in category.MenuItems)
-                        {
+
+                foreach (var product in category.MenuItems)
+                {
+                    <table class="table table-striped">
+                        <tbody>
                             <tr>
-                                <th>@count</th>
-                                <td>@product.Name</td>
-                                <td>@product.OrderedQty</td>
-                                <td>@(product.Price + "лв.")</td>
+                                <td style="width: 5%">@counter</td>
+                                <td style="width: 25%">@product.Name</td>
+                                <td style="width: 25%">@(product.OrderedQty + "бр")</td>
+                                <td style="width: 25%">@(product.Price + "лв.")</td>
                             </tr>
-                            count++;
-                        }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+
+                    counter++;
+                }
 
             }
         }
     }
 
-     <a class="btn btn-primary" asp-area="Waiter" asp-controller="Order" asp-action="CreateSubOrder" asp-route-Id="@Model.Id" >Create SubOrder</a>
-
-
-
+    <a class="btn btn-primary" asp-area="Waiter" asp-controller="Order" asp-action="CreateSubOrder" asp-route-Id="@Model.Id">Create SubOrder</a>
 
     <div class="mt-2">
         <a class="btn btn-danger" asp-area="Waiter" asp-controller="Home" asp-action="AllTables">Back to List</a>
+    </div>
+     <div class="mt-2">
+        <a class="btn btn-secondary" asp-area="Waiter" asp-controller="Order" asp-action="Delete" asp-route-Id="@Model.Id">Close the order</a>
     </div>
 </div>
 

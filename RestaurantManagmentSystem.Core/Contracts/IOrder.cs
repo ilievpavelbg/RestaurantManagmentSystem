@@ -7,5 +7,7 @@ namespace RestaurantManagmentSystem.Core.Contracts
         Task<Order> CreateOrderAsync(int employeeId, int tableId);
         Task<Order> GetOrderByIdAsync(int Id);
         bool GetOrderIdByTableId(int Id);
+
+        Task CloseTheOrder(int Id);
     }
 }
