@@ -27,6 +27,7 @@ namespace RestaurantManagmentSystem.Core.Services
             var table = await repo.GetByIdAsync<Table>(order.TableId);
 
             table.IsReserved = false;
+            table.OrderId = null;
 
             await repo.SaveChangesAsync();
 

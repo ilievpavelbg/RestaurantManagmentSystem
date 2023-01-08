@@ -33,6 +33,7 @@ namespace RestaurantManagmentSystem.Core.Services
 
             }
 
+            var hasItemsForKitchen = categories.Any(x => x.MenuItems.Any(mi => mi.ItemsForCooking == true));
 
             var subOrder = await repo.GetByIdAsync<SubOrder>(Id);
 
@@ -44,6 +45,11 @@ namespace RestaurantManagmentSystem.Core.Services
             subOrder.CreateOn = DateTime.Now;
             subOrder.CurrentTotalSum = currentTotal ?? 0;
 
+            if (!hasItemsForKitchen)
+            {
+                subOrder.IsCompleted = true;
+            }
+
             var order = await repo.GetByIdAsync<Order>(subOrder.OrderId);
 
             order.SubOrders.ToList().Add(subOrder);
@@ -53,14 +59,6 @@ namespace RestaurantManagmentSystem.Core.Services
 
             return order.Id;
 
-        }
-
-        public async Task<SubOrder> AddOrderedItemsAsync(IEnumerable<Category> model, int Id)
-        {
-            var subOrd = await repo.All<SubOrder>().Where(x => x.Id == Id)
-               .SingleOrDefaultAsync();
-
-            return subOrd;
         }
 
         public async Task<int> CreateSubOrderAsync(SubOrder model, int Id)
@@ -105,6 +103,41 @@ namespace RestaurantManagmentSystem.Core.Services
 
             return subOrd;
 
+        }
+
+        public async Task<IEnumerable<SubOrder>> GetAllSubOrdersChef()
+        {
+            var subOrders = await repo.All<SubOrder>()
+                .Where(x => x.IsCompleted == false)
+                .ToListAsync();
+
+            foreach (var sub in subOrders)
+            {
+                sub.Categories = await repo.All<Category>().Where(x => x.SubOrderId == sub.Id).ToListAsync();
+
+                foreach (var categ in sub.Categories)
+                {
+                    categ.MenuItems = await repo.All<MenuItem>().Where(x => x.CategoryId == categ.Id && x.ItemsForCooking == true).ToListAsync();
+                }
+            }
+
+            return subOrders;
+        }
+
+        public async Task CompleteSubOrder(int Id)
+        {
+            var subord = await repo.GetByIdAsync<SubOrder>(Id);
+
+            subord.IsCompleted = true;
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> AllSubOrdersAreNotCompleted(int Id)
+        {
+            var subord = await repo.All<SubOrder>().Where(x => x.OrderId == Id).ToListAsync();
+
+            return subord.Any(x => x.IsCompleted == false);
         }
     }
 }

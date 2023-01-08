@@ -23,7 +23,15 @@
     {
         foreach (var item in Model.SubOrders)
         {
-            <h4>SubOrder : # @item.Id</h4>
+            @if (!item.IsCompleted)
+            {
+                <h4 style="background-color:red ">SubOrder : # @item.Id - Items are not ready by the kitchen</h4>
+            }
+            else
+            {
+                <h4 style="background-color:green">SubOrder : # @item.Id - Items are ready by the kitchen</h4>
+            }
+
             <br />
 
             var counter = 1;

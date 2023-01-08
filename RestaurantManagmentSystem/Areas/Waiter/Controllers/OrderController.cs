@@ -91,8 +91,6 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
         {
             if (!ModelState.IsValid)
             {
-
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
                 return View(model);
             }
 
@@ -138,6 +136,11 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
 
         public async Task<IActionResult> Delete(int Id)
         {
+            if(await subOrderServises.AllSubOrdersAreNotCompleted(Id))
+            {
+                return RedirectToAction("AllTables", "Home");
+            }
+
             await orderServises.CloseTheOrder(Id);
 
             return RedirectToAction("AllTables", "Home");

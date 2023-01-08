@@ -1,3 +1,39 @@
-﻿
-  
+﻿@model IEnumerable<SubOrder>
+
 <h1 class="text-center">This is chef Layout</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>@item.Id</td>
+                <td align="right">
+                    <a class="btn btn-primary" asp-area="Chef" asp-action="Complete" asp-controller="Home" asp-route-Id="@item.Id">Complete Order</a>
+                </td>
+            </tr>
+        </tbody>
+
+        @foreach (var cat in item.Categories)
+        {
+           @foreach (var menuitm in cat.MenuItems)
+           {
+               <tr>
+                   <td>@menuitm.Name</td>
+                   <td>@menuitm.OrderedQty</td>
+               </tr>
+               
+           }
+        }
+
+    }
+
+</table>
+

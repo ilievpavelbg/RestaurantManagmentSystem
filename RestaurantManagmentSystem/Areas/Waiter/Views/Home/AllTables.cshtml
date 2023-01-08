@@ -28,7 +28,7 @@
                             @if (@table.OrderId == null)
                             {
                                 <a asp-area="Waiter" asp-controller="Home" asp-action="Release" class="btn btn-warning orderButton" asp-route-Id="@table.Id">
-                                    <p class="h3 mb-0">RESERVED</p>
+                                    <p class="h3 mb-0">RELEASE</p>
                                 </a>
                                 <a asp-area="Waiter" asp-controller="Order" asp-action="Create" class="btn btn-info orderButton" asp-route-Id="@table.Id">
                                     <p class="h3 mb-0">Create Order</p>
