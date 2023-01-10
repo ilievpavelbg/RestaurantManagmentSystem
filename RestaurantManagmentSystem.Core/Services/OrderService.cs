@@ -65,9 +65,20 @@ namespace RestaurantManagmentSystem.Core.Services
                 }
             }
 
+            var deletedSuord = subOrd.Where(x => !x.Categories.Any()).ToList();
+
+            foreach (var item in deletedSuord)
+            {
+                item.IsDeleted = true;
+                item.IsCompleted = true;
+            }
+
+            await repo.SaveChangesAsync();
+
+
             var order = await repo.GetByIdAsync<Order>(orderId);
 
-            order.SubOrders = subOrd;
+            order.SubOrders = subOrd.Where(x => x.IsDeleted == false).ToList();
 
             return order;
         }

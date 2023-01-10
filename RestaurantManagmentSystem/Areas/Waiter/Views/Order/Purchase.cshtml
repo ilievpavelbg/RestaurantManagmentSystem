@@ -66,11 +66,13 @@
     let inputCheck = document.querySelectorAll("#checkbox");
     let trs = document.querySelectorAll('.table tr td[class="fs-4"]');
 
+     console.log(input);
+
     for (let i = 0; i < trs.length; i++) {
+
 
         trs[i].childNodes[19].disabled = true;
 
-        trs[i].childNodes[19].textContent = "";
 
     }
 
@@ -92,18 +94,23 @@
 
                 input.disabled = true;
 
+
             }
+
+            
 
             for (let i = 0; i < enabledSettings.length; i++) {
 
                 if (enabledSettings[i].checked) {
 
                     trs[i].childNodes[19].disabled = false;
+                    
 
                 }
                 else {
 
                     trs[i].childNodes[19].disabled = true;
+                    trs[i].childNodes[19].textContent = 0;
 
                 }
 

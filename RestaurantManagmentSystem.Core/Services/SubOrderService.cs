@@ -54,7 +54,6 @@ namespace RestaurantManagmentSystem.Core.Services
 
             order.SubOrders.ToList().Add(subOrder);
 
-
             await repo.SaveChangesAsync();
 
             return order.Id;
@@ -108,7 +107,7 @@ namespace RestaurantManagmentSystem.Core.Services
         public async Task<IEnumerable<SubOrder>> GetAllSubOrdersChef()
         {
             var subOrders = await repo.All<SubOrder>()
-                .Where(x => x.IsCompleted == false)
+                .Where(x => x.IsCompleted == false && x.Categories.Count() > 0)
                 .ToListAsync();
 
             foreach (var sub in subOrders)

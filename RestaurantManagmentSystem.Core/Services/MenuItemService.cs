@@ -113,6 +113,7 @@ namespace RestaurantManagmentSystem.Core.Services
             foreach (var item in allMenuItem)
             {
                 item.IsChecked = false;
+                item.OrderedQty = 0;
             }
 
             await repo.SaveChangesAsync();

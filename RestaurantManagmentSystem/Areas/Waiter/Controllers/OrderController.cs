@@ -111,10 +111,6 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             
         }
 
-        public IActionResult Test(TempOrder model)
-        {
-            return View(model);
-        }
 
         [HttpGet]
         public IActionResult CreateSubOrder(int Id)
@@ -134,6 +130,7 @@ namespace RestaurantManagmentSystem.Areas.Waiter.Controllers
             return RedirectToAction("Purchase", new { id = subId });
         }
 
+        
         public async Task<IActionResult> Delete(int Id)
         {
             if(await subOrderServises.AllSubOrdersAreNotCompleted(Id))
