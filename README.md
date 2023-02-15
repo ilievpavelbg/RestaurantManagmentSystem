@@ -33,5 +33,5 @@ To run this project locally, follow these steps:
 
 ## Credits
 
-This project was developed by [Your Name] with guidance from the SoftUni team. Special thanks to [Instructor Name] for their support and feedback throughout the project.
+This project was developed by Pavel Iliev with guidance from the SoftUni team. Special thanks to Stamo Petkov for the support and feedback throughout the project.
 ```
