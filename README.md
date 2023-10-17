@@ -1,6 +1,6 @@
 # Restaurant Management System
 
-This is a project developed by Pavel Iliev as part of the graduation requirements for the C# path at SoftUni. The goal of this project is to create a web application using ASP.NET MVC pattern and a relational database using MSSQL.
+This is a project developed by Pavel Iliev as part of the graduation requirements for the C# path at SoftUni. The goal of this project is to create a web application using ASP.NET MVC pattern and a relational database using SSMS (SQL Server Managment Studio).
 
 ## Overview
 
